@@ -56,6 +56,21 @@ func NewClient(cfg *ClientConfig) (*Client, error) {
 	return c, nil
 }
 
+// NewClientWithoutAuthentication creates a new *Client without authentication to get uid.
+func NewClientWithoutAuthentication(cfg *ClientConfig, uid int64) (*Client, error) {
+	if !cfg.valid() {
+		return nil, errClientConfigurationInvalid
+	}
+	c := &Client{
+		cfg:    cfg,
+		common: &xmlrpc.Client{},
+		object: &xmlrpc.Client{},
+		uid:    uid,
+		auth:   true,
+	}
+	return c, nil
+}
+
 // Close closes all opened client connections.
 func (c *Client) Close() {
 	defer func() {
