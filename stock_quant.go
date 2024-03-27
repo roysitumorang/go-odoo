@@ -1,29 +1,25 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockQuant represents stock.quant model.
 type StockQuant struct {
-	LastUpdate       *Time     `xmlrpc:"__last_update,omptempty"`
-	CompanyId        *Many2One `xmlrpc:"company_id,omptempty"`
-	CreateDate       *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid        *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName      *String   `xmlrpc:"display_name,omptempty"`
-	Id               *Int      `xmlrpc:"id,omptempty"`
-	InDate           *Time     `xmlrpc:"in_date,omptempty"`
-	LocationId       *Many2One `xmlrpc:"location_id,omptempty"`
-	LotId            *Many2One `xmlrpc:"lot_id,omptempty"`
-	OwnerId          *Many2One `xmlrpc:"owner_id,omptempty"`
-	PackageId        *Many2One `xmlrpc:"package_id,omptempty"`
-	ProductId        *Many2One `xmlrpc:"product_id,omptempty"`
-	ProductTmplId    *Many2One `xmlrpc:"product_tmpl_id,omptempty"`
-	ProductUomId     *Many2One `xmlrpc:"product_uom_id,omptempty"`
-	Quantity         *Float    `xmlrpc:"quantity,omptempty"`
-	ReservedQuantity *Float    `xmlrpc:"reserved_quantity,omptempty"`
-	WriteDate        *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid         *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate       *Time     `xmlrpc:"__last_update,omitempty"`
+	CompanyId        *Many2One `xmlrpc:"company_id,omitempty"`
+	CreateDate       *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid        *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName      *String   `xmlrpc:"display_name,omitempty"`
+	Id               *Int      `xmlrpc:"id,omitempty"`
+	InDate           *Time     `xmlrpc:"in_date,omitempty"`
+	LocationId       *Many2One `xmlrpc:"location_id,omitempty"`
+	LotId            *Many2One `xmlrpc:"lot_id,omitempty"`
+	OwnerId          *Many2One `xmlrpc:"owner_id,omitempty"`
+	PackageId        *Many2One `xmlrpc:"package_id,omitempty"`
+	ProductId        *Many2One `xmlrpc:"product_id,omitempty"`
+	ProductTmplId    *Many2One `xmlrpc:"product_tmpl_id,omitempty"`
+	ProductUomId     *Many2One `xmlrpc:"product_uom_id,omitempty"`
+	Quantity         *Float    `xmlrpc:"quantity,omitempty"`
+	ReservedQuantity *Float    `xmlrpc:"reserved_quantity,omitempty"`
+	WriteDate        *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid         *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockQuants represents array of stock.quant model.
@@ -49,13 +45,13 @@ func (c *Client) CreateStockQuant(sq *StockQuant) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateStockQuant creates a new stock.quant model and returns its id.
+// CreateStockQuants creates a new stock.quant model and returns its id.
 func (c *Client) CreateStockQuants(sqs []*StockQuant) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range sqs {
 		vv = append(vv, v)
 	}
-	return c.Create(StockQuantModel, vv)
+	return c.Create(StockQuantModel, vv, nil)
 }
 
 // UpdateStockQuant updates an existing stock.quant record.
@@ -66,7 +62,7 @@ func (c *Client) UpdateStockQuant(sq *StockQuant) error {
 // UpdateStockQuants updates existing stock.quant records.
 // All records (represented by ids) will be updated by sq values.
 func (c *Client) UpdateStockQuants(ids []int64, sq *StockQuant) error {
-	return c.Update(StockQuantModel, ids, sq)
+	return c.Update(StockQuantModel, ids, sq, nil)
 }
 
 // DeleteStockQuant deletes an existing stock.quant record.
@@ -85,10 +81,7 @@ func (c *Client) GetStockQuant(id int64) (*StockQuant, error) {
 	if err != nil {
 		return nil, err
 	}
-	if sqs != nil && len(*sqs) > 0 {
-		return &((*sqs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.quant not found", id)
+	return &((*sqs)[0]), nil
 }
 
 // GetStockQuants gets stock.quant existing records.
@@ -106,10 +99,7 @@ func (c *Client) FindStockQuant(criteria *Criteria) (*StockQuant, error) {
 	if err := c.SearchRead(StockQuantModel, criteria, NewOptions().Limit(1), sqs); err != nil {
 		return nil, err
 	}
-	if sqs != nil && len(*sqs) > 0 {
-		return &((*sqs)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.quant was not found with criteria %v", criteria)
+	return &((*sqs)[0]), nil
 }
 
 // FindStockQuants finds stock.quant records by querying it
@@ -125,11 +115,7 @@ func (c *Client) FindStockQuants(criteria *Criteria, options *Options) (*StockQu
 // FindStockQuantIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockQuantIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockQuantModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockQuantModel, criteria, options)
 }
 
 // FindStockQuantId finds record id by querying it with criteria.
@@ -138,8 +124,5 @@ func (c *Client) FindStockQuantId(criteria *Criteria, options *Options) (int64, 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.quant was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

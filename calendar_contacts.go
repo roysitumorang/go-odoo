@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // CalendarContacts represents calendar.contacts model.
 type CalendarContacts struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Active      *Bool     `xmlrpc:"active,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	PartnerId   *Many2One `xmlrpc:"partner_id,omptempty"`
-	UserId      *Many2One `xmlrpc:"user_id,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Active      *Bool     `xmlrpc:"active,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	PartnerId   *Many2One `xmlrpc:"partner_id,omitempty"`
+	UserId      *Many2One `xmlrpc:"user_id,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // CalendarContactss represents array of calendar.contacts model.
@@ -41,13 +37,13 @@ func (c *Client) CreateCalendarContacts(cc *CalendarContacts) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateCalendarContacts creates a new calendar.contacts model and returns its id.
+// CreateCalendarContactss creates a new calendar.contacts model and returns its id.
 func (c *Client) CreateCalendarContactss(ccs []*CalendarContacts) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range ccs {
 		vv = append(vv, v)
 	}
-	return c.Create(CalendarContactsModel, vv)
+	return c.Create(CalendarContactsModel, vv, nil)
 }
 
 // UpdateCalendarContacts updates an existing calendar.contacts record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateCalendarContacts(cc *CalendarContacts) error {
 // UpdateCalendarContactss updates existing calendar.contacts records.
 // All records (represented by ids) will be updated by cc values.
 func (c *Client) UpdateCalendarContactss(ids []int64, cc *CalendarContacts) error {
-	return c.Update(CalendarContactsModel, ids, cc)
+	return c.Update(CalendarContactsModel, ids, cc, nil)
 }
 
 // DeleteCalendarContacts deletes an existing calendar.contacts record.
@@ -77,10 +73,7 @@ func (c *Client) GetCalendarContacts(id int64) (*CalendarContacts, error) {
 	if err != nil {
 		return nil, err
 	}
-	if ccs != nil && len(*ccs) > 0 {
-		return &((*ccs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of calendar.contacts not found", id)
+	return &((*ccs)[0]), nil
 }
 
 // GetCalendarContactss gets calendar.contacts existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindCalendarContacts(criteria *Criteria) (*CalendarContacts, er
 	if err := c.SearchRead(CalendarContactsModel, criteria, NewOptions().Limit(1), ccs); err != nil {
 		return nil, err
 	}
-	if ccs != nil && len(*ccs) > 0 {
-		return &((*ccs)[0]), nil
-	}
-	return nil, fmt.Errorf("calendar.contacts was not found with criteria %v", criteria)
+	return &((*ccs)[0]), nil
 }
 
 // FindCalendarContactss finds calendar.contacts records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindCalendarContactss(criteria *Criteria, options *Options) (*C
 // FindCalendarContactsIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindCalendarContactsIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(CalendarContactsModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(CalendarContactsModel, criteria, options)
 }
 
 // FindCalendarContactsId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindCalendarContactsId(criteria *Criteria, options *Options) (i
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("calendar.contacts was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

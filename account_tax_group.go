@@ -1,20 +1,16 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountTaxGroup represents account.tax.group model.
 type AccountTaxGroup struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	Sequence    *Int      `xmlrpc:"sequence,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	Sequence    *Int      `xmlrpc:"sequence,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountTaxGroups represents array of account.tax.group model.
@@ -40,13 +36,13 @@ func (c *Client) CreateAccountTaxGroup(atg *AccountTaxGroup) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateAccountTaxGroup creates a new account.tax.group model and returns its id.
+// CreateAccountTaxGroups creates a new account.tax.group model and returns its id.
 func (c *Client) CreateAccountTaxGroups(atgs []*AccountTaxGroup) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range atgs {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountTaxGroupModel, vv)
+	return c.Create(AccountTaxGroupModel, vv, nil)
 }
 
 // UpdateAccountTaxGroup updates an existing account.tax.group record.
@@ -57,7 +53,7 @@ func (c *Client) UpdateAccountTaxGroup(atg *AccountTaxGroup) error {
 // UpdateAccountTaxGroups updates existing account.tax.group records.
 // All records (represented by ids) will be updated by atg values.
 func (c *Client) UpdateAccountTaxGroups(ids []int64, atg *AccountTaxGroup) error {
-	return c.Update(AccountTaxGroupModel, ids, atg)
+	return c.Update(AccountTaxGroupModel, ids, atg, nil)
 }
 
 // DeleteAccountTaxGroup deletes an existing account.tax.group record.
@@ -76,10 +72,7 @@ func (c *Client) GetAccountTaxGroup(id int64) (*AccountTaxGroup, error) {
 	if err != nil {
 		return nil, err
 	}
-	if atgs != nil && len(*atgs) > 0 {
-		return &((*atgs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.tax.group not found", id)
+	return &((*atgs)[0]), nil
 }
 
 // GetAccountTaxGroups gets account.tax.group existing records.
@@ -97,10 +90,7 @@ func (c *Client) FindAccountTaxGroup(criteria *Criteria) (*AccountTaxGroup, erro
 	if err := c.SearchRead(AccountTaxGroupModel, criteria, NewOptions().Limit(1), atgs); err != nil {
 		return nil, err
 	}
-	if atgs != nil && len(*atgs) > 0 {
-		return &((*atgs)[0]), nil
-	}
-	return nil, fmt.Errorf("account.tax.group was not found with criteria %v", criteria)
+	return &((*atgs)[0]), nil
 }
 
 // FindAccountTaxGroups finds account.tax.group records by querying it
@@ -116,11 +106,7 @@ func (c *Client) FindAccountTaxGroups(criteria *Criteria, options *Options) (*Ac
 // FindAccountTaxGroupIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountTaxGroupIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountTaxGroupModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountTaxGroupModel, criteria, options)
 }
 
 // FindAccountTaxGroupId finds record id by querying it with criteria.
@@ -129,8 +115,5 @@ func (c *Client) FindAccountTaxGroupId(criteria *Criteria, options *Options) (in
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.tax.group was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

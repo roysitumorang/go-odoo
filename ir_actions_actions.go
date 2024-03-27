@@ -1,24 +1,20 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrActionsActions represents ir.actions.actions model.
 type IrActionsActions struct {
-	LastUpdate     *Time      `xmlrpc:"__last_update,omptempty"`
-	BindingModelId *Many2One  `xmlrpc:"binding_model_id,omptempty"`
-	BindingType    *Selection `xmlrpc:"binding_type,omptempty"`
-	CreateDate     *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid      *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName    *String    `xmlrpc:"display_name,omptempty"`
-	Help           *String    `xmlrpc:"help,omptempty"`
-	Id             *Int       `xmlrpc:"id,omptempty"`
-	Name           *String    `xmlrpc:"name,omptempty"`
-	Type           *String    `xmlrpc:"type,omptempty"`
-	WriteDate      *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid       *Many2One  `xmlrpc:"write_uid,omptempty"`
-	XmlId          *String    `xmlrpc:"xml_id,omptempty"`
+	LastUpdate     *Time      `xmlrpc:"__last_update,omitempty"`
+	BindingModelId *Many2One  `xmlrpc:"binding_model_id,omitempty"`
+	BindingType    *Selection `xmlrpc:"binding_type,omitempty"`
+	CreateDate     *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid      *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName    *String    `xmlrpc:"display_name,omitempty"`
+	Help           *String    `xmlrpc:"help,omitempty"`
+	Id             *Int       `xmlrpc:"id,omitempty"`
+	Name           *String    `xmlrpc:"name,omitempty"`
+	Type           *String    `xmlrpc:"type,omitempty"`
+	WriteDate      *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid       *Many2One  `xmlrpc:"write_uid,omitempty"`
+	XmlId          *String    `xmlrpc:"xml_id,omitempty"`
 }
 
 // IrActionsActionss represents array of ir.actions.actions model.
@@ -44,13 +40,13 @@ func (c *Client) CreateIrActionsActions(iaa *IrActionsActions) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrActionsActions creates a new ir.actions.actions model and returns its id.
+// CreateIrActionsActionss creates a new ir.actions.actions model and returns its id.
 func (c *Client) CreateIrActionsActionss(iaas []*IrActionsActions) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range iaas {
 		vv = append(vv, v)
 	}
-	return c.Create(IrActionsActionsModel, vv)
+	return c.Create(IrActionsActionsModel, vv, nil)
 }
 
 // UpdateIrActionsActions updates an existing ir.actions.actions record.
@@ -61,7 +57,7 @@ func (c *Client) UpdateIrActionsActions(iaa *IrActionsActions) error {
 // UpdateIrActionsActionss updates existing ir.actions.actions records.
 // All records (represented by ids) will be updated by iaa values.
 func (c *Client) UpdateIrActionsActionss(ids []int64, iaa *IrActionsActions) error {
-	return c.Update(IrActionsActionsModel, ids, iaa)
+	return c.Update(IrActionsActionsModel, ids, iaa, nil)
 }
 
 // DeleteIrActionsActions deletes an existing ir.actions.actions record.
@@ -80,10 +76,7 @@ func (c *Client) GetIrActionsActions(id int64) (*IrActionsActions, error) {
 	if err != nil {
 		return nil, err
 	}
-	if iaas != nil && len(*iaas) > 0 {
-		return &((*iaas)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.actions.actions not found", id)
+	return &((*iaas)[0]), nil
 }
 
 // GetIrActionsActionss gets ir.actions.actions existing records.
@@ -101,10 +94,7 @@ func (c *Client) FindIrActionsActions(criteria *Criteria) (*IrActionsActions, er
 	if err := c.SearchRead(IrActionsActionsModel, criteria, NewOptions().Limit(1), iaas); err != nil {
 		return nil, err
 	}
-	if iaas != nil && len(*iaas) > 0 {
-		return &((*iaas)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.actions.actions was not found with criteria %v", criteria)
+	return &((*iaas)[0]), nil
 }
 
 // FindIrActionsActionss finds ir.actions.actions records by querying it
@@ -120,11 +110,7 @@ func (c *Client) FindIrActionsActionss(criteria *Criteria, options *Options) (*I
 // FindIrActionsActionsIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrActionsActionsIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrActionsActionsModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrActionsActionsModel, criteria, options)
 }
 
 // FindIrActionsActionsId finds record id by querying it with criteria.
@@ -133,8 +119,5 @@ func (c *Client) FindIrActionsActionsId(criteria *Criteria, options *Options) (i
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.actions.actions was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

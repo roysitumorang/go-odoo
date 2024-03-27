@@ -1,31 +1,27 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockLocationPath represents stock.location.path model.
 type StockLocationPath struct {
-	LastUpdate     *Time      `xmlrpc:"__last_update,omptempty"`
-	Active         *Bool      `xmlrpc:"active,omptempty"`
-	Auto           *Selection `xmlrpc:"auto,omptempty"`
-	CompanyId      *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate     *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid      *Many2One  `xmlrpc:"create_uid,omptempty"`
-	Delay          *Int       `xmlrpc:"delay,omptempty"`
-	DisplayName    *String    `xmlrpc:"display_name,omptempty"`
-	Id             *Int       `xmlrpc:"id,omptempty"`
-	LocationDestId *Many2One  `xmlrpc:"location_dest_id,omptempty"`
-	LocationFromId *Many2One  `xmlrpc:"location_from_id,omptempty"`
-	Name           *String    `xmlrpc:"name,omptempty"`
-	PickingTypeId  *Many2One  `xmlrpc:"picking_type_id,omptempty"`
-	Propagate      *Bool      `xmlrpc:"propagate,omptempty"`
-	RouteId        *Many2One  `xmlrpc:"route_id,omptempty"`
-	RouteSequence  *Int       `xmlrpc:"route_sequence,omptempty"`
-	Sequence       *Int       `xmlrpc:"sequence,omptempty"`
-	WarehouseId    *Many2One  `xmlrpc:"warehouse_id,omptempty"`
-	WriteDate      *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid       *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate     *Time      `xmlrpc:"__last_update,omitempty"`
+	Active         *Bool      `xmlrpc:"active,omitempty"`
+	Auto           *Selection `xmlrpc:"auto,omitempty"`
+	CompanyId      *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate     *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid      *Many2One  `xmlrpc:"create_uid,omitempty"`
+	Delay          *Int       `xmlrpc:"delay,omitempty"`
+	DisplayName    *String    `xmlrpc:"display_name,omitempty"`
+	Id             *Int       `xmlrpc:"id,omitempty"`
+	LocationDestId *Many2One  `xmlrpc:"location_dest_id,omitempty"`
+	LocationFromId *Many2One  `xmlrpc:"location_from_id,omitempty"`
+	Name           *String    `xmlrpc:"name,omitempty"`
+	PickingTypeId  *Many2One  `xmlrpc:"picking_type_id,omitempty"`
+	Propagate      *Bool      `xmlrpc:"propagate,omitempty"`
+	RouteId        *Many2One  `xmlrpc:"route_id,omitempty"`
+	RouteSequence  *Int       `xmlrpc:"route_sequence,omitempty"`
+	Sequence       *Int       `xmlrpc:"sequence,omitempty"`
+	WarehouseId    *Many2One  `xmlrpc:"warehouse_id,omitempty"`
+	WriteDate      *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid       *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockLocationPaths represents array of stock.location.path model.
@@ -51,13 +47,13 @@ func (c *Client) CreateStockLocationPath(slp *StockLocationPath) (int64, error) 
 	return ids[0], nil
 }
 
-// CreateStockLocationPath creates a new stock.location.path model and returns its id.
+// CreateStockLocationPaths creates a new stock.location.path model and returns its id.
 func (c *Client) CreateStockLocationPaths(slps []*StockLocationPath) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range slps {
 		vv = append(vv, v)
 	}
-	return c.Create(StockLocationPathModel, vv)
+	return c.Create(StockLocationPathModel, vv, nil)
 }
 
 // UpdateStockLocationPath updates an existing stock.location.path record.
@@ -68,7 +64,7 @@ func (c *Client) UpdateStockLocationPath(slp *StockLocationPath) error {
 // UpdateStockLocationPaths updates existing stock.location.path records.
 // All records (represented by ids) will be updated by slp values.
 func (c *Client) UpdateStockLocationPaths(ids []int64, slp *StockLocationPath) error {
-	return c.Update(StockLocationPathModel, ids, slp)
+	return c.Update(StockLocationPathModel, ids, slp, nil)
 }
 
 // DeleteStockLocationPath deletes an existing stock.location.path record.
@@ -87,10 +83,7 @@ func (c *Client) GetStockLocationPath(id int64) (*StockLocationPath, error) {
 	if err != nil {
 		return nil, err
 	}
-	if slps != nil && len(*slps) > 0 {
-		return &((*slps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.location.path not found", id)
+	return &((*slps)[0]), nil
 }
 
 // GetStockLocationPaths gets stock.location.path existing records.
@@ -108,10 +101,7 @@ func (c *Client) FindStockLocationPath(criteria *Criteria) (*StockLocationPath, 
 	if err := c.SearchRead(StockLocationPathModel, criteria, NewOptions().Limit(1), slps); err != nil {
 		return nil, err
 	}
-	if slps != nil && len(*slps) > 0 {
-		return &((*slps)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.location.path was not found with criteria %v", criteria)
+	return &((*slps)[0]), nil
 }
 
 // FindStockLocationPaths finds stock.location.path records by querying it
@@ -127,11 +117,7 @@ func (c *Client) FindStockLocationPaths(criteria *Criteria, options *Options) (*
 // FindStockLocationPathIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockLocationPathIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockLocationPathModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockLocationPathModel, criteria, options)
 }
 
 // FindStockLocationPathId finds record id by querying it with criteria.
@@ -140,8 +126,5 @@ func (c *Client) FindStockLocationPathId(criteria *Criteria, options *Options) (
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.location.path was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

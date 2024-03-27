@@ -1,27 +1,23 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountPartialReconcile represents account.partial.reconcile model.
 type AccountPartialReconcile struct {
-	LastUpdate        *Time     `xmlrpc:"__last_update,omptempty"`
-	Amount            *Float    `xmlrpc:"amount,omptempty"`
-	AmountCurrency    *Float    `xmlrpc:"amount_currency,omptempty"`
-	CompanyCurrencyId *Many2One `xmlrpc:"company_currency_id,omptempty"`
-	CompanyId         *Many2One `xmlrpc:"company_id,omptempty"`
-	CreateDate        *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid         *Many2One `xmlrpc:"create_uid,omptempty"`
-	CreditMoveId      *Many2One `xmlrpc:"credit_move_id,omptempty"`
-	CurrencyId        *Many2One `xmlrpc:"currency_id,omptempty"`
-	DebitMoveId       *Many2One `xmlrpc:"debit_move_id,omptempty"`
-	DisplayName       *String   `xmlrpc:"display_name,omptempty"`
-	FullReconcileId   *Many2One `xmlrpc:"full_reconcile_id,omptempty"`
-	Id                *Int      `xmlrpc:"id,omptempty"`
-	MaxDate           *Time     `xmlrpc:"max_date,omptempty"`
-	WriteDate         *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid          *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate        *Time     `xmlrpc:"__last_update,omitempty"`
+	Amount            *Float    `xmlrpc:"amount,omitempty"`
+	AmountCurrency    *Float    `xmlrpc:"amount_currency,omitempty"`
+	CompanyCurrencyId *Many2One `xmlrpc:"company_currency_id,omitempty"`
+	CompanyId         *Many2One `xmlrpc:"company_id,omitempty"`
+	CreateDate        *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid         *Many2One `xmlrpc:"create_uid,omitempty"`
+	CreditMoveId      *Many2One `xmlrpc:"credit_move_id,omitempty"`
+	CurrencyId        *Many2One `xmlrpc:"currency_id,omitempty"`
+	DebitMoveId       *Many2One `xmlrpc:"debit_move_id,omitempty"`
+	DisplayName       *String   `xmlrpc:"display_name,omitempty"`
+	FullReconcileId   *Many2One `xmlrpc:"full_reconcile_id,omitempty"`
+	Id                *Int      `xmlrpc:"id,omitempty"`
+	MaxDate           *Time     `xmlrpc:"max_date,omitempty"`
+	WriteDate         *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid          *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountPartialReconciles represents array of account.partial.reconcile model.
@@ -47,13 +43,13 @@ func (c *Client) CreateAccountPartialReconcile(apr *AccountPartialReconcile) (in
 	return ids[0], nil
 }
 
-// CreateAccountPartialReconcile creates a new account.partial.reconcile model and returns its id.
+// CreateAccountPartialReconciles creates a new account.partial.reconcile model and returns its id.
 func (c *Client) CreateAccountPartialReconciles(aprs []*AccountPartialReconcile) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range aprs {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountPartialReconcileModel, vv)
+	return c.Create(AccountPartialReconcileModel, vv, nil)
 }
 
 // UpdateAccountPartialReconcile updates an existing account.partial.reconcile record.
@@ -64,7 +60,7 @@ func (c *Client) UpdateAccountPartialReconcile(apr *AccountPartialReconcile) err
 // UpdateAccountPartialReconciles updates existing account.partial.reconcile records.
 // All records (represented by ids) will be updated by apr values.
 func (c *Client) UpdateAccountPartialReconciles(ids []int64, apr *AccountPartialReconcile) error {
-	return c.Update(AccountPartialReconcileModel, ids, apr)
+	return c.Update(AccountPartialReconcileModel, ids, apr, nil)
 }
 
 // DeleteAccountPartialReconcile deletes an existing account.partial.reconcile record.
@@ -83,10 +79,7 @@ func (c *Client) GetAccountPartialReconcile(id int64) (*AccountPartialReconcile,
 	if err != nil {
 		return nil, err
 	}
-	if aprs != nil && len(*aprs) > 0 {
-		return &((*aprs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.partial.reconcile not found", id)
+	return &((*aprs)[0]), nil
 }
 
 // GetAccountPartialReconciles gets account.partial.reconcile existing records.
@@ -104,10 +97,7 @@ func (c *Client) FindAccountPartialReconcile(criteria *Criteria) (*AccountPartia
 	if err := c.SearchRead(AccountPartialReconcileModel, criteria, NewOptions().Limit(1), aprs); err != nil {
 		return nil, err
 	}
-	if aprs != nil && len(*aprs) > 0 {
-		return &((*aprs)[0]), nil
-	}
-	return nil, fmt.Errorf("account.partial.reconcile was not found with criteria %v", criteria)
+	return &((*aprs)[0]), nil
 }
 
 // FindAccountPartialReconciles finds account.partial.reconcile records by querying it
@@ -123,11 +113,7 @@ func (c *Client) FindAccountPartialReconciles(criteria *Criteria, options *Optio
 // FindAccountPartialReconcileIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountPartialReconcileIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountPartialReconcileModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountPartialReconcileModel, criteria, options)
 }
 
 // FindAccountPartialReconcileId finds record id by querying it with criteria.
@@ -136,8 +122,5 @@ func (c *Client) FindAccountPartialReconcileId(criteria *Criteria, options *Opti
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.partial.reconcile was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

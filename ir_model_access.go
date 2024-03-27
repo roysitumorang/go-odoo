@@ -1,26 +1,22 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrModelAccess represents ir.model.access model.
 type IrModelAccess struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Active      *Bool     `xmlrpc:"active,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	GroupId     *Many2One `xmlrpc:"group_id,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	ModelId     *Many2One `xmlrpc:"model_id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	PermCreate  *Bool     `xmlrpc:"perm_create,omptempty"`
-	PermRead    *Bool     `xmlrpc:"perm_read,omptempty"`
-	PermUnlink  *Bool     `xmlrpc:"perm_unlink,omptempty"`
-	PermWrite   *Bool     `xmlrpc:"perm_write,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Active      *Bool     `xmlrpc:"active,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	GroupId     *Many2One `xmlrpc:"group_id,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	ModelId     *Many2One `xmlrpc:"model_id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	PermCreate  *Bool     `xmlrpc:"perm_create,omitempty"`
+	PermRead    *Bool     `xmlrpc:"perm_read,omitempty"`
+	PermUnlink  *Bool     `xmlrpc:"perm_unlink,omitempty"`
+	PermWrite   *Bool     `xmlrpc:"perm_write,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrModelAccesss represents array of ir.model.access model.
@@ -46,13 +42,13 @@ func (c *Client) CreateIrModelAccess(ima *IrModelAccess) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrModelAccess creates a new ir.model.access model and returns its id.
+// CreateIrModelAccesss creates a new ir.model.access model and returns its id.
 func (c *Client) CreateIrModelAccesss(imas []*IrModelAccess) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range imas {
 		vv = append(vv, v)
 	}
-	return c.Create(IrModelAccessModel, vv)
+	return c.Create(IrModelAccessModel, vv, nil)
 }
 
 // UpdateIrModelAccess updates an existing ir.model.access record.
@@ -63,7 +59,7 @@ func (c *Client) UpdateIrModelAccess(ima *IrModelAccess) error {
 // UpdateIrModelAccesss updates existing ir.model.access records.
 // All records (represented by ids) will be updated by ima values.
 func (c *Client) UpdateIrModelAccesss(ids []int64, ima *IrModelAccess) error {
-	return c.Update(IrModelAccessModel, ids, ima)
+	return c.Update(IrModelAccessModel, ids, ima, nil)
 }
 
 // DeleteIrModelAccess deletes an existing ir.model.access record.
@@ -82,10 +78,7 @@ func (c *Client) GetIrModelAccess(id int64) (*IrModelAccess, error) {
 	if err != nil {
 		return nil, err
 	}
-	if imas != nil && len(*imas) > 0 {
-		return &((*imas)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.model.access not found", id)
+	return &((*imas)[0]), nil
 }
 
 // GetIrModelAccesss gets ir.model.access existing records.
@@ -103,10 +96,7 @@ func (c *Client) FindIrModelAccess(criteria *Criteria) (*IrModelAccess, error) {
 	if err := c.SearchRead(IrModelAccessModel, criteria, NewOptions().Limit(1), imas); err != nil {
 		return nil, err
 	}
-	if imas != nil && len(*imas) > 0 {
-		return &((*imas)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.model.access was not found with criteria %v", criteria)
+	return &((*imas)[0]), nil
 }
 
 // FindIrModelAccesss finds ir.model.access records by querying it
@@ -122,11 +112,7 @@ func (c *Client) FindIrModelAccesss(criteria *Criteria, options *Options) (*IrMo
 // FindIrModelAccessIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrModelAccessIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrModelAccessModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrModelAccessModel, criteria, options)
 }
 
 // FindIrModelAccessId finds record id by querying it with criteria.
@@ -135,8 +121,5 @@ func (c *Client) FindIrModelAccessId(criteria *Criteria, options *Options) (int6
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.model.access was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,23 +1,19 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountGroup represents account.group model.
 type AccountGroup struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CodePrefix  *String   `xmlrpc:"code_prefix,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	ParentId    *Many2One `xmlrpc:"parent_id,omptempty"`
-	ParentLeft  *Int      `xmlrpc:"parent_left,omptempty"`
-	ParentRight *Int      `xmlrpc:"parent_right,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CodePrefix  *String   `xmlrpc:"code_prefix,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	ParentId    *Many2One `xmlrpc:"parent_id,omitempty"`
+	ParentLeft  *Int      `xmlrpc:"parent_left,omitempty"`
+	ParentRight *Int      `xmlrpc:"parent_right,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountGroups represents array of account.group model.
@@ -43,13 +39,13 @@ func (c *Client) CreateAccountGroup(ag *AccountGroup) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateAccountGroup creates a new account.group model and returns its id.
+// CreateAccountGroups creates a new account.group model and returns its id.
 func (c *Client) CreateAccountGroups(ags []*AccountGroup) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range ags {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountGroupModel, vv)
+	return c.Create(AccountGroupModel, vv, nil)
 }
 
 // UpdateAccountGroup updates an existing account.group record.
@@ -60,7 +56,7 @@ func (c *Client) UpdateAccountGroup(ag *AccountGroup) error {
 // UpdateAccountGroups updates existing account.group records.
 // All records (represented by ids) will be updated by ag values.
 func (c *Client) UpdateAccountGroups(ids []int64, ag *AccountGroup) error {
-	return c.Update(AccountGroupModel, ids, ag)
+	return c.Update(AccountGroupModel, ids, ag, nil)
 }
 
 // DeleteAccountGroup deletes an existing account.group record.
@@ -79,10 +75,7 @@ func (c *Client) GetAccountGroup(id int64) (*AccountGroup, error) {
 	if err != nil {
 		return nil, err
 	}
-	if ags != nil && len(*ags) > 0 {
-		return &((*ags)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.group not found", id)
+	return &((*ags)[0]), nil
 }
 
 // GetAccountGroups gets account.group existing records.
@@ -100,10 +93,7 @@ func (c *Client) FindAccountGroup(criteria *Criteria) (*AccountGroup, error) {
 	if err := c.SearchRead(AccountGroupModel, criteria, NewOptions().Limit(1), ags); err != nil {
 		return nil, err
 	}
-	if ags != nil && len(*ags) > 0 {
-		return &((*ags)[0]), nil
-	}
-	return nil, fmt.Errorf("account.group was not found with criteria %v", criteria)
+	return &((*ags)[0]), nil
 }
 
 // FindAccountGroups finds account.group records by querying it
@@ -119,11 +109,7 @@ func (c *Client) FindAccountGroups(criteria *Criteria, options *Options) (*Accou
 // FindAccountGroupIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountGroupIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountGroupModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountGroupModel, criteria, options)
 }
 
 // FindAccountGroupId finds record id by querying it with criteria.
@@ -132,8 +118,5 @@ func (c *Client) FindAccountGroupId(criteria *Criteria, options *Options) (int64
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.group was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

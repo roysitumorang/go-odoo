@@ -1,53 +1,49 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // PaymentAcquirer represents payment.acquirer model.
 type PaymentAcquirer struct {
-	LastUpdate                 *Time      `xmlrpc:"__last_update,omptempty"`
-	AuthorizeImplemented       *Bool      `xmlrpc:"authorize_implemented,omptempty"`
-	CancelMsg                  *String    `xmlrpc:"cancel_msg,omptempty"`
-	CaptureManually            *Bool      `xmlrpc:"capture_manually,omptempty"`
-	CompanyId                  *Many2One  `xmlrpc:"company_id,omptempty"`
-	CountryIds                 *Relation  `xmlrpc:"country_ids,omptempty"`
-	CreateDate                 *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid                  *Many2One  `xmlrpc:"create_uid,omptempty"`
-	Description                *String    `xmlrpc:"description,omptempty"`
-	DisplayName                *String    `xmlrpc:"display_name,omptempty"`
-	DoneMsg                    *String    `xmlrpc:"done_msg,omptempty"`
-	Environment                *Selection `xmlrpc:"environment,omptempty"`
-	ErrorMsg                   *String    `xmlrpc:"error_msg,omptempty"`
-	FeesActive                 *Bool      `xmlrpc:"fees_active,omptempty"`
-	FeesDomFixed               *Float     `xmlrpc:"fees_dom_fixed,omptempty"`
-	FeesDomVar                 *Float     `xmlrpc:"fees_dom_var,omptempty"`
-	FeesImplemented            *Bool      `xmlrpc:"fees_implemented,omptempty"`
-	FeesIntFixed               *Float     `xmlrpc:"fees_int_fixed,omptempty"`
-	FeesIntVar                 *Float     `xmlrpc:"fees_int_var,omptempty"`
-	Id                         *Int       `xmlrpc:"id,omptempty"`
-	Image                      *String    `xmlrpc:"image,omptempty"`
-	ImageMedium                *String    `xmlrpc:"image_medium,omptempty"`
-	ImageSmall                 *String    `xmlrpc:"image_small,omptempty"`
-	JournalId                  *Many2One  `xmlrpc:"journal_id,omptempty"`
-	ModuleId                   *Many2One  `xmlrpc:"module_id,omptempty"`
-	ModuleState                *Selection `xmlrpc:"module_state,omptempty"`
-	Name                       *String    `xmlrpc:"name,omptempty"`
-	PaymentFlow                *Selection `xmlrpc:"payment_flow,omptempty"`
-	PaymentIconIds             *Relation  `xmlrpc:"payment_icon_ids,omptempty"`
-	PendingMsg                 *String    `xmlrpc:"pending_msg,omptempty"`
-	PostMsg                    *String    `xmlrpc:"post_msg,omptempty"`
-	PreMsg                     *String    `xmlrpc:"pre_msg,omptempty"`
-	Provider                   *Selection `xmlrpc:"provider,omptempty"`
-	RegistrationViewTemplateId *Many2One  `xmlrpc:"registration_view_template_id,omptempty"`
-	SaveToken                  *Selection `xmlrpc:"save_token,omptempty"`
-	Sequence                   *Int       `xmlrpc:"sequence,omptempty"`
-	SpecificCountries          *Bool      `xmlrpc:"specific_countries,omptempty"`
-	TokenImplemented           *Bool      `xmlrpc:"token_implemented,omptempty"`
-	ViewTemplateId             *Many2One  `xmlrpc:"view_template_id,omptempty"`
-	WebsitePublished           *Bool      `xmlrpc:"website_published,omptempty"`
-	WriteDate                  *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid                   *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate                 *Time      `xmlrpc:"__last_update,omitempty"`
+	AuthorizeImplemented       *Bool      `xmlrpc:"authorize_implemented,omitempty"`
+	CancelMsg                  *String    `xmlrpc:"cancel_msg,omitempty"`
+	CaptureManually            *Bool      `xmlrpc:"capture_manually,omitempty"`
+	CompanyId                  *Many2One  `xmlrpc:"company_id,omitempty"`
+	CountryIds                 *Relation  `xmlrpc:"country_ids,omitempty"`
+	CreateDate                 *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid                  *Many2One  `xmlrpc:"create_uid,omitempty"`
+	Description                *String    `xmlrpc:"description,omitempty"`
+	DisplayName                *String    `xmlrpc:"display_name,omitempty"`
+	DoneMsg                    *String    `xmlrpc:"done_msg,omitempty"`
+	Environment                *Selection `xmlrpc:"environment,omitempty"`
+	ErrorMsg                   *String    `xmlrpc:"error_msg,omitempty"`
+	FeesActive                 *Bool      `xmlrpc:"fees_active,omitempty"`
+	FeesDomFixed               *Float     `xmlrpc:"fees_dom_fixed,omitempty"`
+	FeesDomVar                 *Float     `xmlrpc:"fees_dom_var,omitempty"`
+	FeesImplemented            *Bool      `xmlrpc:"fees_implemented,omitempty"`
+	FeesIntFixed               *Float     `xmlrpc:"fees_int_fixed,omitempty"`
+	FeesIntVar                 *Float     `xmlrpc:"fees_int_var,omitempty"`
+	Id                         *Int       `xmlrpc:"id,omitempty"`
+	Image                      *String    `xmlrpc:"image,omitempty"`
+	ImageMedium                *String    `xmlrpc:"image_medium,omitempty"`
+	ImageSmall                 *String    `xmlrpc:"image_small,omitempty"`
+	JournalId                  *Many2One  `xmlrpc:"journal_id,omitempty"`
+	ModuleId                   *Many2One  `xmlrpc:"module_id,omitempty"`
+	ModuleState                *Selection `xmlrpc:"module_state,omitempty"`
+	Name                       *String    `xmlrpc:"name,omitempty"`
+	PaymentFlow                *Selection `xmlrpc:"payment_flow,omitempty"`
+	PaymentIconIds             *Relation  `xmlrpc:"payment_icon_ids,omitempty"`
+	PendingMsg                 *String    `xmlrpc:"pending_msg,omitempty"`
+	PostMsg                    *String    `xmlrpc:"post_msg,omitempty"`
+	PreMsg                     *String    `xmlrpc:"pre_msg,omitempty"`
+	Provider                   *Selection `xmlrpc:"provider,omitempty"`
+	RegistrationViewTemplateId *Many2One  `xmlrpc:"registration_view_template_id,omitempty"`
+	SaveToken                  *Selection `xmlrpc:"save_token,omitempty"`
+	Sequence                   *Int       `xmlrpc:"sequence,omitempty"`
+	SpecificCountries          *Bool      `xmlrpc:"specific_countries,omitempty"`
+	TokenImplemented           *Bool      `xmlrpc:"token_implemented,omitempty"`
+	ViewTemplateId             *Many2One  `xmlrpc:"view_template_id,omitempty"`
+	WebsitePublished           *Bool      `xmlrpc:"website_published,omitempty"`
+	WriteDate                  *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid                   *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // PaymentAcquirers represents array of payment.acquirer model.
@@ -73,13 +69,13 @@ func (c *Client) CreatePaymentAcquirer(pa *PaymentAcquirer) (int64, error) {
 	return ids[0], nil
 }
 
-// CreatePaymentAcquirer creates a new payment.acquirer model and returns its id.
+// CreatePaymentAcquirers creates a new payment.acquirer model and returns its id.
 func (c *Client) CreatePaymentAcquirers(pas []*PaymentAcquirer) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range pas {
 		vv = append(vv, v)
 	}
-	return c.Create(PaymentAcquirerModel, vv)
+	return c.Create(PaymentAcquirerModel, vv, nil)
 }
 
 // UpdatePaymentAcquirer updates an existing payment.acquirer record.
@@ -90,7 +86,7 @@ func (c *Client) UpdatePaymentAcquirer(pa *PaymentAcquirer) error {
 // UpdatePaymentAcquirers updates existing payment.acquirer records.
 // All records (represented by ids) will be updated by pa values.
 func (c *Client) UpdatePaymentAcquirers(ids []int64, pa *PaymentAcquirer) error {
-	return c.Update(PaymentAcquirerModel, ids, pa)
+	return c.Update(PaymentAcquirerModel, ids, pa, nil)
 }
 
 // DeletePaymentAcquirer deletes an existing payment.acquirer record.
@@ -109,10 +105,7 @@ func (c *Client) GetPaymentAcquirer(id int64) (*PaymentAcquirer, error) {
 	if err != nil {
 		return nil, err
 	}
-	if pas != nil && len(*pas) > 0 {
-		return &((*pas)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of payment.acquirer not found", id)
+	return &((*pas)[0]), nil
 }
 
 // GetPaymentAcquirers gets payment.acquirer existing records.
@@ -130,10 +123,7 @@ func (c *Client) FindPaymentAcquirer(criteria *Criteria) (*PaymentAcquirer, erro
 	if err := c.SearchRead(PaymentAcquirerModel, criteria, NewOptions().Limit(1), pas); err != nil {
 		return nil, err
 	}
-	if pas != nil && len(*pas) > 0 {
-		return &((*pas)[0]), nil
-	}
-	return nil, fmt.Errorf("payment.acquirer was not found with criteria %v", criteria)
+	return &((*pas)[0]), nil
 }
 
 // FindPaymentAcquirers finds payment.acquirer records by querying it
@@ -149,11 +139,7 @@ func (c *Client) FindPaymentAcquirers(criteria *Criteria, options *Options) (*Pa
 // FindPaymentAcquirerIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindPaymentAcquirerIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(PaymentAcquirerModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(PaymentAcquirerModel, criteria, options)
 }
 
 // FindPaymentAcquirerId finds record id by querying it with criteria.
@@ -162,8 +148,5 @@ func (c *Client) FindPaymentAcquirerId(criteria *Criteria, options *Options) (in
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("payment.acquirer was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

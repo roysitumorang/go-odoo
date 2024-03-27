@@ -11,31 +11,8 @@ An Odoo API client enabling Go programs to interact with Odoo in a simple and un
 
 ### Generate your models
 
-**Note: Generating models require to follow instructions in GOPATH mode. Refactoring for go modules will come soon.**
-
-Define the environment variables to be able to connect to your odoo instance :
-
-(Don't set `ODOO_MODELS` if you want all your models to be generated)
-
-```
-export ODOO_ADMIN=admin // ensure the user has sufficient permissions to generate models
-export ODOO_PASSWORD=password
-export ODOO_DATABASE=odoo
-export ODOO_URL=http://localhost:8069
-export ODOO_MODELS="crm.lead"
-```
-
-`ODOO_REPO_PATH` is the path where the repository will be downloaded (by default its GOPATH):
-```
-export ODOO_REPO_PATH=$(echo $GOPATH | awk -F ':' '{ print $1 }')/src/github.com/skilld-labs/go-odoo
-```
-
-Download library and generate models :
-```
-GO111MODULE="off" go get github.com/skilld-labs/go-odoo
-cd $ODOO_REPO_PATH
-ls | grep -v "conversion.go\|generator\|go.mod\|go-odoo-generator\|go.sum\|ir_model_fields.go\|ir_model.go\|LICENSE\|odoo.go\|README.md\|types.go\|version.go" // keep only go-odoo core files
-GO111MODULE="off" go generate
+```bash
+./generator/generator -u admin_name -p admin_password -d database_name -o /the/directory/you/want/the/files/to/be/generated/in --url http://localhost:8069 -t ./generator/cmd/tmpl/model.tmpl -m crm.lead,res.users
 ```
 
 That's it ! Your models have been generated !
@@ -50,7 +27,7 @@ It is **highly recommanded** to not remove them, since you would not be able to 
 
 #### Custom skilld-labs models
 
-All others models (not core one) are specific to skilld-labs usage. They use our own odoo instance which is **version 11**. (note that models structure changed between odoo major versions).
+All other models (not core one) are specific to skilld-labs usage. They use our own odoo instance which is **version 11**. (note that models structure changed between odoo major versions).
 
 If you're ok to work with those models, you can use this library instance, if not you should fork the repository and generate you own models by following steps above.
 
@@ -67,9 +44,9 @@ import (
 
 func main() {
 	c, err := odoo.NewClient(&odoo.ClientConfig{
-		Admin:    "admin",
-		Password: "password",
-		Database: "odoo",
+		Admin:    "admin_name",
+		Password: "admin_password",
+		Database: "database_name",
 		URL:      "http://localhost:8069",
 	})
 	if err != nil {
@@ -89,7 +66,7 @@ func main() {
 ## Models
 
 Generated models contains high level functions to interact with models in an easy and golang way.
-It covers the most common usage and contains for each models those functions :
+It covers the most common usage and contains for each model those functions :
 
 ### Create
 ```go
@@ -159,6 +136,7 @@ func (f *Float) Get() float64 {}
 
 ```go
 func NewMany2One(id int64, name string) *Many2One {}
+func NewUnassignedMany2One() *Many2One {}
 func (m *Many2One) Get() int64 {}
 
 func NewRelation() *Relation {}
@@ -192,13 +170,13 @@ cls, err := c.FindCrmLeads(odoo.NewCriteria().Add("user_id.name", "=", "John Doe
 
 All high level functions are based on basic odoo webservices functions.
 
-These functions give you more flexibility but less usability. We recommand you to use models functions (high level).
+These functions give you more flexibility but less usability. We recommend you to use models functions (high level).
 
 Here are available low level functions :
 
 ```go
-func (c *Client) Create(model string, values []interface{}) ([]int64, error) {} !! Creating multiple instances is only for odoo 12+ versions !!
-func (c *Client) Update(model string, ids []int64, values interface{}) error {}
+func (c *Client) Create(model string, values []interface{}, options *Options) ([]int64, error) {} !! Creating multiple instances is only for odoo 12+ versions !!
+func (c *Client) Update(model string, ids []int64, values interface{}, options *Options) error {}
 func (c *Client) Delete(model string, ids []int64) error {}
 func (c *Client) SearchRead(model string, criteria *Criteria, options *Options, elem interface{}) error {}
 func (c *Client) Read(model string, ids []int64, options *Options, elem interface{}) error {}

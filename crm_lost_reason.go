@@ -1,20 +1,16 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // CrmLostReason represents crm.lost.reason model.
 type CrmLostReason struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Active      *Bool     `xmlrpc:"active,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Active      *Bool     `xmlrpc:"active,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // CrmLostReasons represents array of crm.lost.reason model.
@@ -40,13 +36,13 @@ func (c *Client) CreateCrmLostReason(clr *CrmLostReason) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateCrmLostReason creates a new crm.lost.reason model and returns its id.
+// CreateCrmLostReasons creates a new crm.lost.reason model and returns its id.
 func (c *Client) CreateCrmLostReasons(clrs []*CrmLostReason) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range clrs {
 		vv = append(vv, v)
 	}
-	return c.Create(CrmLostReasonModel, vv)
+	return c.Create(CrmLostReasonModel, vv, nil)
 }
 
 // UpdateCrmLostReason updates an existing crm.lost.reason record.
@@ -57,7 +53,7 @@ func (c *Client) UpdateCrmLostReason(clr *CrmLostReason) error {
 // UpdateCrmLostReasons updates existing crm.lost.reason records.
 // All records (represented by ids) will be updated by clr values.
 func (c *Client) UpdateCrmLostReasons(ids []int64, clr *CrmLostReason) error {
-	return c.Update(CrmLostReasonModel, ids, clr)
+	return c.Update(CrmLostReasonModel, ids, clr, nil)
 }
 
 // DeleteCrmLostReason deletes an existing crm.lost.reason record.
@@ -76,10 +72,7 @@ func (c *Client) GetCrmLostReason(id int64) (*CrmLostReason, error) {
 	if err != nil {
 		return nil, err
 	}
-	if clrs != nil && len(*clrs) > 0 {
-		return &((*clrs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of crm.lost.reason not found", id)
+	return &((*clrs)[0]), nil
 }
 
 // GetCrmLostReasons gets crm.lost.reason existing records.
@@ -97,10 +90,7 @@ func (c *Client) FindCrmLostReason(criteria *Criteria) (*CrmLostReason, error) {
 	if err := c.SearchRead(CrmLostReasonModel, criteria, NewOptions().Limit(1), clrs); err != nil {
 		return nil, err
 	}
-	if clrs != nil && len(*clrs) > 0 {
-		return &((*clrs)[0]), nil
-	}
-	return nil, fmt.Errorf("crm.lost.reason was not found with criteria %v", criteria)
+	return &((*clrs)[0]), nil
 }
 
 // FindCrmLostReasons finds crm.lost.reason records by querying it
@@ -116,11 +106,7 @@ func (c *Client) FindCrmLostReasons(criteria *Criteria, options *Options) (*CrmL
 // FindCrmLostReasonIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindCrmLostReasonIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(CrmLostReasonModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(CrmLostReasonModel, criteria, options)
 }
 
 // FindCrmLostReasonId finds record id by querying it with criteria.
@@ -129,8 +115,5 @@ func (c *Client) FindCrmLostReasonId(criteria *Criteria, options *Options) (int6
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("crm.lost.reason was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

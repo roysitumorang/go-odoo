@@ -1,27 +1,23 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // TaxAdjustmentsWizard represents tax.adjustments.wizard model.
 type TaxAdjustmentsWizard struct {
-	LastUpdate        *Time      `xmlrpc:"__last_update,omptempty"`
-	AdjustmentType    *Selection `xmlrpc:"adjustment_type,omptempty"`
-	Amount            *Float     `xmlrpc:"amount,omptempty"`
-	CompanyCurrencyId *Many2One  `xmlrpc:"company_currency_id,omptempty"`
-	CreateDate        *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid         *Many2One  `xmlrpc:"create_uid,omptempty"`
-	CreditAccountId   *Many2One  `xmlrpc:"credit_account_id,omptempty"`
-	Date              *Time      `xmlrpc:"date,omptempty"`
-	DebitAccountId    *Many2One  `xmlrpc:"debit_account_id,omptempty"`
-	DisplayName       *String    `xmlrpc:"display_name,omptempty"`
-	Id                *Int       `xmlrpc:"id,omptempty"`
-	JournalId         *Many2One  `xmlrpc:"journal_id,omptempty"`
-	Reason            *String    `xmlrpc:"reason,omptempty"`
-	TaxId             *Many2One  `xmlrpc:"tax_id,omptempty"`
-	WriteDate         *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid          *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate        *Time      `xmlrpc:"__last_update,omitempty"`
+	AdjustmentType    *Selection `xmlrpc:"adjustment_type,omitempty"`
+	Amount            *Float     `xmlrpc:"amount,omitempty"`
+	CompanyCurrencyId *Many2One  `xmlrpc:"company_currency_id,omitempty"`
+	CreateDate        *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid         *Many2One  `xmlrpc:"create_uid,omitempty"`
+	CreditAccountId   *Many2One  `xmlrpc:"credit_account_id,omitempty"`
+	Date              *Time      `xmlrpc:"date,omitempty"`
+	DebitAccountId    *Many2One  `xmlrpc:"debit_account_id,omitempty"`
+	DisplayName       *String    `xmlrpc:"display_name,omitempty"`
+	Id                *Int       `xmlrpc:"id,omitempty"`
+	JournalId         *Many2One  `xmlrpc:"journal_id,omitempty"`
+	Reason            *String    `xmlrpc:"reason,omitempty"`
+	TaxId             *Many2One  `xmlrpc:"tax_id,omitempty"`
+	WriteDate         *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid          *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // TaxAdjustmentsWizards represents array of tax.adjustments.wizard model.
@@ -47,13 +43,13 @@ func (c *Client) CreateTaxAdjustmentsWizard(taw *TaxAdjustmentsWizard) (int64, e
 	return ids[0], nil
 }
 
-// CreateTaxAdjustmentsWizard creates a new tax.adjustments.wizard model and returns its id.
+// CreateTaxAdjustmentsWizards creates a new tax.adjustments.wizard model and returns its id.
 func (c *Client) CreateTaxAdjustmentsWizards(taws []*TaxAdjustmentsWizard) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range taws {
 		vv = append(vv, v)
 	}
-	return c.Create(TaxAdjustmentsWizardModel, vv)
+	return c.Create(TaxAdjustmentsWizardModel, vv, nil)
 }
 
 // UpdateTaxAdjustmentsWizard updates an existing tax.adjustments.wizard record.
@@ -64,7 +60,7 @@ func (c *Client) UpdateTaxAdjustmentsWizard(taw *TaxAdjustmentsWizard) error {
 // UpdateTaxAdjustmentsWizards updates existing tax.adjustments.wizard records.
 // All records (represented by ids) will be updated by taw values.
 func (c *Client) UpdateTaxAdjustmentsWizards(ids []int64, taw *TaxAdjustmentsWizard) error {
-	return c.Update(TaxAdjustmentsWizardModel, ids, taw)
+	return c.Update(TaxAdjustmentsWizardModel, ids, taw, nil)
 }
 
 // DeleteTaxAdjustmentsWizard deletes an existing tax.adjustments.wizard record.
@@ -83,10 +79,7 @@ func (c *Client) GetTaxAdjustmentsWizard(id int64) (*TaxAdjustmentsWizard, error
 	if err != nil {
 		return nil, err
 	}
-	if taws != nil && len(*taws) > 0 {
-		return &((*taws)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of tax.adjustments.wizard not found", id)
+	return &((*taws)[0]), nil
 }
 
 // GetTaxAdjustmentsWizards gets tax.adjustments.wizard existing records.
@@ -104,10 +97,7 @@ func (c *Client) FindTaxAdjustmentsWizard(criteria *Criteria) (*TaxAdjustmentsWi
 	if err := c.SearchRead(TaxAdjustmentsWizardModel, criteria, NewOptions().Limit(1), taws); err != nil {
 		return nil, err
 	}
-	if taws != nil && len(*taws) > 0 {
-		return &((*taws)[0]), nil
-	}
-	return nil, fmt.Errorf("tax.adjustments.wizard was not found with criteria %v", criteria)
+	return &((*taws)[0]), nil
 }
 
 // FindTaxAdjustmentsWizards finds tax.adjustments.wizard records by querying it
@@ -123,11 +113,7 @@ func (c *Client) FindTaxAdjustmentsWizards(criteria *Criteria, options *Options)
 // FindTaxAdjustmentsWizardIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindTaxAdjustmentsWizardIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(TaxAdjustmentsWizardModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(TaxAdjustmentsWizardModel, criteria, options)
 }
 
 // FindTaxAdjustmentsWizardId finds record id by querying it with criteria.
@@ -136,8 +122,5 @@ func (c *Client) FindTaxAdjustmentsWizardId(criteria *Criteria, options *Options
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("tax.adjustments.wizard was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

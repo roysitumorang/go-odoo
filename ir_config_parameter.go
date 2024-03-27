@@ -1,20 +1,16 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrConfigParameter represents ir.config_parameter model.
 type IrConfigParameter struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Key         *String   `xmlrpc:"key,omptempty"`
-	Value       *String   `xmlrpc:"value,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Key         *String   `xmlrpc:"key,omitempty"`
+	Value       *String   `xmlrpc:"value,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrConfigParameters represents array of ir.config_parameter model.
@@ -40,13 +36,13 @@ func (c *Client) CreateIrConfigParameter(ic *IrConfigParameter) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrConfigParameter creates a new ir.config_parameter model and returns its id.
+// CreateIrConfigParameters creates a new ir.config_parameter model and returns its id.
 func (c *Client) CreateIrConfigParameters(ics []*IrConfigParameter) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range ics {
 		vv = append(vv, v)
 	}
-	return c.Create(IrConfigParameterModel, vv)
+	return c.Create(IrConfigParameterModel, vv, nil)
 }
 
 // UpdateIrConfigParameter updates an existing ir.config_parameter record.
@@ -57,7 +53,7 @@ func (c *Client) UpdateIrConfigParameter(ic *IrConfigParameter) error {
 // UpdateIrConfigParameters updates existing ir.config_parameter records.
 // All records (represented by ids) will be updated by ic values.
 func (c *Client) UpdateIrConfigParameters(ids []int64, ic *IrConfigParameter) error {
-	return c.Update(IrConfigParameterModel, ids, ic)
+	return c.Update(IrConfigParameterModel, ids, ic, nil)
 }
 
 // DeleteIrConfigParameter deletes an existing ir.config_parameter record.
@@ -76,10 +72,7 @@ func (c *Client) GetIrConfigParameter(id int64) (*IrConfigParameter, error) {
 	if err != nil {
 		return nil, err
 	}
-	if ics != nil && len(*ics) > 0 {
-		return &((*ics)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.config_parameter not found", id)
+	return &((*ics)[0]), nil
 }
 
 // GetIrConfigParameters gets ir.config_parameter existing records.
@@ -97,10 +90,7 @@ func (c *Client) FindIrConfigParameter(criteria *Criteria) (*IrConfigParameter, 
 	if err := c.SearchRead(IrConfigParameterModel, criteria, NewOptions().Limit(1), ics); err != nil {
 		return nil, err
 	}
-	if ics != nil && len(*ics) > 0 {
-		return &((*ics)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.config_parameter was not found with criteria %v", criteria)
+	return &((*ics)[0]), nil
 }
 
 // FindIrConfigParameters finds ir.config_parameter records by querying it
@@ -116,11 +106,7 @@ func (c *Client) FindIrConfigParameters(criteria *Criteria, options *Options) (*
 // FindIrConfigParameterIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrConfigParameterIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrConfigParameterModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrConfigParameterModel, criteria, options)
 }
 
 // FindIrConfigParameterId finds record id by querying it with criteria.
@@ -129,8 +115,5 @@ func (c *Client) FindIrConfigParameterId(criteria *Criteria, options *Options) (
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.config_parameter was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,25 +1,21 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ResourceCalendarAttendance represents resource.calendar.attendance model.
 type ResourceCalendarAttendance struct {
-	LastUpdate  *Time      `xmlrpc:"__last_update,omptempty"`
-	CalendarId  *Many2One  `xmlrpc:"calendar_id,omptempty"`
-	CreateDate  *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DateFrom    *Time      `xmlrpc:"date_from,omptempty"`
-	DateTo      *Time      `xmlrpc:"date_to,omptempty"`
-	Dayofweek   *Selection `xmlrpc:"dayofweek,omptempty"`
-	DisplayName *String    `xmlrpc:"display_name,omptempty"`
-	HourFrom    *Float     `xmlrpc:"hour_from,omptempty"`
-	HourTo      *Float     `xmlrpc:"hour_to,omptempty"`
-	Id          *Int       `xmlrpc:"id,omptempty"`
-	Name        *String    `xmlrpc:"name,omptempty"`
-	WriteDate   *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time      `xmlrpc:"__last_update,omitempty"`
+	CalendarId  *Many2One  `xmlrpc:"calendar_id,omitempty"`
+	CreateDate  *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DateFrom    *Time      `xmlrpc:"date_from,omitempty"`
+	DateTo      *Time      `xmlrpc:"date_to,omitempty"`
+	Dayofweek   *Selection `xmlrpc:"dayofweek,omitempty"`
+	DisplayName *String    `xmlrpc:"display_name,omitempty"`
+	HourFrom    *Float     `xmlrpc:"hour_from,omitempty"`
+	HourTo      *Float     `xmlrpc:"hour_to,omitempty"`
+	Id          *Int       `xmlrpc:"id,omitempty"`
+	Name        *String    `xmlrpc:"name,omitempty"`
+	WriteDate   *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // ResourceCalendarAttendances represents array of resource.calendar.attendance model.
@@ -45,13 +41,13 @@ func (c *Client) CreateResourceCalendarAttendance(rca *ResourceCalendarAttendanc
 	return ids[0], nil
 }
 
-// CreateResourceCalendarAttendance creates a new resource.calendar.attendance model and returns its id.
+// CreateResourceCalendarAttendances creates a new resource.calendar.attendance model and returns its id.
 func (c *Client) CreateResourceCalendarAttendances(rcas []*ResourceCalendarAttendance) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rcas {
 		vv = append(vv, v)
 	}
-	return c.Create(ResourceCalendarAttendanceModel, vv)
+	return c.Create(ResourceCalendarAttendanceModel, vv, nil)
 }
 
 // UpdateResourceCalendarAttendance updates an existing resource.calendar.attendance record.
@@ -62,7 +58,7 @@ func (c *Client) UpdateResourceCalendarAttendance(rca *ResourceCalendarAttendanc
 // UpdateResourceCalendarAttendances updates existing resource.calendar.attendance records.
 // All records (represented by ids) will be updated by rca values.
 func (c *Client) UpdateResourceCalendarAttendances(ids []int64, rca *ResourceCalendarAttendance) error {
-	return c.Update(ResourceCalendarAttendanceModel, ids, rca)
+	return c.Update(ResourceCalendarAttendanceModel, ids, rca, nil)
 }
 
 // DeleteResourceCalendarAttendance deletes an existing resource.calendar.attendance record.
@@ -81,10 +77,7 @@ func (c *Client) GetResourceCalendarAttendance(id int64) (*ResourceCalendarAtten
 	if err != nil {
 		return nil, err
 	}
-	if rcas != nil && len(*rcas) > 0 {
-		return &((*rcas)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of resource.calendar.attendance not found", id)
+	return &((*rcas)[0]), nil
 }
 
 // GetResourceCalendarAttendances gets resource.calendar.attendance existing records.
@@ -102,10 +95,7 @@ func (c *Client) FindResourceCalendarAttendance(criteria *Criteria) (*ResourceCa
 	if err := c.SearchRead(ResourceCalendarAttendanceModel, criteria, NewOptions().Limit(1), rcas); err != nil {
 		return nil, err
 	}
-	if rcas != nil && len(*rcas) > 0 {
-		return &((*rcas)[0]), nil
-	}
-	return nil, fmt.Errorf("resource.calendar.attendance was not found with criteria %v", criteria)
+	return &((*rcas)[0]), nil
 }
 
 // FindResourceCalendarAttendances finds resource.calendar.attendance records by querying it
@@ -121,11 +111,7 @@ func (c *Client) FindResourceCalendarAttendances(criteria *Criteria, options *Op
 // FindResourceCalendarAttendanceIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindResourceCalendarAttendanceIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ResourceCalendarAttendanceModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ResourceCalendarAttendanceModel, criteria, options)
 }
 
 // FindResourceCalendarAttendanceId finds record id by querying it with criteria.
@@ -134,8 +120,5 @@ func (c *Client) FindResourceCalendarAttendanceId(criteria *Criteria, options *O
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("resource.calendar.attendance was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

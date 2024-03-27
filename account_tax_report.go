@@ -1,23 +1,19 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountTaxReport represents account.tax.report model.
 type AccountTaxReport struct {
-	LastUpdate  *Time      `xmlrpc:"__last_update,omptempty"`
-	CompanyId   *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate  *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DateFrom    *Time      `xmlrpc:"date_from,omptempty"`
-	DateTo      *Time      `xmlrpc:"date_to,omptempty"`
-	DisplayName *String    `xmlrpc:"display_name,omptempty"`
-	Id          *Int       `xmlrpc:"id,omptempty"`
-	JournalIds  *Relation  `xmlrpc:"journal_ids,omptempty"`
-	TargetMove  *Selection `xmlrpc:"target_move,omptempty"`
-	WriteDate   *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time      `xmlrpc:"__last_update,omitempty"`
+	CompanyId   *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate  *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DateFrom    *Time      `xmlrpc:"date_from,omitempty"`
+	DateTo      *Time      `xmlrpc:"date_to,omitempty"`
+	DisplayName *String    `xmlrpc:"display_name,omitempty"`
+	Id          *Int       `xmlrpc:"id,omitempty"`
+	JournalIds  *Relation  `xmlrpc:"journal_ids,omitempty"`
+	TargetMove  *Selection `xmlrpc:"target_move,omitempty"`
+	WriteDate   *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountTaxReports represents array of account.tax.report model.
@@ -43,13 +39,13 @@ func (c *Client) CreateAccountTaxReport(atr *AccountTaxReport) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateAccountTaxReport creates a new account.tax.report model and returns its id.
+// CreateAccountTaxReports creates a new account.tax.report model and returns its id.
 func (c *Client) CreateAccountTaxReports(atrs []*AccountTaxReport) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range atrs {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountTaxReportModel, vv)
+	return c.Create(AccountTaxReportModel, vv, nil)
 }
 
 // UpdateAccountTaxReport updates an existing account.tax.report record.
@@ -60,7 +56,7 @@ func (c *Client) UpdateAccountTaxReport(atr *AccountTaxReport) error {
 // UpdateAccountTaxReports updates existing account.tax.report records.
 // All records (represented by ids) will be updated by atr values.
 func (c *Client) UpdateAccountTaxReports(ids []int64, atr *AccountTaxReport) error {
-	return c.Update(AccountTaxReportModel, ids, atr)
+	return c.Update(AccountTaxReportModel, ids, atr, nil)
 }
 
 // DeleteAccountTaxReport deletes an existing account.tax.report record.
@@ -79,10 +75,7 @@ func (c *Client) GetAccountTaxReport(id int64) (*AccountTaxReport, error) {
 	if err != nil {
 		return nil, err
 	}
-	if atrs != nil && len(*atrs) > 0 {
-		return &((*atrs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.tax.report not found", id)
+	return &((*atrs)[0]), nil
 }
 
 // GetAccountTaxReports gets account.tax.report existing records.
@@ -100,10 +93,7 @@ func (c *Client) FindAccountTaxReport(criteria *Criteria) (*AccountTaxReport, er
 	if err := c.SearchRead(AccountTaxReportModel, criteria, NewOptions().Limit(1), atrs); err != nil {
 		return nil, err
 	}
-	if atrs != nil && len(*atrs) > 0 {
-		return &((*atrs)[0]), nil
-	}
-	return nil, fmt.Errorf("account.tax.report was not found with criteria %v", criteria)
+	return &((*atrs)[0]), nil
 }
 
 // FindAccountTaxReports finds account.tax.report records by querying it
@@ -119,11 +109,7 @@ func (c *Client) FindAccountTaxReports(criteria *Criteria, options *Options) (*A
 // FindAccountTaxReportIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountTaxReportIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountTaxReportModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountTaxReportModel, criteria, options)
 }
 
 // FindAccountTaxReportId finds record id by querying it with criteria.
@@ -132,8 +118,5 @@ func (c *Client) FindAccountTaxReportId(criteria *Criteria, options *Options) (i
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.tax.report was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

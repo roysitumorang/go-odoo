@@ -1,24 +1,20 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // MailStatisticsReport represents mail.statistics.report model.
 type MailStatisticsReport struct {
-	LastUpdate    *Time      `xmlrpc:"__last_update,omptempty"`
-	Bounced       *Int       `xmlrpc:"bounced,omptempty"`
-	Campaign      *String    `xmlrpc:"campaign,omptempty"`
-	Delivered     *Int       `xmlrpc:"delivered,omptempty"`
-	DisplayName   *String    `xmlrpc:"display_name,omptempty"`
-	EmailFrom     *String    `xmlrpc:"email_from,omptempty"`
-	Id            *Int       `xmlrpc:"id,omptempty"`
-	Name          *String    `xmlrpc:"name,omptempty"`
-	Opened        *Int       `xmlrpc:"opened,omptempty"`
-	Replied       *Int       `xmlrpc:"replied,omptempty"`
-	ScheduledDate *Time      `xmlrpc:"scheduled_date,omptempty"`
-	Sent          *Int       `xmlrpc:"sent,omptempty"`
-	State         *Selection `xmlrpc:"state,omptempty"`
+	LastUpdate    *Time      `xmlrpc:"__last_update,omitempty"`
+	Bounced       *Int       `xmlrpc:"bounced,omitempty"`
+	Campaign      *String    `xmlrpc:"campaign,omitempty"`
+	Delivered     *Int       `xmlrpc:"delivered,omitempty"`
+	DisplayName   *String    `xmlrpc:"display_name,omitempty"`
+	EmailFrom     *String    `xmlrpc:"email_from,omitempty"`
+	Id            *Int       `xmlrpc:"id,omitempty"`
+	Name          *String    `xmlrpc:"name,omitempty"`
+	Opened        *Int       `xmlrpc:"opened,omitempty"`
+	Replied       *Int       `xmlrpc:"replied,omitempty"`
+	ScheduledDate *Time      `xmlrpc:"scheduled_date,omitempty"`
+	Sent          *Int       `xmlrpc:"sent,omitempty"`
+	State         *Selection `xmlrpc:"state,omitempty"`
 }
 
 // MailStatisticsReports represents array of mail.statistics.report model.
@@ -44,13 +40,13 @@ func (c *Client) CreateMailStatisticsReport(msr *MailStatisticsReport) (int64, e
 	return ids[0], nil
 }
 
-// CreateMailStatisticsReport creates a new mail.statistics.report model and returns its id.
+// CreateMailStatisticsReports creates a new mail.statistics.report model and returns its id.
 func (c *Client) CreateMailStatisticsReports(msrs []*MailStatisticsReport) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range msrs {
 		vv = append(vv, v)
 	}
-	return c.Create(MailStatisticsReportModel, vv)
+	return c.Create(MailStatisticsReportModel, vv, nil)
 }
 
 // UpdateMailStatisticsReport updates an existing mail.statistics.report record.
@@ -61,7 +57,7 @@ func (c *Client) UpdateMailStatisticsReport(msr *MailStatisticsReport) error {
 // UpdateMailStatisticsReports updates existing mail.statistics.report records.
 // All records (represented by ids) will be updated by msr values.
 func (c *Client) UpdateMailStatisticsReports(ids []int64, msr *MailStatisticsReport) error {
-	return c.Update(MailStatisticsReportModel, ids, msr)
+	return c.Update(MailStatisticsReportModel, ids, msr, nil)
 }
 
 // DeleteMailStatisticsReport deletes an existing mail.statistics.report record.
@@ -80,10 +76,7 @@ func (c *Client) GetMailStatisticsReport(id int64) (*MailStatisticsReport, error
 	if err != nil {
 		return nil, err
 	}
-	if msrs != nil && len(*msrs) > 0 {
-		return &((*msrs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of mail.statistics.report not found", id)
+	return &((*msrs)[0]), nil
 }
 
 // GetMailStatisticsReports gets mail.statistics.report existing records.
@@ -101,10 +94,7 @@ func (c *Client) FindMailStatisticsReport(criteria *Criteria) (*MailStatisticsRe
 	if err := c.SearchRead(MailStatisticsReportModel, criteria, NewOptions().Limit(1), msrs); err != nil {
 		return nil, err
 	}
-	if msrs != nil && len(*msrs) > 0 {
-		return &((*msrs)[0]), nil
-	}
-	return nil, fmt.Errorf("mail.statistics.report was not found with criteria %v", criteria)
+	return &((*msrs)[0]), nil
 }
 
 // FindMailStatisticsReports finds mail.statistics.report records by querying it
@@ -120,11 +110,7 @@ func (c *Client) FindMailStatisticsReports(criteria *Criteria, options *Options)
 // FindMailStatisticsReportIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindMailStatisticsReportIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(MailStatisticsReportModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(MailStatisticsReportModel, criteria, options)
 }
 
 // FindMailStatisticsReportId finds record id by querying it with criteria.
@@ -133,8 +119,5 @@ func (c *Client) FindMailStatisticsReportId(criteria *Criteria, options *Options
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("mail.statistics.report was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

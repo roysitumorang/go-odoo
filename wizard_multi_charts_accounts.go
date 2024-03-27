@@ -1,33 +1,29 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // WizardMultiChartsAccounts represents wizard.multi.charts.accounts model.
 type WizardMultiChartsAccounts struct {
-	LastUpdate            *Time     `xmlrpc:"__last_update,omptempty"`
-	BankAccountCodePrefix *String   `xmlrpc:"bank_account_code_prefix,omptempty"`
-	BankAccountIds        *Relation `xmlrpc:"bank_account_ids,omptempty"`
-	CashAccountCodePrefix *String   `xmlrpc:"cash_account_code_prefix,omptempty"`
-	ChartTemplateId       *Many2One `xmlrpc:"chart_template_id,omptempty"`
-	CodeDigits            *Int      `xmlrpc:"code_digits,omptempty"`
-	CompanyId             *Many2One `xmlrpc:"company_id,omptempty"`
-	CompleteTaxSet        *Bool     `xmlrpc:"complete_tax_set,omptempty"`
-	CreateDate            *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid             *Many2One `xmlrpc:"create_uid,omptempty"`
-	CurrencyId            *Many2One `xmlrpc:"currency_id,omptempty"`
-	DisplayName           *String   `xmlrpc:"display_name,omptempty"`
-	Id                    *Int      `xmlrpc:"id,omptempty"`
-	OnlyOneChartTemplate  *Bool     `xmlrpc:"only_one_chart_template,omptempty"`
-	PurchaseTaxId         *Many2One `xmlrpc:"purchase_tax_id,omptempty"`
-	PurchaseTaxRate       *Float    `xmlrpc:"purchase_tax_rate,omptempty"`
-	SaleTaxId             *Many2One `xmlrpc:"sale_tax_id,omptempty"`
-	SaleTaxRate           *Float    `xmlrpc:"sale_tax_rate,omptempty"`
-	TransferAccountId     *Many2One `xmlrpc:"transfer_account_id,omptempty"`
-	UseAngloSaxon         *Bool     `xmlrpc:"use_anglo_saxon,omptempty"`
-	WriteDate             *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid              *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate            *Time     `xmlrpc:"__last_update,omitempty"`
+	BankAccountCodePrefix *String   `xmlrpc:"bank_account_code_prefix,omitempty"`
+	BankAccountIds        *Relation `xmlrpc:"bank_account_ids,omitempty"`
+	CashAccountCodePrefix *String   `xmlrpc:"cash_account_code_prefix,omitempty"`
+	ChartTemplateId       *Many2One `xmlrpc:"chart_template_id,omitempty"`
+	CodeDigits            *Int      `xmlrpc:"code_digits,omitempty"`
+	CompanyId             *Many2One `xmlrpc:"company_id,omitempty"`
+	CompleteTaxSet        *Bool     `xmlrpc:"complete_tax_set,omitempty"`
+	CreateDate            *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid             *Many2One `xmlrpc:"create_uid,omitempty"`
+	CurrencyId            *Many2One `xmlrpc:"currency_id,omitempty"`
+	DisplayName           *String   `xmlrpc:"display_name,omitempty"`
+	Id                    *Int      `xmlrpc:"id,omitempty"`
+	OnlyOneChartTemplate  *Bool     `xmlrpc:"only_one_chart_template,omitempty"`
+	PurchaseTaxId         *Many2One `xmlrpc:"purchase_tax_id,omitempty"`
+	PurchaseTaxRate       *Float    `xmlrpc:"purchase_tax_rate,omitempty"`
+	SaleTaxId             *Many2One `xmlrpc:"sale_tax_id,omitempty"`
+	SaleTaxRate           *Float    `xmlrpc:"sale_tax_rate,omitempty"`
+	TransferAccountId     *Many2One `xmlrpc:"transfer_account_id,omitempty"`
+	UseAngloSaxon         *Bool     `xmlrpc:"use_anglo_saxon,omitempty"`
+	WriteDate             *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid              *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // WizardMultiChartsAccountss represents array of wizard.multi.charts.accounts model.
@@ -53,13 +49,13 @@ func (c *Client) CreateWizardMultiChartsAccounts(wmca *WizardMultiChartsAccounts
 	return ids[0], nil
 }
 
-// CreateWizardMultiChartsAccounts creates a new wizard.multi.charts.accounts model and returns its id.
+// CreateWizardMultiChartsAccountss creates a new wizard.multi.charts.accounts model and returns its id.
 func (c *Client) CreateWizardMultiChartsAccountss(wmcas []*WizardMultiChartsAccounts) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range wmcas {
 		vv = append(vv, v)
 	}
-	return c.Create(WizardMultiChartsAccountsModel, vv)
+	return c.Create(WizardMultiChartsAccountsModel, vv, nil)
 }
 
 // UpdateWizardMultiChartsAccounts updates an existing wizard.multi.charts.accounts record.
@@ -70,7 +66,7 @@ func (c *Client) UpdateWizardMultiChartsAccounts(wmca *WizardMultiChartsAccounts
 // UpdateWizardMultiChartsAccountss updates existing wizard.multi.charts.accounts records.
 // All records (represented by ids) will be updated by wmca values.
 func (c *Client) UpdateWizardMultiChartsAccountss(ids []int64, wmca *WizardMultiChartsAccounts) error {
-	return c.Update(WizardMultiChartsAccountsModel, ids, wmca)
+	return c.Update(WizardMultiChartsAccountsModel, ids, wmca, nil)
 }
 
 // DeleteWizardMultiChartsAccounts deletes an existing wizard.multi.charts.accounts record.
@@ -89,10 +85,7 @@ func (c *Client) GetWizardMultiChartsAccounts(id int64) (*WizardMultiChartsAccou
 	if err != nil {
 		return nil, err
 	}
-	if wmcas != nil && len(*wmcas) > 0 {
-		return &((*wmcas)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of wizard.multi.charts.accounts not found", id)
+	return &((*wmcas)[0]), nil
 }
 
 // GetWizardMultiChartsAccountss gets wizard.multi.charts.accounts existing records.
@@ -110,10 +103,7 @@ func (c *Client) FindWizardMultiChartsAccounts(criteria *Criteria) (*WizardMulti
 	if err := c.SearchRead(WizardMultiChartsAccountsModel, criteria, NewOptions().Limit(1), wmcas); err != nil {
 		return nil, err
 	}
-	if wmcas != nil && len(*wmcas) > 0 {
-		return &((*wmcas)[0]), nil
-	}
-	return nil, fmt.Errorf("wizard.multi.charts.accounts was not found with criteria %v", criteria)
+	return &((*wmcas)[0]), nil
 }
 
 // FindWizardMultiChartsAccountss finds wizard.multi.charts.accounts records by querying it
@@ -129,11 +119,7 @@ func (c *Client) FindWizardMultiChartsAccountss(criteria *Criteria, options *Opt
 // FindWizardMultiChartsAccountsIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindWizardMultiChartsAccountsIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(WizardMultiChartsAccountsModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(WizardMultiChartsAccountsModel, criteria, options)
 }
 
 // FindWizardMultiChartsAccountsId finds record id by querying it with criteria.
@@ -142,8 +128,5 @@ func (c *Client) FindWizardMultiChartsAccountsId(criteria *Criteria, options *Op
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("wizard.multi.charts.accounts was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

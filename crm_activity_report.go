@@ -1,29 +1,25 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // CrmActivityReport represents crm.activity.report model.
 type CrmActivityReport struct {
-	LastUpdate         *Time     `xmlrpc:"__last_update,omptempty"`
-	Active             *Bool     `xmlrpc:"active,omptempty"`
-	AuthorId           *Many2One `xmlrpc:"author_id,omptempty"`
-	CompanyId          *Many2One `xmlrpc:"company_id,omptempty"`
-	CountryId          *Many2One `xmlrpc:"country_id,omptempty"`
-	Date               *Time     `xmlrpc:"date,omptempty"`
-	DisplayName        *String   `xmlrpc:"display_name,omptempty"`
-	Id                 *Int      `xmlrpc:"id,omptempty"`
-	LeadId             *Many2One `xmlrpc:"lead_id,omptempty"`
-	LeadType           *String   `xmlrpc:"lead_type,omptempty"`
-	MailActivityTypeId *Many2One `xmlrpc:"mail_activity_type_id,omptempty"`
-	PartnerId          *Many2One `xmlrpc:"partner_id,omptempty"`
-	Probability        *Float    `xmlrpc:"probability,omptempty"`
-	StageId            *Many2One `xmlrpc:"stage_id,omptempty"`
-	Subject            *String   `xmlrpc:"subject,omptempty"`
-	SubtypeId          *Many2One `xmlrpc:"subtype_id,omptempty"`
-	TeamId             *Many2One `xmlrpc:"team_id,omptempty"`
-	UserId             *Many2One `xmlrpc:"user_id,omptempty"`
+	LastUpdate         *Time     `xmlrpc:"__last_update,omitempty"`
+	Active             *Bool     `xmlrpc:"active,omitempty"`
+	AuthorId           *Many2One `xmlrpc:"author_id,omitempty"`
+	CompanyId          *Many2One `xmlrpc:"company_id,omitempty"`
+	CountryId          *Many2One `xmlrpc:"country_id,omitempty"`
+	Date               *Time     `xmlrpc:"date,omitempty"`
+	DisplayName        *String   `xmlrpc:"display_name,omitempty"`
+	Id                 *Int      `xmlrpc:"id,omitempty"`
+	LeadId             *Many2One `xmlrpc:"lead_id,omitempty"`
+	LeadType           *String   `xmlrpc:"lead_type,omitempty"`
+	MailActivityTypeId *Many2One `xmlrpc:"mail_activity_type_id,omitempty"`
+	PartnerId          *Many2One `xmlrpc:"partner_id,omitempty"`
+	Probability        *Float    `xmlrpc:"probability,omitempty"`
+	StageId            *Many2One `xmlrpc:"stage_id,omitempty"`
+	Subject            *String   `xmlrpc:"subject,omitempty"`
+	SubtypeId          *Many2One `xmlrpc:"subtype_id,omitempty"`
+	TeamId             *Many2One `xmlrpc:"team_id,omitempty"`
+	UserId             *Many2One `xmlrpc:"user_id,omitempty"`
 }
 
 // CrmActivityReports represents array of crm.activity.report model.
@@ -49,13 +45,13 @@ func (c *Client) CreateCrmActivityReport(car *CrmActivityReport) (int64, error) 
 	return ids[0], nil
 }
 
-// CreateCrmActivityReport creates a new crm.activity.report model and returns its id.
+// CreateCrmActivityReports creates a new crm.activity.report model and returns its id.
 func (c *Client) CreateCrmActivityReports(cars []*CrmActivityReport) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range cars {
 		vv = append(vv, v)
 	}
-	return c.Create(CrmActivityReportModel, vv)
+	return c.Create(CrmActivityReportModel, vv, nil)
 }
 
 // UpdateCrmActivityReport updates an existing crm.activity.report record.
@@ -66,7 +62,7 @@ func (c *Client) UpdateCrmActivityReport(car *CrmActivityReport) error {
 // UpdateCrmActivityReports updates existing crm.activity.report records.
 // All records (represented by ids) will be updated by car values.
 func (c *Client) UpdateCrmActivityReports(ids []int64, car *CrmActivityReport) error {
-	return c.Update(CrmActivityReportModel, ids, car)
+	return c.Update(CrmActivityReportModel, ids, car, nil)
 }
 
 // DeleteCrmActivityReport deletes an existing crm.activity.report record.
@@ -85,10 +81,7 @@ func (c *Client) GetCrmActivityReport(id int64) (*CrmActivityReport, error) {
 	if err != nil {
 		return nil, err
 	}
-	if cars != nil && len(*cars) > 0 {
-		return &((*cars)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of crm.activity.report not found", id)
+	return &((*cars)[0]), nil
 }
 
 // GetCrmActivityReports gets crm.activity.report existing records.
@@ -106,10 +99,7 @@ func (c *Client) FindCrmActivityReport(criteria *Criteria) (*CrmActivityReport, 
 	if err := c.SearchRead(CrmActivityReportModel, criteria, NewOptions().Limit(1), cars); err != nil {
 		return nil, err
 	}
-	if cars != nil && len(*cars) > 0 {
-		return &((*cars)[0]), nil
-	}
-	return nil, fmt.Errorf("crm.activity.report was not found with criteria %v", criteria)
+	return &((*cars)[0]), nil
 }
 
 // FindCrmActivityReports finds crm.activity.report records by querying it
@@ -125,11 +115,7 @@ func (c *Client) FindCrmActivityReports(criteria *Criteria, options *Options) (*
 // FindCrmActivityReportIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindCrmActivityReportIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(CrmActivityReportModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(CrmActivityReportModel, criteria, options)
 }
 
 // FindCrmActivityReportId finds record id by querying it with criteria.
@@ -138,8 +124,5 @@ func (c *Client) FindCrmActivityReportId(criteria *Criteria, options *Options) (
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("crm.activity.report was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

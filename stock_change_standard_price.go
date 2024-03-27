@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockChangeStandardPrice represents stock.change.standard.price model.
 type StockChangeStandardPrice struct {
-	LastUpdate                   *Time     `xmlrpc:"__last_update,omptempty"`
-	CounterpartAccountId         *Many2One `xmlrpc:"counterpart_account_id,omptempty"`
-	CounterpartAccountIdRequired *Bool     `xmlrpc:"counterpart_account_id_required,omptempty"`
-	CreateDate                   *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid                    *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName                  *String   `xmlrpc:"display_name,omptempty"`
-	Id                           *Int      `xmlrpc:"id,omptempty"`
-	NewPrice                     *Float    `xmlrpc:"new_price,omptempty"`
-	WriteDate                    *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid                     *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate                   *Time     `xmlrpc:"__last_update,omitempty"`
+	CounterpartAccountId         *Many2One `xmlrpc:"counterpart_account_id,omitempty"`
+	CounterpartAccountIdRequired *Bool     `xmlrpc:"counterpart_account_id_required,omitempty"`
+	CreateDate                   *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid                    *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName                  *String   `xmlrpc:"display_name,omitempty"`
+	Id                           *Int      `xmlrpc:"id,omitempty"`
+	NewPrice                     *Float    `xmlrpc:"new_price,omitempty"`
+	WriteDate                    *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid                     *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockChangeStandardPrices represents array of stock.change.standard.price model.
@@ -41,13 +37,13 @@ func (c *Client) CreateStockChangeStandardPrice(scsp *StockChangeStandardPrice) 
 	return ids[0], nil
 }
 
-// CreateStockChangeStandardPrice creates a new stock.change.standard.price model and returns its id.
+// CreateStockChangeStandardPrices creates a new stock.change.standard.price model and returns its id.
 func (c *Client) CreateStockChangeStandardPrices(scsps []*StockChangeStandardPrice) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range scsps {
 		vv = append(vv, v)
 	}
-	return c.Create(StockChangeStandardPriceModel, vv)
+	return c.Create(StockChangeStandardPriceModel, vv, nil)
 }
 
 // UpdateStockChangeStandardPrice updates an existing stock.change.standard.price record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateStockChangeStandardPrice(scsp *StockChangeStandardPrice) 
 // UpdateStockChangeStandardPrices updates existing stock.change.standard.price records.
 // All records (represented by ids) will be updated by scsp values.
 func (c *Client) UpdateStockChangeStandardPrices(ids []int64, scsp *StockChangeStandardPrice) error {
-	return c.Update(StockChangeStandardPriceModel, ids, scsp)
+	return c.Update(StockChangeStandardPriceModel, ids, scsp, nil)
 }
 
 // DeleteStockChangeStandardPrice deletes an existing stock.change.standard.price record.
@@ -77,10 +73,7 @@ func (c *Client) GetStockChangeStandardPrice(id int64) (*StockChangeStandardPric
 	if err != nil {
 		return nil, err
 	}
-	if scsps != nil && len(*scsps) > 0 {
-		return &((*scsps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.change.standard.price not found", id)
+	return &((*scsps)[0]), nil
 }
 
 // GetStockChangeStandardPrices gets stock.change.standard.price existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindStockChangeStandardPrice(criteria *Criteria) (*StockChangeS
 	if err := c.SearchRead(StockChangeStandardPriceModel, criteria, NewOptions().Limit(1), scsps); err != nil {
 		return nil, err
 	}
-	if scsps != nil && len(*scsps) > 0 {
-		return &((*scsps)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.change.standard.price was not found with criteria %v", criteria)
+	return &((*scsps)[0]), nil
 }
 
 // FindStockChangeStandardPrices finds stock.change.standard.price records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindStockChangeStandardPrices(criteria *Criteria, options *Opti
 // FindStockChangeStandardPriceIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockChangeStandardPriceIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockChangeStandardPriceModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockChangeStandardPriceModel, criteria, options)
 }
 
 // FindStockChangeStandardPriceId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindStockChangeStandardPriceId(criteria *Criteria, options *Opt
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.change.standard.price was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

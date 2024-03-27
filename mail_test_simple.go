@@ -1,32 +1,28 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // MailTestSimple represents mail.test.simple model.
 type MailTestSimple struct {
-	LastUpdate               *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate               *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid                *Many2One `xmlrpc:"create_uid,omptempty"`
-	Description              *String   `xmlrpc:"description,omptempty"`
-	DisplayName              *String   `xmlrpc:"display_name,omptempty"`
-	EmailFrom                *String   `xmlrpc:"email_from,omptempty"`
-	Id                       *Int      `xmlrpc:"id,omptempty"`
-	MessageChannelIds        *Relation `xmlrpc:"message_channel_ids,omptempty"`
-	MessageFollowerIds       *Relation `xmlrpc:"message_follower_ids,omptempty"`
-	MessageIds               *Relation `xmlrpc:"message_ids,omptempty"`
-	MessageIsFollower        *Bool     `xmlrpc:"message_is_follower,omptempty"`
-	MessageLastPost          *Time     `xmlrpc:"message_last_post,omptempty"`
-	MessageNeedaction        *Bool     `xmlrpc:"message_needaction,omptempty"`
-	MessageNeedactionCounter *Int      `xmlrpc:"message_needaction_counter,omptempty"`
-	MessagePartnerIds        *Relation `xmlrpc:"message_partner_ids,omptempty"`
-	MessageUnread            *Bool     `xmlrpc:"message_unread,omptempty"`
-	MessageUnreadCounter     *Int      `xmlrpc:"message_unread_counter,omptempty"`
-	Name                     *String   `xmlrpc:"name,omptempty"`
-	WebsiteMessageIds        *Relation `xmlrpc:"website_message_ids,omptempty"`
-	WriteDate                *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid                 *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate               *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate               *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid                *Many2One `xmlrpc:"create_uid,omitempty"`
+	Description              *String   `xmlrpc:"description,omitempty"`
+	DisplayName              *String   `xmlrpc:"display_name,omitempty"`
+	EmailFrom                *String   `xmlrpc:"email_from,omitempty"`
+	Id                       *Int      `xmlrpc:"id,omitempty"`
+	MessageChannelIds        *Relation `xmlrpc:"message_channel_ids,omitempty"`
+	MessageFollowerIds       *Relation `xmlrpc:"message_follower_ids,omitempty"`
+	MessageIds               *Relation `xmlrpc:"message_ids,omitempty"`
+	MessageIsFollower        *Bool     `xmlrpc:"message_is_follower,omitempty"`
+	MessageLastPost          *Time     `xmlrpc:"message_last_post,omitempty"`
+	MessageNeedaction        *Bool     `xmlrpc:"message_needaction,omitempty"`
+	MessageNeedactionCounter *Int      `xmlrpc:"message_needaction_counter,omitempty"`
+	MessagePartnerIds        *Relation `xmlrpc:"message_partner_ids,omitempty"`
+	MessageUnread            *Bool     `xmlrpc:"message_unread,omitempty"`
+	MessageUnreadCounter     *Int      `xmlrpc:"message_unread_counter,omitempty"`
+	Name                     *String   `xmlrpc:"name,omitempty"`
+	WebsiteMessageIds        *Relation `xmlrpc:"website_message_ids,omitempty"`
+	WriteDate                *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid                 *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // MailTestSimples represents array of mail.test.simple model.
@@ -52,13 +48,13 @@ func (c *Client) CreateMailTestSimple(mts *MailTestSimple) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateMailTestSimple creates a new mail.test.simple model and returns its id.
+// CreateMailTestSimples creates a new mail.test.simple model and returns its id.
 func (c *Client) CreateMailTestSimples(mtss []*MailTestSimple) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range mtss {
 		vv = append(vv, v)
 	}
-	return c.Create(MailTestSimpleModel, vv)
+	return c.Create(MailTestSimpleModel, vv, nil)
 }
 
 // UpdateMailTestSimple updates an existing mail.test.simple record.
@@ -69,7 +65,7 @@ func (c *Client) UpdateMailTestSimple(mts *MailTestSimple) error {
 // UpdateMailTestSimples updates existing mail.test.simple records.
 // All records (represented by ids) will be updated by mts values.
 func (c *Client) UpdateMailTestSimples(ids []int64, mts *MailTestSimple) error {
-	return c.Update(MailTestSimpleModel, ids, mts)
+	return c.Update(MailTestSimpleModel, ids, mts, nil)
 }
 
 // DeleteMailTestSimple deletes an existing mail.test.simple record.
@@ -88,10 +84,7 @@ func (c *Client) GetMailTestSimple(id int64) (*MailTestSimple, error) {
 	if err != nil {
 		return nil, err
 	}
-	if mtss != nil && len(*mtss) > 0 {
-		return &((*mtss)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of mail.test.simple not found", id)
+	return &((*mtss)[0]), nil
 }
 
 // GetMailTestSimples gets mail.test.simple existing records.
@@ -109,10 +102,7 @@ func (c *Client) FindMailTestSimple(criteria *Criteria) (*MailTestSimple, error)
 	if err := c.SearchRead(MailTestSimpleModel, criteria, NewOptions().Limit(1), mtss); err != nil {
 		return nil, err
 	}
-	if mtss != nil && len(*mtss) > 0 {
-		return &((*mtss)[0]), nil
-	}
-	return nil, fmt.Errorf("mail.test.simple was not found with criteria %v", criteria)
+	return &((*mtss)[0]), nil
 }
 
 // FindMailTestSimples finds mail.test.simple records by querying it
@@ -128,11 +118,7 @@ func (c *Client) FindMailTestSimples(criteria *Criteria, options *Options) (*Mai
 // FindMailTestSimpleIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindMailTestSimpleIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(MailTestSimpleModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(MailTestSimpleModel, criteria, options)
 }
 
 // FindMailTestSimpleId finds record id by querying it with criteria.
@@ -141,8 +127,5 @@ func (c *Client) FindMailTestSimpleId(criteria *Criteria, options *Options) (int
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("mail.test.simple was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

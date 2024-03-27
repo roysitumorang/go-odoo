@@ -1,26 +1,22 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ResourceCalendarLeaves represents resource.calendar.leaves model.
 type ResourceCalendarLeaves struct {
-	LastUpdate  *Time      `xmlrpc:"__last_update,omptempty"`
-	CalendarId  *Many2One  `xmlrpc:"calendar_id,omptempty"`
-	CompanyId   *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate  *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DateFrom    *Time      `xmlrpc:"date_from,omptempty"`
-	DateTo      *Time      `xmlrpc:"date_to,omptempty"`
-	DisplayName *String    `xmlrpc:"display_name,omptempty"`
-	HolidayId   *Many2One  `xmlrpc:"holiday_id,omptempty"`
-	Id          *Int       `xmlrpc:"id,omptempty"`
-	Name        *String    `xmlrpc:"name,omptempty"`
-	ResourceId  *Many2One  `xmlrpc:"resource_id,omptempty"`
-	Tz          *Selection `xmlrpc:"tz,omptempty"`
-	WriteDate   *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time      `xmlrpc:"__last_update,omitempty"`
+	CalendarId  *Many2One  `xmlrpc:"calendar_id,omitempty"`
+	CompanyId   *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate  *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DateFrom    *Time      `xmlrpc:"date_from,omitempty"`
+	DateTo      *Time      `xmlrpc:"date_to,omitempty"`
+	DisplayName *String    `xmlrpc:"display_name,omitempty"`
+	HolidayId   *Many2One  `xmlrpc:"holiday_id,omitempty"`
+	Id          *Int       `xmlrpc:"id,omitempty"`
+	Name        *String    `xmlrpc:"name,omitempty"`
+	ResourceId  *Many2One  `xmlrpc:"resource_id,omitempty"`
+	Tz          *Selection `xmlrpc:"tz,omitempty"`
+	WriteDate   *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // ResourceCalendarLeavess represents array of resource.calendar.leaves model.
@@ -46,13 +42,13 @@ func (c *Client) CreateResourceCalendarLeaves(rcl *ResourceCalendarLeaves) (int6
 	return ids[0], nil
 }
 
-// CreateResourceCalendarLeaves creates a new resource.calendar.leaves model and returns its id.
+// CreateResourceCalendarLeavess creates a new resource.calendar.leaves model and returns its id.
 func (c *Client) CreateResourceCalendarLeavess(rcls []*ResourceCalendarLeaves) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rcls {
 		vv = append(vv, v)
 	}
-	return c.Create(ResourceCalendarLeavesModel, vv)
+	return c.Create(ResourceCalendarLeavesModel, vv, nil)
 }
 
 // UpdateResourceCalendarLeaves updates an existing resource.calendar.leaves record.
@@ -63,7 +59,7 @@ func (c *Client) UpdateResourceCalendarLeaves(rcl *ResourceCalendarLeaves) error
 // UpdateResourceCalendarLeavess updates existing resource.calendar.leaves records.
 // All records (represented by ids) will be updated by rcl values.
 func (c *Client) UpdateResourceCalendarLeavess(ids []int64, rcl *ResourceCalendarLeaves) error {
-	return c.Update(ResourceCalendarLeavesModel, ids, rcl)
+	return c.Update(ResourceCalendarLeavesModel, ids, rcl, nil)
 }
 
 // DeleteResourceCalendarLeaves deletes an existing resource.calendar.leaves record.
@@ -82,10 +78,7 @@ func (c *Client) GetResourceCalendarLeaves(id int64) (*ResourceCalendarLeaves, e
 	if err != nil {
 		return nil, err
 	}
-	if rcls != nil && len(*rcls) > 0 {
-		return &((*rcls)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of resource.calendar.leaves not found", id)
+	return &((*rcls)[0]), nil
 }
 
 // GetResourceCalendarLeavess gets resource.calendar.leaves existing records.
@@ -103,10 +96,7 @@ func (c *Client) FindResourceCalendarLeaves(criteria *Criteria) (*ResourceCalend
 	if err := c.SearchRead(ResourceCalendarLeavesModel, criteria, NewOptions().Limit(1), rcls); err != nil {
 		return nil, err
 	}
-	if rcls != nil && len(*rcls) > 0 {
-		return &((*rcls)[0]), nil
-	}
-	return nil, fmt.Errorf("resource.calendar.leaves was not found with criteria %v", criteria)
+	return &((*rcls)[0]), nil
 }
 
 // FindResourceCalendarLeavess finds resource.calendar.leaves records by querying it
@@ -122,11 +112,7 @@ func (c *Client) FindResourceCalendarLeavess(criteria *Criteria, options *Option
 // FindResourceCalendarLeavesIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindResourceCalendarLeavesIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ResourceCalendarLeavesModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ResourceCalendarLeavesModel, criteria, options)
 }
 
 // FindResourceCalendarLeavesId finds record id by querying it with criteria.
@@ -135,8 +121,5 @@ func (c *Client) FindResourceCalendarLeavesId(criteria *Criteria, options *Optio
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("resource.calendar.leaves was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

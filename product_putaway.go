@@ -1,20 +1,16 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ProductPutaway represents product.putaway model.
 type ProductPutaway struct {
-	LastUpdate       *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate       *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid        *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName      *String   `xmlrpc:"display_name,omptempty"`
-	FixedLocationIds *Relation `xmlrpc:"fixed_location_ids,omptempty"`
-	Id               *Int      `xmlrpc:"id,omptempty"`
-	Name             *String   `xmlrpc:"name,omptempty"`
-	WriteDate        *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid         *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate       *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate       *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid        *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName      *String   `xmlrpc:"display_name,omitempty"`
+	FixedLocationIds *Relation `xmlrpc:"fixed_location_ids,omitempty"`
+	Id               *Int      `xmlrpc:"id,omitempty"`
+	Name             *String   `xmlrpc:"name,omitempty"`
+	WriteDate        *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid         *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // ProductPutaways represents array of product.putaway model.
@@ -40,13 +36,13 @@ func (c *Client) CreateProductPutaway(pp *ProductPutaway) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateProductPutaway creates a new product.putaway model and returns its id.
+// CreateProductPutaways creates a new product.putaway model and returns its id.
 func (c *Client) CreateProductPutaways(pps []*ProductPutaway) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range pps {
 		vv = append(vv, v)
 	}
-	return c.Create(ProductPutawayModel, vv)
+	return c.Create(ProductPutawayModel, vv, nil)
 }
 
 // UpdateProductPutaway updates an existing product.putaway record.
@@ -57,7 +53,7 @@ func (c *Client) UpdateProductPutaway(pp *ProductPutaway) error {
 // UpdateProductPutaways updates existing product.putaway records.
 // All records (represented by ids) will be updated by pp values.
 func (c *Client) UpdateProductPutaways(ids []int64, pp *ProductPutaway) error {
-	return c.Update(ProductPutawayModel, ids, pp)
+	return c.Update(ProductPutawayModel, ids, pp, nil)
 }
 
 // DeleteProductPutaway deletes an existing product.putaway record.
@@ -76,10 +72,7 @@ func (c *Client) GetProductPutaway(id int64) (*ProductPutaway, error) {
 	if err != nil {
 		return nil, err
 	}
-	if pps != nil && len(*pps) > 0 {
-		return &((*pps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of product.putaway not found", id)
+	return &((*pps)[0]), nil
 }
 
 // GetProductPutaways gets product.putaway existing records.
@@ -97,10 +90,7 @@ func (c *Client) FindProductPutaway(criteria *Criteria) (*ProductPutaway, error)
 	if err := c.SearchRead(ProductPutawayModel, criteria, NewOptions().Limit(1), pps); err != nil {
 		return nil, err
 	}
-	if pps != nil && len(*pps) > 0 {
-		return &((*pps)[0]), nil
-	}
-	return nil, fmt.Errorf("product.putaway was not found with criteria %v", criteria)
+	return &((*pps)[0]), nil
 }
 
 // FindProductPutaways finds product.putaway records by querying it
@@ -116,11 +106,7 @@ func (c *Client) FindProductPutaways(criteria *Criteria, options *Options) (*Pro
 // FindProductPutawayIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindProductPutawayIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ProductPutawayModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ProductPutawayModel, criteria, options)
 }
 
 // FindProductPutawayId finds record id by querying it with criteria.
@@ -129,8 +115,5 @@ func (c *Client) FindProductPutawayId(criteria *Criteria, options *Options) (int
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("product.putaway was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

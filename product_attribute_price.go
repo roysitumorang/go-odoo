@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ProductAttributePrice represents product.attribute.price model.
 type ProductAttributePrice struct {
-	LastUpdate    *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate    *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid     *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName   *String   `xmlrpc:"display_name,omptempty"`
-	Id            *Int      `xmlrpc:"id,omptempty"`
-	PriceExtra    *Float    `xmlrpc:"price_extra,omptempty"`
-	ProductTmplId *Many2One `xmlrpc:"product_tmpl_id,omptempty"`
-	ValueId       *Many2One `xmlrpc:"value_id,omptempty"`
-	WriteDate     *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid      *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate    *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate    *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid     *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName   *String   `xmlrpc:"display_name,omitempty"`
+	Id            *Int      `xmlrpc:"id,omitempty"`
+	PriceExtra    *Float    `xmlrpc:"price_extra,omitempty"`
+	ProductTmplId *Many2One `xmlrpc:"product_tmpl_id,omitempty"`
+	ValueId       *Many2One `xmlrpc:"value_id,omitempty"`
+	WriteDate     *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid      *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // ProductAttributePrices represents array of product.attribute.price model.
@@ -41,13 +37,13 @@ func (c *Client) CreateProductAttributePrice(pap *ProductAttributePrice) (int64,
 	return ids[0], nil
 }
 
-// CreateProductAttributePrice creates a new product.attribute.price model and returns its id.
+// CreateProductAttributePrices creates a new product.attribute.price model and returns its id.
 func (c *Client) CreateProductAttributePrices(paps []*ProductAttributePrice) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range paps {
 		vv = append(vv, v)
 	}
-	return c.Create(ProductAttributePriceModel, vv)
+	return c.Create(ProductAttributePriceModel, vv, nil)
 }
 
 // UpdateProductAttributePrice updates an existing product.attribute.price record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateProductAttributePrice(pap *ProductAttributePrice) error {
 // UpdateProductAttributePrices updates existing product.attribute.price records.
 // All records (represented by ids) will be updated by pap values.
 func (c *Client) UpdateProductAttributePrices(ids []int64, pap *ProductAttributePrice) error {
-	return c.Update(ProductAttributePriceModel, ids, pap)
+	return c.Update(ProductAttributePriceModel, ids, pap, nil)
 }
 
 // DeleteProductAttributePrice deletes an existing product.attribute.price record.
@@ -77,10 +73,7 @@ func (c *Client) GetProductAttributePrice(id int64) (*ProductAttributePrice, err
 	if err != nil {
 		return nil, err
 	}
-	if paps != nil && len(*paps) > 0 {
-		return &((*paps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of product.attribute.price not found", id)
+	return &((*paps)[0]), nil
 }
 
 // GetProductAttributePrices gets product.attribute.price existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindProductAttributePrice(criteria *Criteria) (*ProductAttribut
 	if err := c.SearchRead(ProductAttributePriceModel, criteria, NewOptions().Limit(1), paps); err != nil {
 		return nil, err
 	}
-	if paps != nil && len(*paps) > 0 {
-		return &((*paps)[0]), nil
-	}
-	return nil, fmt.Errorf("product.attribute.price was not found with criteria %v", criteria)
+	return &((*paps)[0]), nil
 }
 
 // FindProductAttributePrices finds product.attribute.price records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindProductAttributePrices(criteria *Criteria, options *Options
 // FindProductAttributePriceIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindProductAttributePriceIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ProductAttributePriceModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ProductAttributePriceModel, criteria, options)
 }
 
 // FindProductAttributePriceId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindProductAttributePriceId(criteria *Criteria, options *Option
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("product.attribute.price was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

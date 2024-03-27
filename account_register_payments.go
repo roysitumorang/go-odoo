@@ -1,32 +1,28 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountRegisterPayments represents account.register.payments model.
 type AccountRegisterPayments struct {
-	LastUpdate        *Time      `xmlrpc:"__last_update,omptempty"`
-	Amount            *Float     `xmlrpc:"amount,omptempty"`
-	Communication     *String    `xmlrpc:"communication,omptempty"`
-	CompanyId         *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate        *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid         *Many2One  `xmlrpc:"create_uid,omptempty"`
-	CurrencyId        *Many2One  `xmlrpc:"currency_id,omptempty"`
-	DisplayName       *String    `xmlrpc:"display_name,omptempty"`
-	HidePaymentMethod *Bool      `xmlrpc:"hide_payment_method,omptempty"`
-	Id                *Int       `xmlrpc:"id,omptempty"`
-	InvoiceIds        *Relation  `xmlrpc:"invoice_ids,omptempty"`
-	JournalId         *Many2One  `xmlrpc:"journal_id,omptempty"`
-	Multi             *Bool      `xmlrpc:"multi,omptempty"`
-	PartnerId         *Many2One  `xmlrpc:"partner_id,omptempty"`
-	PartnerType       *Selection `xmlrpc:"partner_type,omptempty"`
-	PaymentDate       *Time      `xmlrpc:"payment_date,omptempty"`
-	PaymentMethodCode *String    `xmlrpc:"payment_method_code,omptempty"`
-	PaymentMethodId   *Many2One  `xmlrpc:"payment_method_id,omptempty"`
-	PaymentType       *Selection `xmlrpc:"payment_type,omptempty"`
-	WriteDate         *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid          *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate        *Time      `xmlrpc:"__last_update,omitempty"`
+	Amount            *Float     `xmlrpc:"amount,omitempty"`
+	Communication     *String    `xmlrpc:"communication,omitempty"`
+	CompanyId         *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate        *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid         *Many2One  `xmlrpc:"create_uid,omitempty"`
+	CurrencyId        *Many2One  `xmlrpc:"currency_id,omitempty"`
+	DisplayName       *String    `xmlrpc:"display_name,omitempty"`
+	HidePaymentMethod *Bool      `xmlrpc:"hide_payment_method,omitempty"`
+	Id                *Int       `xmlrpc:"id,omitempty"`
+	InvoiceIds        *Relation  `xmlrpc:"invoice_ids,omitempty"`
+	JournalId         *Many2One  `xmlrpc:"journal_id,omitempty"`
+	Multi             *Bool      `xmlrpc:"multi,omitempty"`
+	PartnerId         *Many2One  `xmlrpc:"partner_id,omitempty"`
+	PartnerType       *Selection `xmlrpc:"partner_type,omitempty"`
+	PaymentDate       *Time      `xmlrpc:"payment_date,omitempty"`
+	PaymentMethodCode *String    `xmlrpc:"payment_method_code,omitempty"`
+	PaymentMethodId   *Many2One  `xmlrpc:"payment_method_id,omitempty"`
+	PaymentType       *Selection `xmlrpc:"payment_type,omitempty"`
+	WriteDate         *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid          *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountRegisterPaymentss represents array of account.register.payments model.
@@ -52,13 +48,13 @@ func (c *Client) CreateAccountRegisterPayments(arp *AccountRegisterPayments) (in
 	return ids[0], nil
 }
 
-// CreateAccountRegisterPayments creates a new account.register.payments model and returns its id.
+// CreateAccountRegisterPaymentss creates a new account.register.payments model and returns its id.
 func (c *Client) CreateAccountRegisterPaymentss(arps []*AccountRegisterPayments) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range arps {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountRegisterPaymentsModel, vv)
+	return c.Create(AccountRegisterPaymentsModel, vv, nil)
 }
 
 // UpdateAccountRegisterPayments updates an existing account.register.payments record.
@@ -69,7 +65,7 @@ func (c *Client) UpdateAccountRegisterPayments(arp *AccountRegisterPayments) err
 // UpdateAccountRegisterPaymentss updates existing account.register.payments records.
 // All records (represented by ids) will be updated by arp values.
 func (c *Client) UpdateAccountRegisterPaymentss(ids []int64, arp *AccountRegisterPayments) error {
-	return c.Update(AccountRegisterPaymentsModel, ids, arp)
+	return c.Update(AccountRegisterPaymentsModel, ids, arp, nil)
 }
 
 // DeleteAccountRegisterPayments deletes an existing account.register.payments record.
@@ -88,10 +84,7 @@ func (c *Client) GetAccountRegisterPayments(id int64) (*AccountRegisterPayments,
 	if err != nil {
 		return nil, err
 	}
-	if arps != nil && len(*arps) > 0 {
-		return &((*arps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.register.payments not found", id)
+	return &((*arps)[0]), nil
 }
 
 // GetAccountRegisterPaymentss gets account.register.payments existing records.
@@ -109,10 +102,7 @@ func (c *Client) FindAccountRegisterPayments(criteria *Criteria) (*AccountRegist
 	if err := c.SearchRead(AccountRegisterPaymentsModel, criteria, NewOptions().Limit(1), arps); err != nil {
 		return nil, err
 	}
-	if arps != nil && len(*arps) > 0 {
-		return &((*arps)[0]), nil
-	}
-	return nil, fmt.Errorf("account.register.payments was not found with criteria %v", criteria)
+	return &((*arps)[0]), nil
 }
 
 // FindAccountRegisterPaymentss finds account.register.payments records by querying it
@@ -128,11 +118,7 @@ func (c *Client) FindAccountRegisterPaymentss(criteria *Criteria, options *Optio
 // FindAccountRegisterPaymentsIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountRegisterPaymentsIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountRegisterPaymentsModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountRegisterPaymentsModel, criteria, options)
 }
 
 // FindAccountRegisterPaymentsId finds record id by querying it with criteria.
@@ -141,8 +127,5 @@ func (c *Client) FindAccountRegisterPaymentsId(criteria *Criteria, options *Opti
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.register.payments was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

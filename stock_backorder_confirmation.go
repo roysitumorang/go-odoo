@@ -1,19 +1,15 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockBackorderConfirmation represents stock.backorder.confirmation model.
 type StockBackorderConfirmation struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	PickIds     *Relation `xmlrpc:"pick_ids,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	PickIds     *Relation `xmlrpc:"pick_ids,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockBackorderConfirmations represents array of stock.backorder.confirmation model.
@@ -39,13 +35,13 @@ func (c *Client) CreateStockBackorderConfirmation(sbc *StockBackorderConfirmatio
 	return ids[0], nil
 }
 
-// CreateStockBackorderConfirmation creates a new stock.backorder.confirmation model and returns its id.
+// CreateStockBackorderConfirmations creates a new stock.backorder.confirmation model and returns its id.
 func (c *Client) CreateStockBackorderConfirmations(sbcs []*StockBackorderConfirmation) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range sbcs {
 		vv = append(vv, v)
 	}
-	return c.Create(StockBackorderConfirmationModel, vv)
+	return c.Create(StockBackorderConfirmationModel, vv, nil)
 }
 
 // UpdateStockBackorderConfirmation updates an existing stock.backorder.confirmation record.
@@ -56,7 +52,7 @@ func (c *Client) UpdateStockBackorderConfirmation(sbc *StockBackorderConfirmatio
 // UpdateStockBackorderConfirmations updates existing stock.backorder.confirmation records.
 // All records (represented by ids) will be updated by sbc values.
 func (c *Client) UpdateStockBackorderConfirmations(ids []int64, sbc *StockBackorderConfirmation) error {
-	return c.Update(StockBackorderConfirmationModel, ids, sbc)
+	return c.Update(StockBackorderConfirmationModel, ids, sbc, nil)
 }
 
 // DeleteStockBackorderConfirmation deletes an existing stock.backorder.confirmation record.
@@ -75,10 +71,7 @@ func (c *Client) GetStockBackorderConfirmation(id int64) (*StockBackorderConfirm
 	if err != nil {
 		return nil, err
 	}
-	if sbcs != nil && len(*sbcs) > 0 {
-		return &((*sbcs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.backorder.confirmation not found", id)
+	return &((*sbcs)[0]), nil
 }
 
 // GetStockBackorderConfirmations gets stock.backorder.confirmation existing records.
@@ -96,10 +89,7 @@ func (c *Client) FindStockBackorderConfirmation(criteria *Criteria) (*StockBacko
 	if err := c.SearchRead(StockBackorderConfirmationModel, criteria, NewOptions().Limit(1), sbcs); err != nil {
 		return nil, err
 	}
-	if sbcs != nil && len(*sbcs) > 0 {
-		return &((*sbcs)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.backorder.confirmation was not found with criteria %v", criteria)
+	return &((*sbcs)[0]), nil
 }
 
 // FindStockBackorderConfirmations finds stock.backorder.confirmation records by querying it
@@ -115,11 +105,7 @@ func (c *Client) FindStockBackorderConfirmations(criteria *Criteria, options *Op
 // FindStockBackorderConfirmationIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockBackorderConfirmationIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockBackorderConfirmationModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockBackorderConfirmationModel, criteria, options)
 }
 
 // FindStockBackorderConfirmationId finds record id by querying it with criteria.
@@ -128,8 +114,5 @@ func (c *Client) FindStockBackorderConfirmationId(criteria *Criteria, options *O
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.backorder.confirmation was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

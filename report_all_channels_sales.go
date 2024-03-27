@@ -1,29 +1,25 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ReportAllChannelsSales represents report.all.channels.sales model.
 type ReportAllChannelsSales struct {
-	LastUpdate        *Time     `xmlrpc:"__last_update,omptempty"`
-	AnalyticAccountId *Many2One `xmlrpc:"analytic_account_id,omptempty"`
-	CategId           *Many2One `xmlrpc:"categ_id,omptempty"`
-	CompanyId         *Many2One `xmlrpc:"company_id,omptempty"`
-	CountryId         *Many2One `xmlrpc:"country_id,omptempty"`
-	DateOrder         *Time     `xmlrpc:"date_order,omptempty"`
-	DisplayName       *String   `xmlrpc:"display_name,omptempty"`
-	Id                *Int      `xmlrpc:"id,omptempty"`
-	Name              *String   `xmlrpc:"name,omptempty"`
-	PartnerId         *Many2One `xmlrpc:"partner_id,omptempty"`
-	PriceSubtotal     *Float    `xmlrpc:"price_subtotal,omptempty"`
-	PriceTotal        *Float    `xmlrpc:"price_total,omptempty"`
-	PricelistId       *Many2One `xmlrpc:"pricelist_id,omptempty"`
-	ProductId         *Many2One `xmlrpc:"product_id,omptempty"`
-	ProductQty        *Float    `xmlrpc:"product_qty,omptempty"`
-	ProductTmplId     *Many2One `xmlrpc:"product_tmpl_id,omptempty"`
-	TeamId            *Many2One `xmlrpc:"team_id,omptempty"`
-	UserId            *Many2One `xmlrpc:"user_id,omptempty"`
+	LastUpdate        *Time     `xmlrpc:"__last_update,omitempty"`
+	AnalyticAccountId *Many2One `xmlrpc:"analytic_account_id,omitempty"`
+	CategId           *Many2One `xmlrpc:"categ_id,omitempty"`
+	CompanyId         *Many2One `xmlrpc:"company_id,omitempty"`
+	CountryId         *Many2One `xmlrpc:"country_id,omitempty"`
+	DateOrder         *Time     `xmlrpc:"date_order,omitempty"`
+	DisplayName       *String   `xmlrpc:"display_name,omitempty"`
+	Id                *Int      `xmlrpc:"id,omitempty"`
+	Name              *String   `xmlrpc:"name,omitempty"`
+	PartnerId         *Many2One `xmlrpc:"partner_id,omitempty"`
+	PriceSubtotal     *Float    `xmlrpc:"price_subtotal,omitempty"`
+	PriceTotal        *Float    `xmlrpc:"price_total,omitempty"`
+	PricelistId       *Many2One `xmlrpc:"pricelist_id,omitempty"`
+	ProductId         *Many2One `xmlrpc:"product_id,omitempty"`
+	ProductQty        *Float    `xmlrpc:"product_qty,omitempty"`
+	ProductTmplId     *Many2One `xmlrpc:"product_tmpl_id,omitempty"`
+	TeamId            *Many2One `xmlrpc:"team_id,omitempty"`
+	UserId            *Many2One `xmlrpc:"user_id,omitempty"`
 }
 
 // ReportAllChannelsSaless represents array of report.all.channels.sales model.
@@ -49,13 +45,13 @@ func (c *Client) CreateReportAllChannelsSales(racs *ReportAllChannelsSales) (int
 	return ids[0], nil
 }
 
-// CreateReportAllChannelsSales creates a new report.all.channels.sales model and returns its id.
+// CreateReportAllChannelsSaless creates a new report.all.channels.sales model and returns its id.
 func (c *Client) CreateReportAllChannelsSaless(racss []*ReportAllChannelsSales) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range racss {
 		vv = append(vv, v)
 	}
-	return c.Create(ReportAllChannelsSalesModel, vv)
+	return c.Create(ReportAllChannelsSalesModel, vv, nil)
 }
 
 // UpdateReportAllChannelsSales updates an existing report.all.channels.sales record.
@@ -66,7 +62,7 @@ func (c *Client) UpdateReportAllChannelsSales(racs *ReportAllChannelsSales) erro
 // UpdateReportAllChannelsSaless updates existing report.all.channels.sales records.
 // All records (represented by ids) will be updated by racs values.
 func (c *Client) UpdateReportAllChannelsSaless(ids []int64, racs *ReportAllChannelsSales) error {
-	return c.Update(ReportAllChannelsSalesModel, ids, racs)
+	return c.Update(ReportAllChannelsSalesModel, ids, racs, nil)
 }
 
 // DeleteReportAllChannelsSales deletes an existing report.all.channels.sales record.
@@ -85,10 +81,7 @@ func (c *Client) GetReportAllChannelsSales(id int64) (*ReportAllChannelsSales, e
 	if err != nil {
 		return nil, err
 	}
-	if racss != nil && len(*racss) > 0 {
-		return &((*racss)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of report.all.channels.sales not found", id)
+	return &((*racss)[0]), nil
 }
 
 // GetReportAllChannelsSaless gets report.all.channels.sales existing records.
@@ -106,10 +99,7 @@ func (c *Client) FindReportAllChannelsSales(criteria *Criteria) (*ReportAllChann
 	if err := c.SearchRead(ReportAllChannelsSalesModel, criteria, NewOptions().Limit(1), racss); err != nil {
 		return nil, err
 	}
-	if racss != nil && len(*racss) > 0 {
-		return &((*racss)[0]), nil
-	}
-	return nil, fmt.Errorf("report.all.channels.sales was not found with criteria %v", criteria)
+	return &((*racss)[0]), nil
 }
 
 // FindReportAllChannelsSaless finds report.all.channels.sales records by querying it
@@ -125,11 +115,7 @@ func (c *Client) FindReportAllChannelsSaless(criteria *Criteria, options *Option
 // FindReportAllChannelsSalesIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindReportAllChannelsSalesIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ReportAllChannelsSalesModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ReportAllChannelsSalesModel, criteria, options)
 }
 
 // FindReportAllChannelsSalesId finds record id by querying it with criteria.
@@ -138,8 +124,5 @@ func (c *Client) FindReportAllChannelsSalesId(criteria *Criteria, options *Optio
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("report.all.channels.sales was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

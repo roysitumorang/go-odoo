@@ -1,27 +1,23 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // MailActivityType represents mail.activity.type model.
 type MailActivityType struct {
-	LastUpdate      *Time      `xmlrpc:"__last_update,omptempty"`
-	Category        *Selection `xmlrpc:"category,omptempty"`
-	CreateDate      *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid       *Many2One  `xmlrpc:"create_uid,omptempty"`
-	Days            *Int       `xmlrpc:"days,omptempty"`
-	DisplayName     *String    `xmlrpc:"display_name,omptempty"`
-	Icon            *String    `xmlrpc:"icon,omptempty"`
-	Id              *Int       `xmlrpc:"id,omptempty"`
-	Name            *String    `xmlrpc:"name,omptempty"`
-	NextTypeIds     *Relation  `xmlrpc:"next_type_ids,omptempty"`
-	PreviousTypeIds *Relation  `xmlrpc:"previous_type_ids,omptempty"`
-	ResModelId      *Many2One  `xmlrpc:"res_model_id,omptempty"`
-	Sequence        *Int       `xmlrpc:"sequence,omptempty"`
-	Summary         *String    `xmlrpc:"summary,omptempty"`
-	WriteDate       *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid        *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate      *Time      `xmlrpc:"__last_update,omitempty"`
+	Category        *Selection `xmlrpc:"category,omitempty"`
+	CreateDate      *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid       *Many2One  `xmlrpc:"create_uid,omitempty"`
+	Days            *Int       `xmlrpc:"days,omitempty"`
+	DisplayName     *String    `xmlrpc:"display_name,omitempty"`
+	Icon            *String    `xmlrpc:"icon,omitempty"`
+	Id              *Int       `xmlrpc:"id,omitempty"`
+	Name            *String    `xmlrpc:"name,omitempty"`
+	NextTypeIds     *Relation  `xmlrpc:"next_type_ids,omitempty"`
+	PreviousTypeIds *Relation  `xmlrpc:"previous_type_ids,omitempty"`
+	ResModelId      *Many2One  `xmlrpc:"res_model_id,omitempty"`
+	Sequence        *Int       `xmlrpc:"sequence,omitempty"`
+	Summary         *String    `xmlrpc:"summary,omitempty"`
+	WriteDate       *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid        *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // MailActivityTypes represents array of mail.activity.type model.
@@ -47,13 +43,13 @@ func (c *Client) CreateMailActivityType(mat *MailActivityType) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateMailActivityType creates a new mail.activity.type model and returns its id.
+// CreateMailActivityTypes creates a new mail.activity.type model and returns its id.
 func (c *Client) CreateMailActivityTypes(mats []*MailActivityType) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range mats {
 		vv = append(vv, v)
 	}
-	return c.Create(MailActivityTypeModel, vv)
+	return c.Create(MailActivityTypeModel, vv, nil)
 }
 
 // UpdateMailActivityType updates an existing mail.activity.type record.
@@ -64,7 +60,7 @@ func (c *Client) UpdateMailActivityType(mat *MailActivityType) error {
 // UpdateMailActivityTypes updates existing mail.activity.type records.
 // All records (represented by ids) will be updated by mat values.
 func (c *Client) UpdateMailActivityTypes(ids []int64, mat *MailActivityType) error {
-	return c.Update(MailActivityTypeModel, ids, mat)
+	return c.Update(MailActivityTypeModel, ids, mat, nil)
 }
 
 // DeleteMailActivityType deletes an existing mail.activity.type record.
@@ -83,10 +79,7 @@ func (c *Client) GetMailActivityType(id int64) (*MailActivityType, error) {
 	if err != nil {
 		return nil, err
 	}
-	if mats != nil && len(*mats) > 0 {
-		return &((*mats)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of mail.activity.type not found", id)
+	return &((*mats)[0]), nil
 }
 
 // GetMailActivityTypes gets mail.activity.type existing records.
@@ -104,10 +97,7 @@ func (c *Client) FindMailActivityType(criteria *Criteria) (*MailActivityType, er
 	if err := c.SearchRead(MailActivityTypeModel, criteria, NewOptions().Limit(1), mats); err != nil {
 		return nil, err
 	}
-	if mats != nil && len(*mats) > 0 {
-		return &((*mats)[0]), nil
-	}
-	return nil, fmt.Errorf("mail.activity.type was not found with criteria %v", criteria)
+	return &((*mats)[0]), nil
 }
 
 // FindMailActivityTypes finds mail.activity.type records by querying it
@@ -123,11 +113,7 @@ func (c *Client) FindMailActivityTypes(criteria *Criteria, options *Options) (*M
 // FindMailActivityTypeIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindMailActivityTypeIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(MailActivityTypeModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(MailActivityTypeModel, criteria, options)
 }
 
 // FindMailActivityTypeId finds record id by querying it with criteria.
@@ -136,8 +122,5 @@ func (c *Client) FindMailActivityTypeId(criteria *Criteria, options *Options) (i
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("mail.activity.type was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

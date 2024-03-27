@@ -1,41 +1,37 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // MailTest represents mail.test model.
 type MailTest struct {
-	LastUpdate               *Time      `xmlrpc:"__last_update,omptempty"`
-	AliasContact             *Selection `xmlrpc:"alias_contact,omptempty"`
-	AliasDefaults            *String    `xmlrpc:"alias_defaults,omptempty"`
-	AliasDomain              *String    `xmlrpc:"alias_domain,omptempty"`
-	AliasForceThreadId       *Int       `xmlrpc:"alias_force_thread_id,omptempty"`
-	AliasId                  *Many2One  `xmlrpc:"alias_id,omptempty"`
-	AliasModelId             *Many2One  `xmlrpc:"alias_model_id,omptempty"`
-	AliasName                *String    `xmlrpc:"alias_name,omptempty"`
-	AliasParentModelId       *Many2One  `xmlrpc:"alias_parent_model_id,omptempty"`
-	AliasParentThreadId      *Int       `xmlrpc:"alias_parent_thread_id,omptempty"`
-	AliasUserId              *Many2One  `xmlrpc:"alias_user_id,omptempty"`
-	CreateDate               *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid                *Many2One  `xmlrpc:"create_uid,omptempty"`
-	Description              *String    `xmlrpc:"description,omptempty"`
-	DisplayName              *String    `xmlrpc:"display_name,omptempty"`
-	Id                       *Int       `xmlrpc:"id,omptempty"`
-	MessageChannelIds        *Relation  `xmlrpc:"message_channel_ids,omptempty"`
-	MessageFollowerIds       *Relation  `xmlrpc:"message_follower_ids,omptempty"`
-	MessageIds               *Relation  `xmlrpc:"message_ids,omptempty"`
-	MessageIsFollower        *Bool      `xmlrpc:"message_is_follower,omptempty"`
-	MessageLastPost          *Time      `xmlrpc:"message_last_post,omptempty"`
-	MessageNeedaction        *Bool      `xmlrpc:"message_needaction,omptempty"`
-	MessageNeedactionCounter *Int       `xmlrpc:"message_needaction_counter,omptempty"`
-	MessagePartnerIds        *Relation  `xmlrpc:"message_partner_ids,omptempty"`
-	MessageUnread            *Bool      `xmlrpc:"message_unread,omptempty"`
-	MessageUnreadCounter     *Int       `xmlrpc:"message_unread_counter,omptempty"`
-	Name                     *String    `xmlrpc:"name,omptempty"`
-	WebsiteMessageIds        *Relation  `xmlrpc:"website_message_ids,omptempty"`
-	WriteDate                *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid                 *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate               *Time      `xmlrpc:"__last_update,omitempty"`
+	AliasContact             *Selection `xmlrpc:"alias_contact,omitempty"`
+	AliasDefaults            *String    `xmlrpc:"alias_defaults,omitempty"`
+	AliasDomain              *String    `xmlrpc:"alias_domain,omitempty"`
+	AliasForceThreadId       *Int       `xmlrpc:"alias_force_thread_id,omitempty"`
+	AliasId                  *Many2One  `xmlrpc:"alias_id,omitempty"`
+	AliasModelId             *Many2One  `xmlrpc:"alias_model_id,omitempty"`
+	AliasName                *String    `xmlrpc:"alias_name,omitempty"`
+	AliasParentModelId       *Many2One  `xmlrpc:"alias_parent_model_id,omitempty"`
+	AliasParentThreadId      *Int       `xmlrpc:"alias_parent_thread_id,omitempty"`
+	AliasUserId              *Many2One  `xmlrpc:"alias_user_id,omitempty"`
+	CreateDate               *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid                *Many2One  `xmlrpc:"create_uid,omitempty"`
+	Description              *String    `xmlrpc:"description,omitempty"`
+	DisplayName              *String    `xmlrpc:"display_name,omitempty"`
+	Id                       *Int       `xmlrpc:"id,omitempty"`
+	MessageChannelIds        *Relation  `xmlrpc:"message_channel_ids,omitempty"`
+	MessageFollowerIds       *Relation  `xmlrpc:"message_follower_ids,omitempty"`
+	MessageIds               *Relation  `xmlrpc:"message_ids,omitempty"`
+	MessageIsFollower        *Bool      `xmlrpc:"message_is_follower,omitempty"`
+	MessageLastPost          *Time      `xmlrpc:"message_last_post,omitempty"`
+	MessageNeedaction        *Bool      `xmlrpc:"message_needaction,omitempty"`
+	MessageNeedactionCounter *Int       `xmlrpc:"message_needaction_counter,omitempty"`
+	MessagePartnerIds        *Relation  `xmlrpc:"message_partner_ids,omitempty"`
+	MessageUnread            *Bool      `xmlrpc:"message_unread,omitempty"`
+	MessageUnreadCounter     *Int       `xmlrpc:"message_unread_counter,omitempty"`
+	Name                     *String    `xmlrpc:"name,omitempty"`
+	WebsiteMessageIds        *Relation  `xmlrpc:"website_message_ids,omitempty"`
+	WriteDate                *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid                 *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // MailTests represents array of mail.test model.
@@ -61,13 +57,13 @@ func (c *Client) CreateMailTest(mt *MailTest) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateMailTest creates a new mail.test model and returns its id.
+// CreateMailTests creates a new mail.test model and returns its id.
 func (c *Client) CreateMailTests(mts []*MailTest) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range mts {
 		vv = append(vv, v)
 	}
-	return c.Create(MailTestModel, vv)
+	return c.Create(MailTestModel, vv, nil)
 }
 
 // UpdateMailTest updates an existing mail.test record.
@@ -78,7 +74,7 @@ func (c *Client) UpdateMailTest(mt *MailTest) error {
 // UpdateMailTests updates existing mail.test records.
 // All records (represented by ids) will be updated by mt values.
 func (c *Client) UpdateMailTests(ids []int64, mt *MailTest) error {
-	return c.Update(MailTestModel, ids, mt)
+	return c.Update(MailTestModel, ids, mt, nil)
 }
 
 // DeleteMailTest deletes an existing mail.test record.
@@ -97,10 +93,7 @@ func (c *Client) GetMailTest(id int64) (*MailTest, error) {
 	if err != nil {
 		return nil, err
 	}
-	if mts != nil && len(*mts) > 0 {
-		return &((*mts)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of mail.test not found", id)
+	return &((*mts)[0]), nil
 }
 
 // GetMailTests gets mail.test existing records.
@@ -118,10 +111,7 @@ func (c *Client) FindMailTest(criteria *Criteria) (*MailTest, error) {
 	if err := c.SearchRead(MailTestModel, criteria, NewOptions().Limit(1), mts); err != nil {
 		return nil, err
 	}
-	if mts != nil && len(*mts) > 0 {
-		return &((*mts)[0]), nil
-	}
-	return nil, fmt.Errorf("mail.test was not found with criteria %v", criteria)
+	return &((*mts)[0]), nil
 }
 
 // FindMailTests finds mail.test records by querying it
@@ -137,11 +127,7 @@ func (c *Client) FindMailTests(criteria *Criteria, options *Options) (*MailTests
 // FindMailTestIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindMailTestIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(MailTestModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(MailTestModel, criteria, options)
 }
 
 // FindMailTestId finds record id by querying it with criteria.
@@ -150,8 +136,5 @@ func (c *Client) FindMailTestId(criteria *Criteria, options *Options) (int64, er
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("mail.test was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

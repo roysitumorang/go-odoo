@@ -1,33 +1,29 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ImLivechatChannel represents im_livechat.channel model.
 type ImLivechatChannel struct {
-	LastUpdate                   *Time     `xmlrpc:"__last_update,omptempty"`
-	AreYouInside                 *Bool     `xmlrpc:"are_you_inside,omptempty"`
-	ButtonText                   *String   `xmlrpc:"button_text,omptempty"`
-	ChannelIds                   *Relation `xmlrpc:"channel_ids,omptempty"`
-	CreateDate                   *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid                    *Many2One `xmlrpc:"create_uid,omptempty"`
-	DefaultMessage               *String   `xmlrpc:"default_message,omptempty"`
-	DisplayName                  *String   `xmlrpc:"display_name,omptempty"`
-	Id                           *Int      `xmlrpc:"id,omptempty"`
-	Image                        *String   `xmlrpc:"image,omptempty"`
-	ImageMedium                  *String   `xmlrpc:"image_medium,omptempty"`
-	ImageSmall                   *String   `xmlrpc:"image_small,omptempty"`
-	InputPlaceholder             *String   `xmlrpc:"input_placeholder,omptempty"`
-	Name                         *String   `xmlrpc:"name,omptempty"`
-	NbrChannel                   *Int      `xmlrpc:"nbr_channel,omptempty"`
-	RatingPercentageSatisfaction *Int      `xmlrpc:"rating_percentage_satisfaction,omptempty"`
-	RuleIds                      *Relation `xmlrpc:"rule_ids,omptempty"`
-	ScriptExternal               *String   `xmlrpc:"script_external,omptempty"`
-	UserIds                      *Relation `xmlrpc:"user_ids,omptempty"`
-	WebPage                      *String   `xmlrpc:"web_page,omptempty"`
-	WriteDate                    *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid                     *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate                   *Time     `xmlrpc:"__last_update,omitempty"`
+	AreYouInside                 *Bool     `xmlrpc:"are_you_inside,omitempty"`
+	ButtonText                   *String   `xmlrpc:"button_text,omitempty"`
+	ChannelIds                   *Relation `xmlrpc:"channel_ids,omitempty"`
+	CreateDate                   *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid                    *Many2One `xmlrpc:"create_uid,omitempty"`
+	DefaultMessage               *String   `xmlrpc:"default_message,omitempty"`
+	DisplayName                  *String   `xmlrpc:"display_name,omitempty"`
+	Id                           *Int      `xmlrpc:"id,omitempty"`
+	Image                        *String   `xmlrpc:"image,omitempty"`
+	ImageMedium                  *String   `xmlrpc:"image_medium,omitempty"`
+	ImageSmall                   *String   `xmlrpc:"image_small,omitempty"`
+	InputPlaceholder             *String   `xmlrpc:"input_placeholder,omitempty"`
+	Name                         *String   `xmlrpc:"name,omitempty"`
+	NbrChannel                   *Int      `xmlrpc:"nbr_channel,omitempty"`
+	RatingPercentageSatisfaction *Int      `xmlrpc:"rating_percentage_satisfaction,omitempty"`
+	RuleIds                      *Relation `xmlrpc:"rule_ids,omitempty"`
+	ScriptExternal               *String   `xmlrpc:"script_external,omitempty"`
+	UserIds                      *Relation `xmlrpc:"user_ids,omitempty"`
+	WebPage                      *String   `xmlrpc:"web_page,omitempty"`
+	WriteDate                    *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid                     *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // ImLivechatChannels represents array of im_livechat.channel model.
@@ -53,13 +49,13 @@ func (c *Client) CreateImLivechatChannel(ic *ImLivechatChannel) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateImLivechatChannel creates a new im_livechat.channel model and returns its id.
+// CreateImLivechatChannels creates a new im_livechat.channel model and returns its id.
 func (c *Client) CreateImLivechatChannels(ics []*ImLivechatChannel) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range ics {
 		vv = append(vv, v)
 	}
-	return c.Create(ImLivechatChannelModel, vv)
+	return c.Create(ImLivechatChannelModel, vv, nil)
 }
 
 // UpdateImLivechatChannel updates an existing im_livechat.channel record.
@@ -70,7 +66,7 @@ func (c *Client) UpdateImLivechatChannel(ic *ImLivechatChannel) error {
 // UpdateImLivechatChannels updates existing im_livechat.channel records.
 // All records (represented by ids) will be updated by ic values.
 func (c *Client) UpdateImLivechatChannels(ids []int64, ic *ImLivechatChannel) error {
-	return c.Update(ImLivechatChannelModel, ids, ic)
+	return c.Update(ImLivechatChannelModel, ids, ic, nil)
 }
 
 // DeleteImLivechatChannel deletes an existing im_livechat.channel record.
@@ -89,10 +85,7 @@ func (c *Client) GetImLivechatChannel(id int64) (*ImLivechatChannel, error) {
 	if err != nil {
 		return nil, err
 	}
-	if ics != nil && len(*ics) > 0 {
-		return &((*ics)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of im_livechat.channel not found", id)
+	return &((*ics)[0]), nil
 }
 
 // GetImLivechatChannels gets im_livechat.channel existing records.
@@ -110,10 +103,7 @@ func (c *Client) FindImLivechatChannel(criteria *Criteria) (*ImLivechatChannel, 
 	if err := c.SearchRead(ImLivechatChannelModel, criteria, NewOptions().Limit(1), ics); err != nil {
 		return nil, err
 	}
-	if ics != nil && len(*ics) > 0 {
-		return &((*ics)[0]), nil
-	}
-	return nil, fmt.Errorf("im_livechat.channel was not found with criteria %v", criteria)
+	return &((*ics)[0]), nil
 }
 
 // FindImLivechatChannels finds im_livechat.channel records by querying it
@@ -129,11 +119,7 @@ func (c *Client) FindImLivechatChannels(criteria *Criteria, options *Options) (*
 // FindImLivechatChannelIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindImLivechatChannelIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ImLivechatChannelModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ImLivechatChannelModel, criteria, options)
 }
 
 // FindImLivechatChannelId finds record id by querying it with criteria.
@@ -142,8 +128,5 @@ func (c *Client) FindImLivechatChannelId(criteria *Criteria, options *Options) (
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("im_livechat.channel was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

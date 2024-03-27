@@ -1,22 +1,18 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrServerObjectLines represents ir.server.object.lines model.
 type IrServerObjectLines struct {
-	LastUpdate  *Time      `xmlrpc:"__last_update,omptempty"`
-	Col1        *Many2One  `xmlrpc:"col1,omptempty"`
-	CreateDate  *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String    `xmlrpc:"display_name,omptempty"`
-	Id          *Int       `xmlrpc:"id,omptempty"`
-	ServerId    *Many2One  `xmlrpc:"server_id,omptempty"`
-	Type        *Selection `xmlrpc:"type,omptempty"`
-	Value       *String    `xmlrpc:"value,omptempty"`
-	WriteDate   *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time      `xmlrpc:"__last_update,omitempty"`
+	Col1        *Many2One  `xmlrpc:"col1,omitempty"`
+	CreateDate  *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String    `xmlrpc:"display_name,omitempty"`
+	Id          *Int       `xmlrpc:"id,omitempty"`
+	ServerId    *Many2One  `xmlrpc:"server_id,omitempty"`
+	Type        *Selection `xmlrpc:"type,omitempty"`
+	Value       *String    `xmlrpc:"value,omitempty"`
+	WriteDate   *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrServerObjectLiness represents array of ir.server.object.lines model.
@@ -42,13 +38,13 @@ func (c *Client) CreateIrServerObjectLines(isol *IrServerObjectLines) (int64, er
 	return ids[0], nil
 }
 
-// CreateIrServerObjectLines creates a new ir.server.object.lines model and returns its id.
+// CreateIrServerObjectLiness creates a new ir.server.object.lines model and returns its id.
 func (c *Client) CreateIrServerObjectLiness(isols []*IrServerObjectLines) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range isols {
 		vv = append(vv, v)
 	}
-	return c.Create(IrServerObjectLinesModel, vv)
+	return c.Create(IrServerObjectLinesModel, vv, nil)
 }
 
 // UpdateIrServerObjectLines updates an existing ir.server.object.lines record.
@@ -59,7 +55,7 @@ func (c *Client) UpdateIrServerObjectLines(isol *IrServerObjectLines) error {
 // UpdateIrServerObjectLiness updates existing ir.server.object.lines records.
 // All records (represented by ids) will be updated by isol values.
 func (c *Client) UpdateIrServerObjectLiness(ids []int64, isol *IrServerObjectLines) error {
-	return c.Update(IrServerObjectLinesModel, ids, isol)
+	return c.Update(IrServerObjectLinesModel, ids, isol, nil)
 }
 
 // DeleteIrServerObjectLines deletes an existing ir.server.object.lines record.
@@ -78,10 +74,7 @@ func (c *Client) GetIrServerObjectLines(id int64) (*IrServerObjectLines, error) 
 	if err != nil {
 		return nil, err
 	}
-	if isols != nil && len(*isols) > 0 {
-		return &((*isols)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.server.object.lines not found", id)
+	return &((*isols)[0]), nil
 }
 
 // GetIrServerObjectLiness gets ir.server.object.lines existing records.
@@ -99,10 +92,7 @@ func (c *Client) FindIrServerObjectLines(criteria *Criteria) (*IrServerObjectLin
 	if err := c.SearchRead(IrServerObjectLinesModel, criteria, NewOptions().Limit(1), isols); err != nil {
 		return nil, err
 	}
-	if isols != nil && len(*isols) > 0 {
-		return &((*isols)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.server.object.lines was not found with criteria %v", criteria)
+	return &((*isols)[0]), nil
 }
 
 // FindIrServerObjectLiness finds ir.server.object.lines records by querying it
@@ -118,11 +108,7 @@ func (c *Client) FindIrServerObjectLiness(criteria *Criteria, options *Options) 
 // FindIrServerObjectLinesIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrServerObjectLinesIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrServerObjectLinesModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrServerObjectLinesModel, criteria, options)
 }
 
 // FindIrServerObjectLinesId finds record id by querying it with criteria.
@@ -131,8 +117,5 @@ func (c *Client) FindIrServerObjectLinesId(criteria *Criteria, options *Options)
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.server.object.lines was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,14 +1,10 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ReportAccountReportAgedpartnerbalance represents report.account.report_agedpartnerbalance model.
 type ReportAccountReportAgedpartnerbalance struct {
-	LastUpdate  *Time   `xmlrpc:"__last_update,omptempty"`
-	DisplayName *String `xmlrpc:"display_name,omptempty"`
-	Id          *Int    `xmlrpc:"id,omptempty"`
+	LastUpdate  *Time   `xmlrpc:"__last_update,omitempty"`
+	DisplayName *String `xmlrpc:"display_name,omitempty"`
+	Id          *Int    `xmlrpc:"id,omitempty"`
 }
 
 // ReportAccountReportAgedpartnerbalances represents array of report.account.report_agedpartnerbalance model.
@@ -34,13 +30,13 @@ func (c *Client) CreateReportAccountReportAgedpartnerbalance(rar *ReportAccountR
 	return ids[0], nil
 }
 
-// CreateReportAccountReportAgedpartnerbalance creates a new report.account.report_agedpartnerbalance model and returns its id.
+// CreateReportAccountReportAgedpartnerbalances creates a new report.account.report_agedpartnerbalance model and returns its id.
 func (c *Client) CreateReportAccountReportAgedpartnerbalances(rars []*ReportAccountReportAgedpartnerbalance) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rars {
 		vv = append(vv, v)
 	}
-	return c.Create(ReportAccountReportAgedpartnerbalanceModel, vv)
+	return c.Create(ReportAccountReportAgedpartnerbalanceModel, vv, nil)
 }
 
 // UpdateReportAccountReportAgedpartnerbalance updates an existing report.account.report_agedpartnerbalance record.
@@ -51,7 +47,7 @@ func (c *Client) UpdateReportAccountReportAgedpartnerbalance(rar *ReportAccountR
 // UpdateReportAccountReportAgedpartnerbalances updates existing report.account.report_agedpartnerbalance records.
 // All records (represented by ids) will be updated by rar values.
 func (c *Client) UpdateReportAccountReportAgedpartnerbalances(ids []int64, rar *ReportAccountReportAgedpartnerbalance) error {
-	return c.Update(ReportAccountReportAgedpartnerbalanceModel, ids, rar)
+	return c.Update(ReportAccountReportAgedpartnerbalanceModel, ids, rar, nil)
 }
 
 // DeleteReportAccountReportAgedpartnerbalance deletes an existing report.account.report_agedpartnerbalance record.
@@ -70,10 +66,7 @@ func (c *Client) GetReportAccountReportAgedpartnerbalance(id int64) (*ReportAcco
 	if err != nil {
 		return nil, err
 	}
-	if rars != nil && len(*rars) > 0 {
-		return &((*rars)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of report.account.report_agedpartnerbalance not found", id)
+	return &((*rars)[0]), nil
 }
 
 // GetReportAccountReportAgedpartnerbalances gets report.account.report_agedpartnerbalance existing records.
@@ -91,10 +84,7 @@ func (c *Client) FindReportAccountReportAgedpartnerbalance(criteria *Criteria) (
 	if err := c.SearchRead(ReportAccountReportAgedpartnerbalanceModel, criteria, NewOptions().Limit(1), rars); err != nil {
 		return nil, err
 	}
-	if rars != nil && len(*rars) > 0 {
-		return &((*rars)[0]), nil
-	}
-	return nil, fmt.Errorf("report.account.report_agedpartnerbalance was not found with criteria %v", criteria)
+	return &((*rars)[0]), nil
 }
 
 // FindReportAccountReportAgedpartnerbalances finds report.account.report_agedpartnerbalance records by querying it
@@ -110,11 +100,7 @@ func (c *Client) FindReportAccountReportAgedpartnerbalances(criteria *Criteria, 
 // FindReportAccountReportAgedpartnerbalanceIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindReportAccountReportAgedpartnerbalanceIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ReportAccountReportAgedpartnerbalanceModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ReportAccountReportAgedpartnerbalanceModel, criteria, options)
 }
 
 // FindReportAccountReportAgedpartnerbalanceId finds record id by querying it with criteria.
@@ -123,8 +109,5 @@ func (c *Client) FindReportAccountReportAgedpartnerbalanceId(criteria *Criteria,
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("report.account.report_agedpartnerbalance was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

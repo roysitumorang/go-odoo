@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // MailMassMailingList represents mail.mass_mailing.list model.
 type MailMassMailingList struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Active      *Bool     `xmlrpc:"active,omptempty"`
-	ContactNbr  *Int      `xmlrpc:"contact_nbr,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Active      *Bool     `xmlrpc:"active,omitempty"`
+	ContactNbr  *Int      `xmlrpc:"contact_nbr,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // MailMassMailingLists represents array of mail.mass_mailing.list model.
@@ -41,13 +37,13 @@ func (c *Client) CreateMailMassMailingList(mml *MailMassMailingList) (int64, err
 	return ids[0], nil
 }
 
-// CreateMailMassMailingList creates a new mail.mass_mailing.list model and returns its id.
+// CreateMailMassMailingLists creates a new mail.mass_mailing.list model and returns its id.
 func (c *Client) CreateMailMassMailingLists(mmls []*MailMassMailingList) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range mmls {
 		vv = append(vv, v)
 	}
-	return c.Create(MailMassMailingListModel, vv)
+	return c.Create(MailMassMailingListModel, vv, nil)
 }
 
 // UpdateMailMassMailingList updates an existing mail.mass_mailing.list record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateMailMassMailingList(mml *MailMassMailingList) error {
 // UpdateMailMassMailingLists updates existing mail.mass_mailing.list records.
 // All records (represented by ids) will be updated by mml values.
 func (c *Client) UpdateMailMassMailingLists(ids []int64, mml *MailMassMailingList) error {
-	return c.Update(MailMassMailingListModel, ids, mml)
+	return c.Update(MailMassMailingListModel, ids, mml, nil)
 }
 
 // DeleteMailMassMailingList deletes an existing mail.mass_mailing.list record.
@@ -77,10 +73,7 @@ func (c *Client) GetMailMassMailingList(id int64) (*MailMassMailingList, error) 
 	if err != nil {
 		return nil, err
 	}
-	if mmls != nil && len(*mmls) > 0 {
-		return &((*mmls)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of mail.mass_mailing.list not found", id)
+	return &((*mmls)[0]), nil
 }
 
 // GetMailMassMailingLists gets mail.mass_mailing.list existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindMailMassMailingList(criteria *Criteria) (*MailMassMailingLi
 	if err := c.SearchRead(MailMassMailingListModel, criteria, NewOptions().Limit(1), mmls); err != nil {
 		return nil, err
 	}
-	if mmls != nil && len(*mmls) > 0 {
-		return &((*mmls)[0]), nil
-	}
-	return nil, fmt.Errorf("mail.mass_mailing.list was not found with criteria %v", criteria)
+	return &((*mmls)[0]), nil
 }
 
 // FindMailMassMailingLists finds mail.mass_mailing.list records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindMailMassMailingLists(criteria *Criteria, options *Options) 
 // FindMailMassMailingListIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindMailMassMailingListIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(MailMassMailingListModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(MailMassMailingListModel, criteria, options)
 }
 
 // FindMailMassMailingListId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindMailMassMailingListId(criteria *Criteria, options *Options)
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("mail.mass_mailing.list was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

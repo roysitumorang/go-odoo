@@ -1,28 +1,24 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrRule represents ir.rule model.
 type IrRule struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Active      *Bool     `xmlrpc:"active,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	DomainForce *String   `xmlrpc:"domain_force,omptempty"`
-	Global      *Bool     `xmlrpc:"global,omptempty"`
-	Groups      *Relation `xmlrpc:"groups,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	ModelId     *Many2One `xmlrpc:"model_id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	PermCreate  *Bool     `xmlrpc:"perm_create,omptempty"`
-	PermRead    *Bool     `xmlrpc:"perm_read,omptempty"`
-	PermUnlink  *Bool     `xmlrpc:"perm_unlink,omptempty"`
-	PermWrite   *Bool     `xmlrpc:"perm_write,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Active      *Bool     `xmlrpc:"active,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	DomainForce *String   `xmlrpc:"domain_force,omitempty"`
+	Global      *Bool     `xmlrpc:"global,omitempty"`
+	Groups      *Relation `xmlrpc:"groups,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	ModelId     *Many2One `xmlrpc:"model_id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	PermCreate  *Bool     `xmlrpc:"perm_create,omitempty"`
+	PermRead    *Bool     `xmlrpc:"perm_read,omitempty"`
+	PermUnlink  *Bool     `xmlrpc:"perm_unlink,omitempty"`
+	PermWrite   *Bool     `xmlrpc:"perm_write,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrRules represents array of ir.rule model.
@@ -48,13 +44,13 @@ func (c *Client) CreateIrRule(ir *IrRule) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrRule creates a new ir.rule model and returns its id.
+// CreateIrRules creates a new ir.rule model and returns its id.
 func (c *Client) CreateIrRules(irs []*IrRule) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range irs {
 		vv = append(vv, v)
 	}
-	return c.Create(IrRuleModel, vv)
+	return c.Create(IrRuleModel, vv, nil)
 }
 
 // UpdateIrRule updates an existing ir.rule record.
@@ -65,7 +61,7 @@ func (c *Client) UpdateIrRule(ir *IrRule) error {
 // UpdateIrRules updates existing ir.rule records.
 // All records (represented by ids) will be updated by ir values.
 func (c *Client) UpdateIrRules(ids []int64, ir *IrRule) error {
-	return c.Update(IrRuleModel, ids, ir)
+	return c.Update(IrRuleModel, ids, ir, nil)
 }
 
 // DeleteIrRule deletes an existing ir.rule record.
@@ -84,10 +80,7 @@ func (c *Client) GetIrRule(id int64) (*IrRule, error) {
 	if err != nil {
 		return nil, err
 	}
-	if irs != nil && len(*irs) > 0 {
-		return &((*irs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.rule not found", id)
+	return &((*irs)[0]), nil
 }
 
 // GetIrRules gets ir.rule existing records.
@@ -105,10 +98,7 @@ func (c *Client) FindIrRule(criteria *Criteria) (*IrRule, error) {
 	if err := c.SearchRead(IrRuleModel, criteria, NewOptions().Limit(1), irs); err != nil {
 		return nil, err
 	}
-	if irs != nil && len(*irs) > 0 {
-		return &((*irs)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.rule was not found with criteria %v", criteria)
+	return &((*irs)[0]), nil
 }
 
 // FindIrRules finds ir.rule records by querying it
@@ -124,11 +114,7 @@ func (c *Client) FindIrRules(criteria *Criteria, options *Options) (*IrRules, er
 // FindIrRuleIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrRuleIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrRuleModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrRuleModel, criteria, options)
 }
 
 // FindIrRuleId finds record id by querying it with criteria.
@@ -137,8 +123,5 @@ func (c *Client) FindIrRuleId(criteria *Criteria, options *Options) (int64, erro
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.rule was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,30 +1,26 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountingReport represents accounting.report model.
 type AccountingReport struct {
-	LastUpdate      *Time      `xmlrpc:"__last_update,omptempty"`
-	AccountReportId *Many2One  `xmlrpc:"account_report_id,omptempty"`
-	CompanyId       *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate      *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid       *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DateFrom        *Time      `xmlrpc:"date_from,omptempty"`
-	DateFromCmp     *Time      `xmlrpc:"date_from_cmp,omptempty"`
-	DateTo          *Time      `xmlrpc:"date_to,omptempty"`
-	DateToCmp       *Time      `xmlrpc:"date_to_cmp,omptempty"`
-	DebitCredit     *Bool      `xmlrpc:"debit_credit,omptempty"`
-	DisplayName     *String    `xmlrpc:"display_name,omptempty"`
-	EnableFilter    *Bool      `xmlrpc:"enable_filter,omptempty"`
-	FilterCmp       *Selection `xmlrpc:"filter_cmp,omptempty"`
-	Id              *Int       `xmlrpc:"id,omptempty"`
-	JournalIds      *Relation  `xmlrpc:"journal_ids,omptempty"`
-	LabelFilter     *String    `xmlrpc:"label_filter,omptempty"`
-	TargetMove      *Selection `xmlrpc:"target_move,omptempty"`
-	WriteDate       *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid        *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate      *Time      `xmlrpc:"__last_update,omitempty"`
+	AccountReportId *Many2One  `xmlrpc:"account_report_id,omitempty"`
+	CompanyId       *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate      *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid       *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DateFrom        *Time      `xmlrpc:"date_from,omitempty"`
+	DateFromCmp     *Time      `xmlrpc:"date_from_cmp,omitempty"`
+	DateTo          *Time      `xmlrpc:"date_to,omitempty"`
+	DateToCmp       *Time      `xmlrpc:"date_to_cmp,omitempty"`
+	DebitCredit     *Bool      `xmlrpc:"debit_credit,omitempty"`
+	DisplayName     *String    `xmlrpc:"display_name,omitempty"`
+	EnableFilter    *Bool      `xmlrpc:"enable_filter,omitempty"`
+	FilterCmp       *Selection `xmlrpc:"filter_cmp,omitempty"`
+	Id              *Int       `xmlrpc:"id,omitempty"`
+	JournalIds      *Relation  `xmlrpc:"journal_ids,omitempty"`
+	LabelFilter     *String    `xmlrpc:"label_filter,omitempty"`
+	TargetMove      *Selection `xmlrpc:"target_move,omitempty"`
+	WriteDate       *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid        *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountingReports represents array of accounting.report model.
@@ -50,13 +46,13 @@ func (c *Client) CreateAccountingReport(ar *AccountingReport) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateAccountingReport creates a new accounting.report model and returns its id.
+// CreateAccountingReports creates a new accounting.report model and returns its id.
 func (c *Client) CreateAccountingReports(ars []*AccountingReport) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range ars {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountingReportModel, vv)
+	return c.Create(AccountingReportModel, vv, nil)
 }
 
 // UpdateAccountingReport updates an existing accounting.report record.
@@ -67,7 +63,7 @@ func (c *Client) UpdateAccountingReport(ar *AccountingReport) error {
 // UpdateAccountingReports updates existing accounting.report records.
 // All records (represented by ids) will be updated by ar values.
 func (c *Client) UpdateAccountingReports(ids []int64, ar *AccountingReport) error {
-	return c.Update(AccountingReportModel, ids, ar)
+	return c.Update(AccountingReportModel, ids, ar, nil)
 }
 
 // DeleteAccountingReport deletes an existing accounting.report record.
@@ -86,10 +82,7 @@ func (c *Client) GetAccountingReport(id int64) (*AccountingReport, error) {
 	if err != nil {
 		return nil, err
 	}
-	if ars != nil && len(*ars) > 0 {
-		return &((*ars)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of accounting.report not found", id)
+	return &((*ars)[0]), nil
 }
 
 // GetAccountingReports gets accounting.report existing records.
@@ -107,10 +100,7 @@ func (c *Client) FindAccountingReport(criteria *Criteria) (*AccountingReport, er
 	if err := c.SearchRead(AccountingReportModel, criteria, NewOptions().Limit(1), ars); err != nil {
 		return nil, err
 	}
-	if ars != nil && len(*ars) > 0 {
-		return &((*ars)[0]), nil
-	}
-	return nil, fmt.Errorf("accounting.report was not found with criteria %v", criteria)
+	return &((*ars)[0]), nil
 }
 
 // FindAccountingReports finds accounting.report records by querying it
@@ -126,11 +116,7 @@ func (c *Client) FindAccountingReports(criteria *Criteria, options *Options) (*A
 // FindAccountingReportIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountingReportIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountingReportModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountingReportModel, criteria, options)
 }
 
 // FindAccountingReportId finds record id by querying it with criteria.
@@ -139,8 +125,5 @@ func (c *Client) FindAccountingReportId(criteria *Criteria, options *Options) (i
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("accounting.report was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

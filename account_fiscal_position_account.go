@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountFiscalPositionAccount represents account.fiscal.position.account model.
 type AccountFiscalPositionAccount struct {
-	LastUpdate    *Time     `xmlrpc:"__last_update,omptempty"`
-	AccountDestId *Many2One `xmlrpc:"account_dest_id,omptempty"`
-	AccountSrcId  *Many2One `xmlrpc:"account_src_id,omptempty"`
-	CreateDate    *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid     *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName   *String   `xmlrpc:"display_name,omptempty"`
-	Id            *Int      `xmlrpc:"id,omptempty"`
-	PositionId    *Many2One `xmlrpc:"position_id,omptempty"`
-	WriteDate     *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid      *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate    *Time     `xmlrpc:"__last_update,omitempty"`
+	AccountDestId *Many2One `xmlrpc:"account_dest_id,omitempty"`
+	AccountSrcId  *Many2One `xmlrpc:"account_src_id,omitempty"`
+	CreateDate    *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid     *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName   *String   `xmlrpc:"display_name,omitempty"`
+	Id            *Int      `xmlrpc:"id,omitempty"`
+	PositionId    *Many2One `xmlrpc:"position_id,omitempty"`
+	WriteDate     *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid      *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountFiscalPositionAccounts represents array of account.fiscal.position.account model.
@@ -41,13 +37,13 @@ func (c *Client) CreateAccountFiscalPositionAccount(afpa *AccountFiscalPositionA
 	return ids[0], nil
 }
 
-// CreateAccountFiscalPositionAccount creates a new account.fiscal.position.account model and returns its id.
+// CreateAccountFiscalPositionAccounts creates a new account.fiscal.position.account model and returns its id.
 func (c *Client) CreateAccountFiscalPositionAccounts(afpas []*AccountFiscalPositionAccount) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range afpas {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountFiscalPositionAccountModel, vv)
+	return c.Create(AccountFiscalPositionAccountModel, vv, nil)
 }
 
 // UpdateAccountFiscalPositionAccount updates an existing account.fiscal.position.account record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateAccountFiscalPositionAccount(afpa *AccountFiscalPositionA
 // UpdateAccountFiscalPositionAccounts updates existing account.fiscal.position.account records.
 // All records (represented by ids) will be updated by afpa values.
 func (c *Client) UpdateAccountFiscalPositionAccounts(ids []int64, afpa *AccountFiscalPositionAccount) error {
-	return c.Update(AccountFiscalPositionAccountModel, ids, afpa)
+	return c.Update(AccountFiscalPositionAccountModel, ids, afpa, nil)
 }
 
 // DeleteAccountFiscalPositionAccount deletes an existing account.fiscal.position.account record.
@@ -77,10 +73,7 @@ func (c *Client) GetAccountFiscalPositionAccount(id int64) (*AccountFiscalPositi
 	if err != nil {
 		return nil, err
 	}
-	if afpas != nil && len(*afpas) > 0 {
-		return &((*afpas)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.fiscal.position.account not found", id)
+	return &((*afpas)[0]), nil
 }
 
 // GetAccountFiscalPositionAccounts gets account.fiscal.position.account existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindAccountFiscalPositionAccount(criteria *Criteria) (*AccountF
 	if err := c.SearchRead(AccountFiscalPositionAccountModel, criteria, NewOptions().Limit(1), afpas); err != nil {
 		return nil, err
 	}
-	if afpas != nil && len(*afpas) > 0 {
-		return &((*afpas)[0]), nil
-	}
-	return nil, fmt.Errorf("account.fiscal.position.account was not found with criteria %v", criteria)
+	return &((*afpas)[0]), nil
 }
 
 // FindAccountFiscalPositionAccounts finds account.fiscal.position.account records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindAccountFiscalPositionAccounts(criteria *Criteria, options *
 // FindAccountFiscalPositionAccountIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountFiscalPositionAccountIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountFiscalPositionAccountModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountFiscalPositionAccountModel, criteria, options)
 }
 
 // FindAccountFiscalPositionAccountId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindAccountFiscalPositionAccountId(criteria *Criteria, options 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.fiscal.position.account was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

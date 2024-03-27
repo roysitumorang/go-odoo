@@ -1,31 +1,27 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockWarehouseOrderpoint represents stock.warehouse.orderpoint model.
 type StockWarehouseOrderpoint struct {
-	LastUpdate    *Time      `xmlrpc:"__last_update,omptempty"`
-	Active        *Bool      `xmlrpc:"active,omptempty"`
-	CompanyId     *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate    *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid     *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName   *String    `xmlrpc:"display_name,omptempty"`
-	GroupId       *Many2One  `xmlrpc:"group_id,omptempty"`
-	Id            *Int       `xmlrpc:"id,omptempty"`
-	LeadDays      *Int       `xmlrpc:"lead_days,omptempty"`
-	LeadType      *Selection `xmlrpc:"lead_type,omptempty"`
-	LocationId    *Many2One  `xmlrpc:"location_id,omptempty"`
-	Name          *String    `xmlrpc:"name,omptempty"`
-	ProductId     *Many2One  `xmlrpc:"product_id,omptempty"`
-	ProductMaxQty *Float     `xmlrpc:"product_max_qty,omptempty"`
-	ProductMinQty *Float     `xmlrpc:"product_min_qty,omptempty"`
-	ProductUom    *Many2One  `xmlrpc:"product_uom,omptempty"`
-	QtyMultiple   *Float     `xmlrpc:"qty_multiple,omptempty"`
-	WarehouseId   *Many2One  `xmlrpc:"warehouse_id,omptempty"`
-	WriteDate     *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid      *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate    *Time      `xmlrpc:"__last_update,omitempty"`
+	Active        *Bool      `xmlrpc:"active,omitempty"`
+	CompanyId     *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate    *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid     *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName   *String    `xmlrpc:"display_name,omitempty"`
+	GroupId       *Many2One  `xmlrpc:"group_id,omitempty"`
+	Id            *Int       `xmlrpc:"id,omitempty"`
+	LeadDays      *Int       `xmlrpc:"lead_days,omitempty"`
+	LeadType      *Selection `xmlrpc:"lead_type,omitempty"`
+	LocationId    *Many2One  `xmlrpc:"location_id,omitempty"`
+	Name          *String    `xmlrpc:"name,omitempty"`
+	ProductId     *Many2One  `xmlrpc:"product_id,omitempty"`
+	ProductMaxQty *Float     `xmlrpc:"product_max_qty,omitempty"`
+	ProductMinQty *Float     `xmlrpc:"product_min_qty,omitempty"`
+	ProductUom    *Many2One  `xmlrpc:"product_uom,omitempty"`
+	QtyMultiple   *Float     `xmlrpc:"qty_multiple,omitempty"`
+	WarehouseId   *Many2One  `xmlrpc:"warehouse_id,omitempty"`
+	WriteDate     *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid      *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockWarehouseOrderpoints represents array of stock.warehouse.orderpoint model.
@@ -51,13 +47,13 @@ func (c *Client) CreateStockWarehouseOrderpoint(swo *StockWarehouseOrderpoint) (
 	return ids[0], nil
 }
 
-// CreateStockWarehouseOrderpoint creates a new stock.warehouse.orderpoint model and returns its id.
+// CreateStockWarehouseOrderpoints creates a new stock.warehouse.orderpoint model and returns its id.
 func (c *Client) CreateStockWarehouseOrderpoints(swos []*StockWarehouseOrderpoint) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range swos {
 		vv = append(vv, v)
 	}
-	return c.Create(StockWarehouseOrderpointModel, vv)
+	return c.Create(StockWarehouseOrderpointModel, vv, nil)
 }
 
 // UpdateStockWarehouseOrderpoint updates an existing stock.warehouse.orderpoint record.
@@ -68,7 +64,7 @@ func (c *Client) UpdateStockWarehouseOrderpoint(swo *StockWarehouseOrderpoint) e
 // UpdateStockWarehouseOrderpoints updates existing stock.warehouse.orderpoint records.
 // All records (represented by ids) will be updated by swo values.
 func (c *Client) UpdateStockWarehouseOrderpoints(ids []int64, swo *StockWarehouseOrderpoint) error {
-	return c.Update(StockWarehouseOrderpointModel, ids, swo)
+	return c.Update(StockWarehouseOrderpointModel, ids, swo, nil)
 }
 
 // DeleteStockWarehouseOrderpoint deletes an existing stock.warehouse.orderpoint record.
@@ -87,10 +83,7 @@ func (c *Client) GetStockWarehouseOrderpoint(id int64) (*StockWarehouseOrderpoin
 	if err != nil {
 		return nil, err
 	}
-	if swos != nil && len(*swos) > 0 {
-		return &((*swos)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.warehouse.orderpoint not found", id)
+	return &((*swos)[0]), nil
 }
 
 // GetStockWarehouseOrderpoints gets stock.warehouse.orderpoint existing records.
@@ -108,10 +101,7 @@ func (c *Client) FindStockWarehouseOrderpoint(criteria *Criteria) (*StockWarehou
 	if err := c.SearchRead(StockWarehouseOrderpointModel, criteria, NewOptions().Limit(1), swos); err != nil {
 		return nil, err
 	}
-	if swos != nil && len(*swos) > 0 {
-		return &((*swos)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.warehouse.orderpoint was not found with criteria %v", criteria)
+	return &((*swos)[0]), nil
 }
 
 // FindStockWarehouseOrderpoints finds stock.warehouse.orderpoint records by querying it
@@ -127,11 +117,7 @@ func (c *Client) FindStockWarehouseOrderpoints(criteria *Criteria, options *Opti
 // FindStockWarehouseOrderpointIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockWarehouseOrderpointIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockWarehouseOrderpointModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockWarehouseOrderpointModel, criteria, options)
 }
 
 // FindStockWarehouseOrderpointId finds record id by querying it with criteria.
@@ -140,8 +126,5 @@ func (c *Client) FindStockWarehouseOrderpointId(criteria *Criteria, options *Opt
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.warehouse.orderpoint was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

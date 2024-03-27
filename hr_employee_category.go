@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // HrEmployeeCategory represents hr.employee.category model.
 type HrEmployeeCategory struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Color       *Int      `xmlrpc:"color,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	EmployeeIds *Relation `xmlrpc:"employee_ids,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Color       *Int      `xmlrpc:"color,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	EmployeeIds *Relation `xmlrpc:"employee_ids,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // HrEmployeeCategorys represents array of hr.employee.category model.
@@ -41,13 +37,13 @@ func (c *Client) CreateHrEmployeeCategory(hec *HrEmployeeCategory) (int64, error
 	return ids[0], nil
 }
 
-// CreateHrEmployeeCategory creates a new hr.employee.category model and returns its id.
+// CreateHrEmployeeCategorys creates a new hr.employee.category model and returns its id.
 func (c *Client) CreateHrEmployeeCategorys(hecs []*HrEmployeeCategory) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range hecs {
 		vv = append(vv, v)
 	}
-	return c.Create(HrEmployeeCategoryModel, vv)
+	return c.Create(HrEmployeeCategoryModel, vv, nil)
 }
 
 // UpdateHrEmployeeCategory updates an existing hr.employee.category record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateHrEmployeeCategory(hec *HrEmployeeCategory) error {
 // UpdateHrEmployeeCategorys updates existing hr.employee.category records.
 // All records (represented by ids) will be updated by hec values.
 func (c *Client) UpdateHrEmployeeCategorys(ids []int64, hec *HrEmployeeCategory) error {
-	return c.Update(HrEmployeeCategoryModel, ids, hec)
+	return c.Update(HrEmployeeCategoryModel, ids, hec, nil)
 }
 
 // DeleteHrEmployeeCategory deletes an existing hr.employee.category record.
@@ -77,10 +73,7 @@ func (c *Client) GetHrEmployeeCategory(id int64) (*HrEmployeeCategory, error) {
 	if err != nil {
 		return nil, err
 	}
-	if hecs != nil && len(*hecs) > 0 {
-		return &((*hecs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of hr.employee.category not found", id)
+	return &((*hecs)[0]), nil
 }
 
 // GetHrEmployeeCategorys gets hr.employee.category existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindHrEmployeeCategory(criteria *Criteria) (*HrEmployeeCategory
 	if err := c.SearchRead(HrEmployeeCategoryModel, criteria, NewOptions().Limit(1), hecs); err != nil {
 		return nil, err
 	}
-	if hecs != nil && len(*hecs) > 0 {
-		return &((*hecs)[0]), nil
-	}
-	return nil, fmt.Errorf("hr.employee.category was not found with criteria %v", criteria)
+	return &((*hecs)[0]), nil
 }
 
 // FindHrEmployeeCategorys finds hr.employee.category records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindHrEmployeeCategorys(criteria *Criteria, options *Options) (
 // FindHrEmployeeCategoryIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindHrEmployeeCategoryIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(HrEmployeeCategoryModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(HrEmployeeCategoryModel, criteria, options)
 }
 
 // FindHrEmployeeCategoryId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindHrEmployeeCategoryId(criteria *Criteria, options *Options) 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("hr.employee.category was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

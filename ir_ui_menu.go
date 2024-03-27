@@ -1,30 +1,26 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrUiMenu represents ir.ui.menu model.
 type IrUiMenu struct {
-	LastUpdate   *Time     `xmlrpc:"__last_update,omptempty"`
-	Action       *String   `xmlrpc:"action,omptempty"`
-	Active       *Bool     `xmlrpc:"active,omptempty"`
-	ChildId      *Relation `xmlrpc:"child_id,omptempty"`
-	CompleteName *String   `xmlrpc:"complete_name,omptempty"`
-	CreateDate   *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid    *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName  *String   `xmlrpc:"display_name,omptempty"`
-	GroupsId     *Relation `xmlrpc:"groups_id,omptempty"`
-	Id           *Int      `xmlrpc:"id,omptempty"`
-	Name         *String   `xmlrpc:"name,omptempty"`
-	ParentId     *Many2One `xmlrpc:"parent_id,omptempty"`
-	ParentLeft   *Int      `xmlrpc:"parent_left,omptempty"`
-	ParentRight  *Int      `xmlrpc:"parent_right,omptempty"`
-	Sequence     *Int      `xmlrpc:"sequence,omptempty"`
-	WebIcon      *String   `xmlrpc:"web_icon,omptempty"`
-	WebIconData  *String   `xmlrpc:"web_icon_data,omptempty"`
-	WriteDate    *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid     *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate   *Time     `xmlrpc:"__last_update,omitempty"`
+	Action       *String   `xmlrpc:"action,omitempty"`
+	Active       *Bool     `xmlrpc:"active,omitempty"`
+	ChildId      *Relation `xmlrpc:"child_id,omitempty"`
+	CompleteName *String   `xmlrpc:"complete_name,omitempty"`
+	CreateDate   *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid    *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName  *String   `xmlrpc:"display_name,omitempty"`
+	GroupsId     *Relation `xmlrpc:"groups_id,omitempty"`
+	Id           *Int      `xmlrpc:"id,omitempty"`
+	Name         *String   `xmlrpc:"name,omitempty"`
+	ParentId     *Many2One `xmlrpc:"parent_id,omitempty"`
+	ParentLeft   *Int      `xmlrpc:"parent_left,omitempty"`
+	ParentRight  *Int      `xmlrpc:"parent_right,omitempty"`
+	Sequence     *Int      `xmlrpc:"sequence,omitempty"`
+	WebIcon      *String   `xmlrpc:"web_icon,omitempty"`
+	WebIconData  *String   `xmlrpc:"web_icon_data,omitempty"`
+	WriteDate    *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid     *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrUiMenus represents array of ir.ui.menu model.
@@ -50,13 +46,13 @@ func (c *Client) CreateIrUiMenu(ium *IrUiMenu) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrUiMenu creates a new ir.ui.menu model and returns its id.
+// CreateIrUiMenus creates a new ir.ui.menu model and returns its id.
 func (c *Client) CreateIrUiMenus(iums []*IrUiMenu) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range iums {
 		vv = append(vv, v)
 	}
-	return c.Create(IrUiMenuModel, vv)
+	return c.Create(IrUiMenuModel, vv, nil)
 }
 
 // UpdateIrUiMenu updates an existing ir.ui.menu record.
@@ -67,7 +63,7 @@ func (c *Client) UpdateIrUiMenu(ium *IrUiMenu) error {
 // UpdateIrUiMenus updates existing ir.ui.menu records.
 // All records (represented by ids) will be updated by ium values.
 func (c *Client) UpdateIrUiMenus(ids []int64, ium *IrUiMenu) error {
-	return c.Update(IrUiMenuModel, ids, ium)
+	return c.Update(IrUiMenuModel, ids, ium, nil)
 }
 
 // DeleteIrUiMenu deletes an existing ir.ui.menu record.
@@ -86,10 +82,7 @@ func (c *Client) GetIrUiMenu(id int64) (*IrUiMenu, error) {
 	if err != nil {
 		return nil, err
 	}
-	if iums != nil && len(*iums) > 0 {
-		return &((*iums)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.ui.menu not found", id)
+	return &((*iums)[0]), nil
 }
 
 // GetIrUiMenus gets ir.ui.menu existing records.
@@ -107,10 +100,7 @@ func (c *Client) FindIrUiMenu(criteria *Criteria) (*IrUiMenu, error) {
 	if err := c.SearchRead(IrUiMenuModel, criteria, NewOptions().Limit(1), iums); err != nil {
 		return nil, err
 	}
-	if iums != nil && len(*iums) > 0 {
-		return &((*iums)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.ui.menu was not found with criteria %v", criteria)
+	return &((*iums)[0]), nil
 }
 
 // FindIrUiMenus finds ir.ui.menu records by querying it
@@ -126,11 +116,7 @@ func (c *Client) FindIrUiMenus(criteria *Criteria, options *Options) (*IrUiMenus
 // FindIrUiMenuIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrUiMenuIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrUiMenuModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrUiMenuModel, criteria, options)
 }
 
 // FindIrUiMenuId finds record id by querying it with criteria.
@@ -139,8 +125,5 @@ func (c *Client) FindIrUiMenuId(criteria *Criteria, options *Options) (int64, er
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.ui.menu was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

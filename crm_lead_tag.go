@@ -1,20 +1,16 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // CrmLeadTag represents crm.lead.tag model.
 type CrmLeadTag struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Color       *Int      `xmlrpc:"color,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Color       *Int      `xmlrpc:"color,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // CrmLeadTags represents array of crm.lead.tag model.
@@ -40,13 +36,13 @@ func (c *Client) CreateCrmLeadTag(clt *CrmLeadTag) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateCrmLeadTag creates a new crm.lead.tag model and returns its id.
+// CreateCrmLeadTags creates a new crm.lead.tag model and returns its id.
 func (c *Client) CreateCrmLeadTags(clts []*CrmLeadTag) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range clts {
 		vv = append(vv, v)
 	}
-	return c.Create(CrmLeadTagModel, vv)
+	return c.Create(CrmLeadTagModel, vv, nil)
 }
 
 // UpdateCrmLeadTag updates an existing crm.lead.tag record.
@@ -57,7 +53,7 @@ func (c *Client) UpdateCrmLeadTag(clt *CrmLeadTag) error {
 // UpdateCrmLeadTags updates existing crm.lead.tag records.
 // All records (represented by ids) will be updated by clt values.
 func (c *Client) UpdateCrmLeadTags(ids []int64, clt *CrmLeadTag) error {
-	return c.Update(CrmLeadTagModel, ids, clt)
+	return c.Update(CrmLeadTagModel, ids, clt, nil)
 }
 
 // DeleteCrmLeadTag deletes an existing crm.lead.tag record.
@@ -76,10 +72,7 @@ func (c *Client) GetCrmLeadTag(id int64) (*CrmLeadTag, error) {
 	if err != nil {
 		return nil, err
 	}
-	if clts != nil && len(*clts) > 0 {
-		return &((*clts)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of crm.lead.tag not found", id)
+	return &((*clts)[0]), nil
 }
 
 // GetCrmLeadTags gets crm.lead.tag existing records.
@@ -97,10 +90,7 @@ func (c *Client) FindCrmLeadTag(criteria *Criteria) (*CrmLeadTag, error) {
 	if err := c.SearchRead(CrmLeadTagModel, criteria, NewOptions().Limit(1), clts); err != nil {
 		return nil, err
 	}
-	if clts != nil && len(*clts) > 0 {
-		return &((*clts)[0]), nil
-	}
-	return nil, fmt.Errorf("crm.lead.tag was not found with criteria %v", criteria)
+	return &((*clts)[0]), nil
 }
 
 // FindCrmLeadTags finds crm.lead.tag records by querying it
@@ -116,11 +106,7 @@ func (c *Client) FindCrmLeadTags(criteria *Criteria, options *Options) (*CrmLead
 // FindCrmLeadTagIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindCrmLeadTagIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(CrmLeadTagModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(CrmLeadTagModel, criteria, options)
 }
 
 // FindCrmLeadTagId finds record id by querying it with criteria.
@@ -129,8 +115,5 @@ func (c *Client) FindCrmLeadTagId(criteria *Criteria, options *Options) (int64, 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("crm.lead.tag was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

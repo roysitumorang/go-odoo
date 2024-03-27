@@ -1,19 +1,15 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ChangePasswordWizard represents change.password.wizard model.
 type ChangePasswordWizard struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	UserIds     *Relation `xmlrpc:"user_ids,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	UserIds     *Relation `xmlrpc:"user_ids,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // ChangePasswordWizards represents array of change.password.wizard model.
@@ -39,13 +35,13 @@ func (c *Client) CreateChangePasswordWizard(cpw *ChangePasswordWizard) (int64, e
 	return ids[0], nil
 }
 
-// CreateChangePasswordWizard creates a new change.password.wizard model and returns its id.
+// CreateChangePasswordWizards creates a new change.password.wizard model and returns its id.
 func (c *Client) CreateChangePasswordWizards(cpws []*ChangePasswordWizard) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range cpws {
 		vv = append(vv, v)
 	}
-	return c.Create(ChangePasswordWizardModel, vv)
+	return c.Create(ChangePasswordWizardModel, vv, nil)
 }
 
 // UpdateChangePasswordWizard updates an existing change.password.wizard record.
@@ -56,7 +52,7 @@ func (c *Client) UpdateChangePasswordWizard(cpw *ChangePasswordWizard) error {
 // UpdateChangePasswordWizards updates existing change.password.wizard records.
 // All records (represented by ids) will be updated by cpw values.
 func (c *Client) UpdateChangePasswordWizards(ids []int64, cpw *ChangePasswordWizard) error {
-	return c.Update(ChangePasswordWizardModel, ids, cpw)
+	return c.Update(ChangePasswordWizardModel, ids, cpw, nil)
 }
 
 // DeleteChangePasswordWizard deletes an existing change.password.wizard record.
@@ -75,10 +71,7 @@ func (c *Client) GetChangePasswordWizard(id int64) (*ChangePasswordWizard, error
 	if err != nil {
 		return nil, err
 	}
-	if cpws != nil && len(*cpws) > 0 {
-		return &((*cpws)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of change.password.wizard not found", id)
+	return &((*cpws)[0]), nil
 }
 
 // GetChangePasswordWizards gets change.password.wizard existing records.
@@ -96,10 +89,7 @@ func (c *Client) FindChangePasswordWizard(criteria *Criteria) (*ChangePasswordWi
 	if err := c.SearchRead(ChangePasswordWizardModel, criteria, NewOptions().Limit(1), cpws); err != nil {
 		return nil, err
 	}
-	if cpws != nil && len(*cpws) > 0 {
-		return &((*cpws)[0]), nil
-	}
-	return nil, fmt.Errorf("change.password.wizard was not found with criteria %v", criteria)
+	return &((*cpws)[0]), nil
 }
 
 // FindChangePasswordWizards finds change.password.wizard records by querying it
@@ -115,11 +105,7 @@ func (c *Client) FindChangePasswordWizards(criteria *Criteria, options *Options)
 // FindChangePasswordWizardIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindChangePasswordWizardIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ChangePasswordWizardModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ChangePasswordWizardModel, criteria, options)
 }
 
 // FindChangePasswordWizardId finds record id by querying it with criteria.
@@ -128,8 +114,5 @@ func (c *Client) FindChangePasswordWizardId(criteria *Criteria, options *Options
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("change.password.wizard was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

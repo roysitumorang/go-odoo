@@ -1,32 +1,28 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // HrHolidaysStatus represents hr.holidays.status model.
 type HrHolidaysStatus struct {
-	LastUpdate             *Time      `xmlrpc:"__last_update,omptempty"`
-	Active                 *Bool      `xmlrpc:"active,omptempty"`
-	CategId                *Many2One  `xmlrpc:"categ_id,omptempty"`
-	ColorName              *Selection `xmlrpc:"color_name,omptempty"`
-	CompanyId              *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate             *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid              *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName            *String    `xmlrpc:"display_name,omptempty"`
-	DoubleValidation       *Bool      `xmlrpc:"double_validation,omptempty"`
-	Id                     *Int       `xmlrpc:"id,omptempty"`
-	LeavesTaken            *Float     `xmlrpc:"leaves_taken,omptempty"`
-	Limit                  *Bool      `xmlrpc:"limit,omptempty"`
-	MaxLeaves              *Float     `xmlrpc:"max_leaves,omptempty"`
-	Name                   *String    `xmlrpc:"name,omptempty"`
-	RemainingLeaves        *Float     `xmlrpc:"remaining_leaves,omptempty"`
-	TimesheetGenerate      *Bool      `xmlrpc:"timesheet_generate,omptempty"`
-	TimesheetProjectId     *Many2One  `xmlrpc:"timesheet_project_id,omptempty"`
-	TimesheetTaskId        *Many2One  `xmlrpc:"timesheet_task_id,omptempty"`
-	VirtualRemainingLeaves *Float     `xmlrpc:"virtual_remaining_leaves,omptempty"`
-	WriteDate              *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid               *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate             *Time      `xmlrpc:"__last_update,omitempty"`
+	Active                 *Bool      `xmlrpc:"active,omitempty"`
+	CategId                *Many2One  `xmlrpc:"categ_id,omitempty"`
+	ColorName              *Selection `xmlrpc:"color_name,omitempty"`
+	CompanyId              *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate             *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid              *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName            *String    `xmlrpc:"display_name,omitempty"`
+	DoubleValidation       *Bool      `xmlrpc:"double_validation,omitempty"`
+	Id                     *Int       `xmlrpc:"id,omitempty"`
+	LeavesTaken            *Float     `xmlrpc:"leaves_taken,omitempty"`
+	Limit                  *Bool      `xmlrpc:"limit,omitempty"`
+	MaxLeaves              *Float     `xmlrpc:"max_leaves,omitempty"`
+	Name                   *String    `xmlrpc:"name,omitempty"`
+	RemainingLeaves        *Float     `xmlrpc:"remaining_leaves,omitempty"`
+	TimesheetGenerate      *Bool      `xmlrpc:"timesheet_generate,omitempty"`
+	TimesheetProjectId     *Many2One  `xmlrpc:"timesheet_project_id,omitempty"`
+	TimesheetTaskId        *Many2One  `xmlrpc:"timesheet_task_id,omitempty"`
+	VirtualRemainingLeaves *Float     `xmlrpc:"virtual_remaining_leaves,omitempty"`
+	WriteDate              *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid               *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // HrHolidaysStatuss represents array of hr.holidays.status model.
@@ -52,13 +48,13 @@ func (c *Client) CreateHrHolidaysStatus(hhs *HrHolidaysStatus) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateHrHolidaysStatus creates a new hr.holidays.status model and returns its id.
+// CreateHrHolidaysStatuss creates a new hr.holidays.status model and returns its id.
 func (c *Client) CreateHrHolidaysStatuss(hhss []*HrHolidaysStatus) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range hhss {
 		vv = append(vv, v)
 	}
-	return c.Create(HrHolidaysStatusModel, vv)
+	return c.Create(HrHolidaysStatusModel, vv, nil)
 }
 
 // UpdateHrHolidaysStatus updates an existing hr.holidays.status record.
@@ -69,7 +65,7 @@ func (c *Client) UpdateHrHolidaysStatus(hhs *HrHolidaysStatus) error {
 // UpdateHrHolidaysStatuss updates existing hr.holidays.status records.
 // All records (represented by ids) will be updated by hhs values.
 func (c *Client) UpdateHrHolidaysStatuss(ids []int64, hhs *HrHolidaysStatus) error {
-	return c.Update(HrHolidaysStatusModel, ids, hhs)
+	return c.Update(HrHolidaysStatusModel, ids, hhs, nil)
 }
 
 // DeleteHrHolidaysStatus deletes an existing hr.holidays.status record.
@@ -88,10 +84,7 @@ func (c *Client) GetHrHolidaysStatus(id int64) (*HrHolidaysStatus, error) {
 	if err != nil {
 		return nil, err
 	}
-	if hhss != nil && len(*hhss) > 0 {
-		return &((*hhss)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of hr.holidays.status not found", id)
+	return &((*hhss)[0]), nil
 }
 
 // GetHrHolidaysStatuss gets hr.holidays.status existing records.
@@ -109,10 +102,7 @@ func (c *Client) FindHrHolidaysStatus(criteria *Criteria) (*HrHolidaysStatus, er
 	if err := c.SearchRead(HrHolidaysStatusModel, criteria, NewOptions().Limit(1), hhss); err != nil {
 		return nil, err
 	}
-	if hhss != nil && len(*hhss) > 0 {
-		return &((*hhss)[0]), nil
-	}
-	return nil, fmt.Errorf("hr.holidays.status was not found with criteria %v", criteria)
+	return &((*hhss)[0]), nil
 }
 
 // FindHrHolidaysStatuss finds hr.holidays.status records by querying it
@@ -128,11 +118,7 @@ func (c *Client) FindHrHolidaysStatuss(criteria *Criteria, options *Options) (*H
 // FindHrHolidaysStatusIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindHrHolidaysStatusIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(HrHolidaysStatusModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(HrHolidaysStatusModel, criteria, options)
 }
 
 // FindHrHolidaysStatusId finds record id by querying it with criteria.
@@ -141,8 +127,5 @@ func (c *Client) FindHrHolidaysStatusId(criteria *Criteria, options *Options) (i
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("hr.holidays.status was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

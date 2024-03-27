@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountFiscalPositionTax represents account.fiscal.position.tax model.
 type AccountFiscalPositionTax struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	PositionId  *Many2One `xmlrpc:"position_id,omptempty"`
-	TaxDestId   *Many2One `xmlrpc:"tax_dest_id,omptempty"`
-	TaxSrcId    *Many2One `xmlrpc:"tax_src_id,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	PositionId  *Many2One `xmlrpc:"position_id,omitempty"`
+	TaxDestId   *Many2One `xmlrpc:"tax_dest_id,omitempty"`
+	TaxSrcId    *Many2One `xmlrpc:"tax_src_id,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountFiscalPositionTaxs represents array of account.fiscal.position.tax model.
@@ -41,13 +37,13 @@ func (c *Client) CreateAccountFiscalPositionTax(afpt *AccountFiscalPositionTax) 
 	return ids[0], nil
 }
 
-// CreateAccountFiscalPositionTax creates a new account.fiscal.position.tax model and returns its id.
+// CreateAccountFiscalPositionTaxs creates a new account.fiscal.position.tax model and returns its id.
 func (c *Client) CreateAccountFiscalPositionTaxs(afpts []*AccountFiscalPositionTax) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range afpts {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountFiscalPositionTaxModel, vv)
+	return c.Create(AccountFiscalPositionTaxModel, vv, nil)
 }
 
 // UpdateAccountFiscalPositionTax updates an existing account.fiscal.position.tax record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateAccountFiscalPositionTax(afpt *AccountFiscalPositionTax) 
 // UpdateAccountFiscalPositionTaxs updates existing account.fiscal.position.tax records.
 // All records (represented by ids) will be updated by afpt values.
 func (c *Client) UpdateAccountFiscalPositionTaxs(ids []int64, afpt *AccountFiscalPositionTax) error {
-	return c.Update(AccountFiscalPositionTaxModel, ids, afpt)
+	return c.Update(AccountFiscalPositionTaxModel, ids, afpt, nil)
 }
 
 // DeleteAccountFiscalPositionTax deletes an existing account.fiscal.position.tax record.
@@ -77,10 +73,7 @@ func (c *Client) GetAccountFiscalPositionTax(id int64) (*AccountFiscalPositionTa
 	if err != nil {
 		return nil, err
 	}
-	if afpts != nil && len(*afpts) > 0 {
-		return &((*afpts)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.fiscal.position.tax not found", id)
+	return &((*afpts)[0]), nil
 }
 
 // GetAccountFiscalPositionTaxs gets account.fiscal.position.tax existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindAccountFiscalPositionTax(criteria *Criteria) (*AccountFisca
 	if err := c.SearchRead(AccountFiscalPositionTaxModel, criteria, NewOptions().Limit(1), afpts); err != nil {
 		return nil, err
 	}
-	if afpts != nil && len(*afpts) > 0 {
-		return &((*afpts)[0]), nil
-	}
-	return nil, fmt.Errorf("account.fiscal.position.tax was not found with criteria %v", criteria)
+	return &((*afpts)[0]), nil
 }
 
 // FindAccountFiscalPositionTaxs finds account.fiscal.position.tax records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindAccountFiscalPositionTaxs(criteria *Criteria, options *Opti
 // FindAccountFiscalPositionTaxIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountFiscalPositionTaxIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountFiscalPositionTaxModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountFiscalPositionTaxModel, criteria, options)
 }
 
 // FindAccountFiscalPositionTaxId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindAccountFiscalPositionTaxId(criteria *Criteria, options *Opt
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.fiscal.position.tax was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

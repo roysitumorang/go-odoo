@@ -1,44 +1,40 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // PaymentTransaction represents payment.transaction model.
 type PaymentTransaction struct {
-	LastUpdate        *Time      `xmlrpc:"__last_update,omptempty"`
-	AcquirerId        *Many2One  `xmlrpc:"acquirer_id,omptempty"`
-	AcquirerReference *String    `xmlrpc:"acquirer_reference,omptempty"`
-	Amount            *Float     `xmlrpc:"amount,omptempty"`
-	CallbackHash      *String    `xmlrpc:"callback_hash,omptempty"`
-	CallbackMethod    *String    `xmlrpc:"callback_method,omptempty"`
-	CallbackModelId   *Many2One  `xmlrpc:"callback_model_id,omptempty"`
-	CallbackResId     *Int       `xmlrpc:"callback_res_id,omptempty"`
-	CreateDate        *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid         *Many2One  `xmlrpc:"create_uid,omptempty"`
-	CurrencyId        *Many2One  `xmlrpc:"currency_id,omptempty"`
-	DateValidate      *Time      `xmlrpc:"date_validate,omptempty"`
-	DisplayName       *String    `xmlrpc:"display_name,omptempty"`
-	Fees              *Float     `xmlrpc:"fees,omptempty"`
-	Html3Ds           *String    `xmlrpc:"html_3ds,omptempty"`
-	Id                *Int       `xmlrpc:"id,omptempty"`
-	PartnerAddress    *String    `xmlrpc:"partner_address,omptempty"`
-	PartnerCity       *String    `xmlrpc:"partner_city,omptempty"`
-	PartnerCountryId  *Many2One  `xmlrpc:"partner_country_id,omptempty"`
-	PartnerEmail      *String    `xmlrpc:"partner_email,omptempty"`
-	PartnerId         *Many2One  `xmlrpc:"partner_id,omptempty"`
-	PartnerLang       *Selection `xmlrpc:"partner_lang,omptempty"`
-	PartnerName       *String    `xmlrpc:"partner_name,omptempty"`
-	PartnerPhone      *String    `xmlrpc:"partner_phone,omptempty"`
-	PartnerZip        *String    `xmlrpc:"partner_zip,omptempty"`
-	PaymentTokenId    *Many2One  `xmlrpc:"payment_token_id,omptempty"`
-	Provider          *Selection `xmlrpc:"provider,omptempty"`
-	Reference         *String    `xmlrpc:"reference,omptempty"`
-	State             *Selection `xmlrpc:"state,omptempty"`
-	StateMessage      *String    `xmlrpc:"state_message,omptempty"`
-	Type              *Selection `xmlrpc:"type,omptempty"`
-	WriteDate         *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid          *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate        *Time      `xmlrpc:"__last_update,omitempty"`
+	AcquirerId        *Many2One  `xmlrpc:"acquirer_id,omitempty"`
+	AcquirerReference *String    `xmlrpc:"acquirer_reference,omitempty"`
+	Amount            *Float     `xmlrpc:"amount,omitempty"`
+	CallbackHash      *String    `xmlrpc:"callback_hash,omitempty"`
+	CallbackMethod    *String    `xmlrpc:"callback_method,omitempty"`
+	CallbackModelId   *Many2One  `xmlrpc:"callback_model_id,omitempty"`
+	CallbackResId     *Int       `xmlrpc:"callback_res_id,omitempty"`
+	CreateDate        *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid         *Many2One  `xmlrpc:"create_uid,omitempty"`
+	CurrencyId        *Many2One  `xmlrpc:"currency_id,omitempty"`
+	DateValidate      *Time      `xmlrpc:"date_validate,omitempty"`
+	DisplayName       *String    `xmlrpc:"display_name,omitempty"`
+	Fees              *Float     `xmlrpc:"fees,omitempty"`
+	Html3Ds           *String    `xmlrpc:"html_3ds,omitempty"`
+	Id                *Int       `xmlrpc:"id,omitempty"`
+	PartnerAddress    *String    `xmlrpc:"partner_address,omitempty"`
+	PartnerCity       *String    `xmlrpc:"partner_city,omitempty"`
+	PartnerCountryId  *Many2One  `xmlrpc:"partner_country_id,omitempty"`
+	PartnerEmail      *String    `xmlrpc:"partner_email,omitempty"`
+	PartnerId         *Many2One  `xmlrpc:"partner_id,omitempty"`
+	PartnerLang       *Selection `xmlrpc:"partner_lang,omitempty"`
+	PartnerName       *String    `xmlrpc:"partner_name,omitempty"`
+	PartnerPhone      *String    `xmlrpc:"partner_phone,omitempty"`
+	PartnerZip        *String    `xmlrpc:"partner_zip,omitempty"`
+	PaymentTokenId    *Many2One  `xmlrpc:"payment_token_id,omitempty"`
+	Provider          *Selection `xmlrpc:"provider,omitempty"`
+	Reference         *String    `xmlrpc:"reference,omitempty"`
+	State             *Selection `xmlrpc:"state,omitempty"`
+	StateMessage      *String    `xmlrpc:"state_message,omitempty"`
+	Type              *Selection `xmlrpc:"type,omitempty"`
+	WriteDate         *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid          *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // PaymentTransactions represents array of payment.transaction model.
@@ -64,13 +60,13 @@ func (c *Client) CreatePaymentTransaction(pt *PaymentTransaction) (int64, error)
 	return ids[0], nil
 }
 
-// CreatePaymentTransaction creates a new payment.transaction model and returns its id.
+// CreatePaymentTransactions creates a new payment.transaction model and returns its id.
 func (c *Client) CreatePaymentTransactions(pts []*PaymentTransaction) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range pts {
 		vv = append(vv, v)
 	}
-	return c.Create(PaymentTransactionModel, vv)
+	return c.Create(PaymentTransactionModel, vv, nil)
 }
 
 // UpdatePaymentTransaction updates an existing payment.transaction record.
@@ -81,7 +77,7 @@ func (c *Client) UpdatePaymentTransaction(pt *PaymentTransaction) error {
 // UpdatePaymentTransactions updates existing payment.transaction records.
 // All records (represented by ids) will be updated by pt values.
 func (c *Client) UpdatePaymentTransactions(ids []int64, pt *PaymentTransaction) error {
-	return c.Update(PaymentTransactionModel, ids, pt)
+	return c.Update(PaymentTransactionModel, ids, pt, nil)
 }
 
 // DeletePaymentTransaction deletes an existing payment.transaction record.
@@ -100,10 +96,7 @@ func (c *Client) GetPaymentTransaction(id int64) (*PaymentTransaction, error) {
 	if err != nil {
 		return nil, err
 	}
-	if pts != nil && len(*pts) > 0 {
-		return &((*pts)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of payment.transaction not found", id)
+	return &((*pts)[0]), nil
 }
 
 // GetPaymentTransactions gets payment.transaction existing records.
@@ -121,10 +114,7 @@ func (c *Client) FindPaymentTransaction(criteria *Criteria) (*PaymentTransaction
 	if err := c.SearchRead(PaymentTransactionModel, criteria, NewOptions().Limit(1), pts); err != nil {
 		return nil, err
 	}
-	if pts != nil && len(*pts) > 0 {
-		return &((*pts)[0]), nil
-	}
-	return nil, fmt.Errorf("payment.transaction was not found with criteria %v", criteria)
+	return &((*pts)[0]), nil
 }
 
 // FindPaymentTransactions finds payment.transaction records by querying it
@@ -140,11 +130,7 @@ func (c *Client) FindPaymentTransactions(criteria *Criteria, options *Options) (
 // FindPaymentTransactionIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindPaymentTransactionIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(PaymentTransactionModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(PaymentTransactionModel, criteria, options)
 }
 
 // FindPaymentTransactionId finds record id by querying it with criteria.
@@ -153,8 +139,5 @@ func (c *Client) FindPaymentTransactionId(criteria *Criteria, options *Options) 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("payment.transaction was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

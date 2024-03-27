@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // BarcodeNomenclature represents barcode.nomenclature model.
 type BarcodeNomenclature struct {
-	LastUpdate  *Time      `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String    `xmlrpc:"display_name,omptempty"`
-	Id          *Int       `xmlrpc:"id,omptempty"`
-	Name        *String    `xmlrpc:"name,omptempty"`
-	RuleIds     *Relation  `xmlrpc:"rule_ids,omptempty"`
-	UpcEanConv  *Selection `xmlrpc:"upc_ean_conv,omptempty"`
-	WriteDate   *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time      `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String    `xmlrpc:"display_name,omitempty"`
+	Id          *Int       `xmlrpc:"id,omitempty"`
+	Name        *String    `xmlrpc:"name,omitempty"`
+	RuleIds     *Relation  `xmlrpc:"rule_ids,omitempty"`
+	UpcEanConv  *Selection `xmlrpc:"upc_ean_conv,omitempty"`
+	WriteDate   *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // BarcodeNomenclatures represents array of barcode.nomenclature model.
@@ -41,13 +37,13 @@ func (c *Client) CreateBarcodeNomenclature(bn *BarcodeNomenclature) (int64, erro
 	return ids[0], nil
 }
 
-// CreateBarcodeNomenclature creates a new barcode.nomenclature model and returns its id.
+// CreateBarcodeNomenclatures creates a new barcode.nomenclature model and returns its id.
 func (c *Client) CreateBarcodeNomenclatures(bns []*BarcodeNomenclature) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range bns {
 		vv = append(vv, v)
 	}
-	return c.Create(BarcodeNomenclatureModel, vv)
+	return c.Create(BarcodeNomenclatureModel, vv, nil)
 }
 
 // UpdateBarcodeNomenclature updates an existing barcode.nomenclature record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateBarcodeNomenclature(bn *BarcodeNomenclature) error {
 // UpdateBarcodeNomenclatures updates existing barcode.nomenclature records.
 // All records (represented by ids) will be updated by bn values.
 func (c *Client) UpdateBarcodeNomenclatures(ids []int64, bn *BarcodeNomenclature) error {
-	return c.Update(BarcodeNomenclatureModel, ids, bn)
+	return c.Update(BarcodeNomenclatureModel, ids, bn, nil)
 }
 
 // DeleteBarcodeNomenclature deletes an existing barcode.nomenclature record.
@@ -77,10 +73,7 @@ func (c *Client) GetBarcodeNomenclature(id int64) (*BarcodeNomenclature, error) 
 	if err != nil {
 		return nil, err
 	}
-	if bns != nil && len(*bns) > 0 {
-		return &((*bns)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of barcode.nomenclature not found", id)
+	return &((*bns)[0]), nil
 }
 
 // GetBarcodeNomenclatures gets barcode.nomenclature existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindBarcodeNomenclature(criteria *Criteria) (*BarcodeNomenclatu
 	if err := c.SearchRead(BarcodeNomenclatureModel, criteria, NewOptions().Limit(1), bns); err != nil {
 		return nil, err
 	}
-	if bns != nil && len(*bns) > 0 {
-		return &((*bns)[0]), nil
-	}
-	return nil, fmt.Errorf("barcode.nomenclature was not found with criteria %v", criteria)
+	return &((*bns)[0]), nil
 }
 
 // FindBarcodeNomenclatures finds barcode.nomenclature records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindBarcodeNomenclatures(criteria *Criteria, options *Options) 
 // FindBarcodeNomenclatureIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindBarcodeNomenclatureIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(BarcodeNomenclatureModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(BarcodeNomenclatureModel, criteria, options)
 }
 
 // FindBarcodeNomenclatureId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindBarcodeNomenclatureId(criteria *Criteria, options *Options)
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("barcode.nomenclature was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

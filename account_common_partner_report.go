@@ -1,24 +1,20 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountCommonPartnerReport represents account.common.partner.report model.
 type AccountCommonPartnerReport struct {
-	LastUpdate      *Time      `xmlrpc:"__last_update,omptempty"`
-	CompanyId       *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate      *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid       *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DateFrom        *Time      `xmlrpc:"date_from,omptempty"`
-	DateTo          *Time      `xmlrpc:"date_to,omptempty"`
-	DisplayName     *String    `xmlrpc:"display_name,omptempty"`
-	Id              *Int       `xmlrpc:"id,omptempty"`
-	JournalIds      *Relation  `xmlrpc:"journal_ids,omptempty"`
-	ResultSelection *Selection `xmlrpc:"result_selection,omptempty"`
-	TargetMove      *Selection `xmlrpc:"target_move,omptempty"`
-	WriteDate       *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid        *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate      *Time      `xmlrpc:"__last_update,omitempty"`
+	CompanyId       *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate      *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid       *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DateFrom        *Time      `xmlrpc:"date_from,omitempty"`
+	DateTo          *Time      `xmlrpc:"date_to,omitempty"`
+	DisplayName     *String    `xmlrpc:"display_name,omitempty"`
+	Id              *Int       `xmlrpc:"id,omitempty"`
+	JournalIds      *Relation  `xmlrpc:"journal_ids,omitempty"`
+	ResultSelection *Selection `xmlrpc:"result_selection,omitempty"`
+	TargetMove      *Selection `xmlrpc:"target_move,omitempty"`
+	WriteDate       *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid        *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountCommonPartnerReports represents array of account.common.partner.report model.
@@ -44,13 +40,13 @@ func (c *Client) CreateAccountCommonPartnerReport(acpr *AccountCommonPartnerRepo
 	return ids[0], nil
 }
 
-// CreateAccountCommonPartnerReport creates a new account.common.partner.report model and returns its id.
+// CreateAccountCommonPartnerReports creates a new account.common.partner.report model and returns its id.
 func (c *Client) CreateAccountCommonPartnerReports(acprs []*AccountCommonPartnerReport) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range acprs {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountCommonPartnerReportModel, vv)
+	return c.Create(AccountCommonPartnerReportModel, vv, nil)
 }
 
 // UpdateAccountCommonPartnerReport updates an existing account.common.partner.report record.
@@ -61,7 +57,7 @@ func (c *Client) UpdateAccountCommonPartnerReport(acpr *AccountCommonPartnerRepo
 // UpdateAccountCommonPartnerReports updates existing account.common.partner.report records.
 // All records (represented by ids) will be updated by acpr values.
 func (c *Client) UpdateAccountCommonPartnerReports(ids []int64, acpr *AccountCommonPartnerReport) error {
-	return c.Update(AccountCommonPartnerReportModel, ids, acpr)
+	return c.Update(AccountCommonPartnerReportModel, ids, acpr, nil)
 }
 
 // DeleteAccountCommonPartnerReport deletes an existing account.common.partner.report record.
@@ -80,10 +76,7 @@ func (c *Client) GetAccountCommonPartnerReport(id int64) (*AccountCommonPartnerR
 	if err != nil {
 		return nil, err
 	}
-	if acprs != nil && len(*acprs) > 0 {
-		return &((*acprs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.common.partner.report not found", id)
+	return &((*acprs)[0]), nil
 }
 
 // GetAccountCommonPartnerReports gets account.common.partner.report existing records.
@@ -101,10 +94,7 @@ func (c *Client) FindAccountCommonPartnerReport(criteria *Criteria) (*AccountCom
 	if err := c.SearchRead(AccountCommonPartnerReportModel, criteria, NewOptions().Limit(1), acprs); err != nil {
 		return nil, err
 	}
-	if acprs != nil && len(*acprs) > 0 {
-		return &((*acprs)[0]), nil
-	}
-	return nil, fmt.Errorf("account.common.partner.report was not found with criteria %v", criteria)
+	return &((*acprs)[0]), nil
 }
 
 // FindAccountCommonPartnerReports finds account.common.partner.report records by querying it
@@ -120,11 +110,7 @@ func (c *Client) FindAccountCommonPartnerReports(criteria *Criteria, options *Op
 // FindAccountCommonPartnerReportIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountCommonPartnerReportIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountCommonPartnerReportModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountCommonPartnerReportModel, criteria, options)
 }
 
 // FindAccountCommonPartnerReportId finds record id by querying it with criteria.
@@ -133,8 +119,5 @@ func (c *Client) FindAccountCommonPartnerReportId(criteria *Criteria, options *O
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.common.partner.report was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

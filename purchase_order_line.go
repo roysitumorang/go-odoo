@@ -1,44 +1,40 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // PurchaseOrderLine represents purchase.order.line model.
 type PurchaseOrderLine struct {
-	LastUpdate        *Time      `xmlrpc:"__last_update,omptempty"`
-	AccountAnalyticId *Many2One  `xmlrpc:"account_analytic_id,omptempty"`
-	AnalyticTagIds    *Relation  `xmlrpc:"analytic_tag_ids,omptempty"`
-	CompanyId         *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate        *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid         *Many2One  `xmlrpc:"create_uid,omptempty"`
-	CurrencyId        *Many2One  `xmlrpc:"currency_id,omptempty"`
-	DateOrder         *Time      `xmlrpc:"date_order,omptempty"`
-	DatePlanned       *Time      `xmlrpc:"date_planned,omptempty"`
-	DisplayName       *String    `xmlrpc:"display_name,omptempty"`
-	Id                *Int       `xmlrpc:"id,omptempty"`
-	InvoiceLines      *Relation  `xmlrpc:"invoice_lines,omptempty"`
-	MoveDestIds       *Relation  `xmlrpc:"move_dest_ids,omptempty"`
-	MoveIds           *Relation  `xmlrpc:"move_ids,omptempty"`
-	Name              *String    `xmlrpc:"name,omptempty"`
-	OrderId           *Many2One  `xmlrpc:"order_id,omptempty"`
-	OrderpointId      *Many2One  `xmlrpc:"orderpoint_id,omptempty"`
-	PartnerId         *Many2One  `xmlrpc:"partner_id,omptempty"`
-	PriceSubtotal     *Float     `xmlrpc:"price_subtotal,omptempty"`
-	PriceTax          *Float     `xmlrpc:"price_tax,omptempty"`
-	PriceTotal        *Float     `xmlrpc:"price_total,omptempty"`
-	PriceUnit         *Float     `xmlrpc:"price_unit,omptempty"`
-	ProductId         *Many2One  `xmlrpc:"product_id,omptempty"`
-	ProductImage      *String    `xmlrpc:"product_image,omptempty"`
-	ProductQty        *Float     `xmlrpc:"product_qty,omptempty"`
-	ProductUom        *Many2One  `xmlrpc:"product_uom,omptempty"`
-	QtyInvoiced       *Float     `xmlrpc:"qty_invoiced,omptempty"`
-	QtyReceived       *Float     `xmlrpc:"qty_received,omptempty"`
-	Sequence          *Int       `xmlrpc:"sequence,omptempty"`
-	State             *Selection `xmlrpc:"state,omptempty"`
-	TaxesId           *Relation  `xmlrpc:"taxes_id,omptempty"`
-	WriteDate         *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid          *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate        *Time      `xmlrpc:"__last_update,omitempty"`
+	AccountAnalyticId *Many2One  `xmlrpc:"account_analytic_id,omitempty"`
+	AnalyticTagIds    *Relation  `xmlrpc:"analytic_tag_ids,omitempty"`
+	CompanyId         *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate        *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid         *Many2One  `xmlrpc:"create_uid,omitempty"`
+	CurrencyId        *Many2One  `xmlrpc:"currency_id,omitempty"`
+	DateOrder         *Time      `xmlrpc:"date_order,omitempty"`
+	DatePlanned       *Time      `xmlrpc:"date_planned,omitempty"`
+	DisplayName       *String    `xmlrpc:"display_name,omitempty"`
+	Id                *Int       `xmlrpc:"id,omitempty"`
+	InvoiceLines      *Relation  `xmlrpc:"invoice_lines,omitempty"`
+	MoveDestIds       *Relation  `xmlrpc:"move_dest_ids,omitempty"`
+	MoveIds           *Relation  `xmlrpc:"move_ids,omitempty"`
+	Name              *String    `xmlrpc:"name,omitempty"`
+	OrderId           *Many2One  `xmlrpc:"order_id,omitempty"`
+	OrderpointId      *Many2One  `xmlrpc:"orderpoint_id,omitempty"`
+	PartnerId         *Many2One  `xmlrpc:"partner_id,omitempty"`
+	PriceSubtotal     *Float     `xmlrpc:"price_subtotal,omitempty"`
+	PriceTax          *Float     `xmlrpc:"price_tax,omitempty"`
+	PriceTotal        *Float     `xmlrpc:"price_total,omitempty"`
+	PriceUnit         *Float     `xmlrpc:"price_unit,omitempty"`
+	ProductId         *Many2One  `xmlrpc:"product_id,omitempty"`
+	ProductImage      *String    `xmlrpc:"product_image,omitempty"`
+	ProductQty        *Float     `xmlrpc:"product_qty,omitempty"`
+	ProductUom        *Many2One  `xmlrpc:"product_uom,omitempty"`
+	QtyInvoiced       *Float     `xmlrpc:"qty_invoiced,omitempty"`
+	QtyReceived       *Float     `xmlrpc:"qty_received,omitempty"`
+	Sequence          *Int       `xmlrpc:"sequence,omitempty"`
+	State             *Selection `xmlrpc:"state,omitempty"`
+	TaxesId           *Relation  `xmlrpc:"taxes_id,omitempty"`
+	WriteDate         *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid          *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // PurchaseOrderLines represents array of purchase.order.line model.
@@ -64,13 +60,13 @@ func (c *Client) CreatePurchaseOrderLine(pol *PurchaseOrderLine) (int64, error) 
 	return ids[0], nil
 }
 
-// CreatePurchaseOrderLine creates a new purchase.order.line model and returns its id.
+// CreatePurchaseOrderLines creates a new purchase.order.line model and returns its id.
 func (c *Client) CreatePurchaseOrderLines(pols []*PurchaseOrderLine) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range pols {
 		vv = append(vv, v)
 	}
-	return c.Create(PurchaseOrderLineModel, vv)
+	return c.Create(PurchaseOrderLineModel, vv, nil)
 }
 
 // UpdatePurchaseOrderLine updates an existing purchase.order.line record.
@@ -81,7 +77,7 @@ func (c *Client) UpdatePurchaseOrderLine(pol *PurchaseOrderLine) error {
 // UpdatePurchaseOrderLines updates existing purchase.order.line records.
 // All records (represented by ids) will be updated by pol values.
 func (c *Client) UpdatePurchaseOrderLines(ids []int64, pol *PurchaseOrderLine) error {
-	return c.Update(PurchaseOrderLineModel, ids, pol)
+	return c.Update(PurchaseOrderLineModel, ids, pol, nil)
 }
 
 // DeletePurchaseOrderLine deletes an existing purchase.order.line record.
@@ -100,10 +96,7 @@ func (c *Client) GetPurchaseOrderLine(id int64) (*PurchaseOrderLine, error) {
 	if err != nil {
 		return nil, err
 	}
-	if pols != nil && len(*pols) > 0 {
-		return &((*pols)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of purchase.order.line not found", id)
+	return &((*pols)[0]), nil
 }
 
 // GetPurchaseOrderLines gets purchase.order.line existing records.
@@ -121,10 +114,7 @@ func (c *Client) FindPurchaseOrderLine(criteria *Criteria) (*PurchaseOrderLine, 
 	if err := c.SearchRead(PurchaseOrderLineModel, criteria, NewOptions().Limit(1), pols); err != nil {
 		return nil, err
 	}
-	if pols != nil && len(*pols) > 0 {
-		return &((*pols)[0]), nil
-	}
-	return nil, fmt.Errorf("purchase.order.line was not found with criteria %v", criteria)
+	return &((*pols)[0]), nil
 }
 
 // FindPurchaseOrderLines finds purchase.order.line records by querying it
@@ -140,11 +130,7 @@ func (c *Client) FindPurchaseOrderLines(criteria *Criteria, options *Options) (*
 // FindPurchaseOrderLineIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindPurchaseOrderLineIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(PurchaseOrderLineModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(PurchaseOrderLineModel, criteria, options)
 }
 
 // FindPurchaseOrderLineId finds record id by querying it with criteria.
@@ -153,8 +139,5 @@ func (c *Client) FindPurchaseOrderLineId(criteria *Criteria, options *Options) (
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("purchase.order.line was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

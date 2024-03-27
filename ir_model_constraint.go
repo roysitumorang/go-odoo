@@ -1,25 +1,21 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrModelConstraint represents ir.model.constraint model.
 type IrModelConstraint struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DateInit    *Time     `xmlrpc:"date_init,omptempty"`
-	DateUpdate  *Time     `xmlrpc:"date_update,omptempty"`
-	Definition  *String   `xmlrpc:"definition,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Model       *Many2One `xmlrpc:"model,omptempty"`
-	Module      *Many2One `xmlrpc:"module,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	Type        *String   `xmlrpc:"type,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DateInit    *Time     `xmlrpc:"date_init,omitempty"`
+	DateUpdate  *Time     `xmlrpc:"date_update,omitempty"`
+	Definition  *String   `xmlrpc:"definition,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Model       *Many2One `xmlrpc:"model,omitempty"`
+	Module      *Many2One `xmlrpc:"module,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	Type        *String   `xmlrpc:"type,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrModelConstraints represents array of ir.model.constraint model.
@@ -45,13 +41,13 @@ func (c *Client) CreateIrModelConstraint(imc *IrModelConstraint) (int64, error) 
 	return ids[0], nil
 }
 
-// CreateIrModelConstraint creates a new ir.model.constraint model and returns its id.
+// CreateIrModelConstraints creates a new ir.model.constraint model and returns its id.
 func (c *Client) CreateIrModelConstraints(imcs []*IrModelConstraint) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range imcs {
 		vv = append(vv, v)
 	}
-	return c.Create(IrModelConstraintModel, vv)
+	return c.Create(IrModelConstraintModel, vv, nil)
 }
 
 // UpdateIrModelConstraint updates an existing ir.model.constraint record.
@@ -62,7 +58,7 @@ func (c *Client) UpdateIrModelConstraint(imc *IrModelConstraint) error {
 // UpdateIrModelConstraints updates existing ir.model.constraint records.
 // All records (represented by ids) will be updated by imc values.
 func (c *Client) UpdateIrModelConstraints(ids []int64, imc *IrModelConstraint) error {
-	return c.Update(IrModelConstraintModel, ids, imc)
+	return c.Update(IrModelConstraintModel, ids, imc, nil)
 }
 
 // DeleteIrModelConstraint deletes an existing ir.model.constraint record.
@@ -81,10 +77,7 @@ func (c *Client) GetIrModelConstraint(id int64) (*IrModelConstraint, error) {
 	if err != nil {
 		return nil, err
 	}
-	if imcs != nil && len(*imcs) > 0 {
-		return &((*imcs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.model.constraint not found", id)
+	return &((*imcs)[0]), nil
 }
 
 // GetIrModelConstraints gets ir.model.constraint existing records.
@@ -102,10 +95,7 @@ func (c *Client) FindIrModelConstraint(criteria *Criteria) (*IrModelConstraint, 
 	if err := c.SearchRead(IrModelConstraintModel, criteria, NewOptions().Limit(1), imcs); err != nil {
 		return nil, err
 	}
-	if imcs != nil && len(*imcs) > 0 {
-		return &((*imcs)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.model.constraint was not found with criteria %v", criteria)
+	return &((*imcs)[0]), nil
 }
 
 // FindIrModelConstraints finds ir.model.constraint records by querying it
@@ -121,11 +111,7 @@ func (c *Client) FindIrModelConstraints(criteria *Criteria, options *Options) (*
 // FindIrModelConstraintIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrModelConstraintIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrModelConstraintModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrModelConstraintModel, criteria, options)
 }
 
 // FindIrModelConstraintId finds record id by querying it with criteria.
@@ -134,8 +120,5 @@ func (c *Client) FindIrModelConstraintId(criteria *Criteria, options *Options) (
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.model.constraint was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

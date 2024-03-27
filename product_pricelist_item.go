@@ -1,40 +1,36 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ProductPricelistItem represents product.pricelist.item model.
 type ProductPricelistItem struct {
-	LastUpdate      *Time      `xmlrpc:"__last_update,omptempty"`
-	AppliedOn       *Selection `xmlrpc:"applied_on,omptempty"`
-	Base            *Selection `xmlrpc:"base,omptempty"`
-	BasePricelistId *Many2One  `xmlrpc:"base_pricelist_id,omptempty"`
-	CategId         *Many2One  `xmlrpc:"categ_id,omptempty"`
-	CompanyId       *Many2One  `xmlrpc:"company_id,omptempty"`
-	ComputePrice    *Selection `xmlrpc:"compute_price,omptempty"`
-	CreateDate      *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid       *Many2One  `xmlrpc:"create_uid,omptempty"`
-	CurrencyId      *Many2One  `xmlrpc:"currency_id,omptempty"`
-	DateEnd         *Time      `xmlrpc:"date_end,omptempty"`
-	DateStart       *Time      `xmlrpc:"date_start,omptempty"`
-	DisplayName     *String    `xmlrpc:"display_name,omptempty"`
-	FixedPrice      *Float     `xmlrpc:"fixed_price,omptempty"`
-	Id              *Int       `xmlrpc:"id,omptempty"`
-	MinQuantity     *Int       `xmlrpc:"min_quantity,omptempty"`
-	Name            *String    `xmlrpc:"name,omptempty"`
-	PercentPrice    *Float     `xmlrpc:"percent_price,omptempty"`
-	Price           *String    `xmlrpc:"price,omptempty"`
-	PriceDiscount   *Float     `xmlrpc:"price_discount,omptempty"`
-	PriceMaxMargin  *Float     `xmlrpc:"price_max_margin,omptempty"`
-	PriceMinMargin  *Float     `xmlrpc:"price_min_margin,omptempty"`
-	PriceRound      *Float     `xmlrpc:"price_round,omptempty"`
-	PriceSurcharge  *Float     `xmlrpc:"price_surcharge,omptempty"`
-	PricelistId     *Many2One  `xmlrpc:"pricelist_id,omptempty"`
-	ProductId       *Many2One  `xmlrpc:"product_id,omptempty"`
-	ProductTmplId   *Many2One  `xmlrpc:"product_tmpl_id,omptempty"`
-	WriteDate       *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid        *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate      *Time      `xmlrpc:"__last_update,omitempty"`
+	AppliedOn       *Selection `xmlrpc:"applied_on,omitempty"`
+	Base            *Selection `xmlrpc:"base,omitempty"`
+	BasePricelistId *Many2One  `xmlrpc:"base_pricelist_id,omitempty"`
+	CategId         *Many2One  `xmlrpc:"categ_id,omitempty"`
+	CompanyId       *Many2One  `xmlrpc:"company_id,omitempty"`
+	ComputePrice    *Selection `xmlrpc:"compute_price,omitempty"`
+	CreateDate      *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid       *Many2One  `xmlrpc:"create_uid,omitempty"`
+	CurrencyId      *Many2One  `xmlrpc:"currency_id,omitempty"`
+	DateEnd         *Time      `xmlrpc:"date_end,omitempty"`
+	DateStart       *Time      `xmlrpc:"date_start,omitempty"`
+	DisplayName     *String    `xmlrpc:"display_name,omitempty"`
+	FixedPrice      *Float     `xmlrpc:"fixed_price,omitempty"`
+	Id              *Int       `xmlrpc:"id,omitempty"`
+	MinQuantity     *Int       `xmlrpc:"min_quantity,omitempty"`
+	Name            *String    `xmlrpc:"name,omitempty"`
+	PercentPrice    *Float     `xmlrpc:"percent_price,omitempty"`
+	Price           *String    `xmlrpc:"price,omitempty"`
+	PriceDiscount   *Float     `xmlrpc:"price_discount,omitempty"`
+	PriceMaxMargin  *Float     `xmlrpc:"price_max_margin,omitempty"`
+	PriceMinMargin  *Float     `xmlrpc:"price_min_margin,omitempty"`
+	PriceRound      *Float     `xmlrpc:"price_round,omitempty"`
+	PriceSurcharge  *Float     `xmlrpc:"price_surcharge,omitempty"`
+	PricelistId     *Many2One  `xmlrpc:"pricelist_id,omitempty"`
+	ProductId       *Many2One  `xmlrpc:"product_id,omitempty"`
+	ProductTmplId   *Many2One  `xmlrpc:"product_tmpl_id,omitempty"`
+	WriteDate       *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid        *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // ProductPricelistItems represents array of product.pricelist.item model.
@@ -60,13 +56,13 @@ func (c *Client) CreateProductPricelistItem(ppi *ProductPricelistItem) (int64, e
 	return ids[0], nil
 }
 
-// CreateProductPricelistItem creates a new product.pricelist.item model and returns its id.
+// CreateProductPricelistItems creates a new product.pricelist.item model and returns its id.
 func (c *Client) CreateProductPricelistItems(ppis []*ProductPricelistItem) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range ppis {
 		vv = append(vv, v)
 	}
-	return c.Create(ProductPricelistItemModel, vv)
+	return c.Create(ProductPricelistItemModel, vv, nil)
 }
 
 // UpdateProductPricelistItem updates an existing product.pricelist.item record.
@@ -77,7 +73,7 @@ func (c *Client) UpdateProductPricelistItem(ppi *ProductPricelistItem) error {
 // UpdateProductPricelistItems updates existing product.pricelist.item records.
 // All records (represented by ids) will be updated by ppi values.
 func (c *Client) UpdateProductPricelistItems(ids []int64, ppi *ProductPricelistItem) error {
-	return c.Update(ProductPricelistItemModel, ids, ppi)
+	return c.Update(ProductPricelistItemModel, ids, ppi, nil)
 }
 
 // DeleteProductPricelistItem deletes an existing product.pricelist.item record.
@@ -96,10 +92,7 @@ func (c *Client) GetProductPricelistItem(id int64) (*ProductPricelistItem, error
 	if err != nil {
 		return nil, err
 	}
-	if ppis != nil && len(*ppis) > 0 {
-		return &((*ppis)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of product.pricelist.item not found", id)
+	return &((*ppis)[0]), nil
 }
 
 // GetProductPricelistItems gets product.pricelist.item existing records.
@@ -117,10 +110,7 @@ func (c *Client) FindProductPricelistItem(criteria *Criteria) (*ProductPricelist
 	if err := c.SearchRead(ProductPricelistItemModel, criteria, NewOptions().Limit(1), ppis); err != nil {
 		return nil, err
 	}
-	if ppis != nil && len(*ppis) > 0 {
-		return &((*ppis)[0]), nil
-	}
-	return nil, fmt.Errorf("product.pricelist.item was not found with criteria %v", criteria)
+	return &((*ppis)[0]), nil
 }
 
 // FindProductPricelistItems finds product.pricelist.item records by querying it
@@ -136,11 +126,7 @@ func (c *Client) FindProductPricelistItems(criteria *Criteria, options *Options)
 // FindProductPricelistItemIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindProductPricelistItemIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ProductPricelistItemModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ProductPricelistItemModel, criteria, options)
 }
 
 // FindProductPricelistItemId finds record id by querying it with criteria.
@@ -149,8 +135,5 @@ func (c *Client) FindProductPricelistItemId(criteria *Criteria, options *Options
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("product.pricelist.item was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

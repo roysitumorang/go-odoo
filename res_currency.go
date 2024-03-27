@@ -1,29 +1,25 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ResCurrency represents res.currency model.
 type ResCurrency struct {
-	LastUpdate           *Time      `xmlrpc:"__last_update,omptempty"`
-	Active               *Bool      `xmlrpc:"active,omptempty"`
-	CreateDate           *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid            *Many2One  `xmlrpc:"create_uid,omptempty"`
-	CurrencySubunitLabel *String    `xmlrpc:"currency_subunit_label,omptempty"`
-	CurrencyUnitLabel    *String    `xmlrpc:"currency_unit_label,omptempty"`
-	Date                 *Time      `xmlrpc:"date,omptempty"`
-	DecimalPlaces        *Int       `xmlrpc:"decimal_places,omptempty"`
-	DisplayName          *String    `xmlrpc:"display_name,omptempty"`
-	Id                   *Int       `xmlrpc:"id,omptempty"`
-	Name                 *String    `xmlrpc:"name,omptempty"`
-	Position             *Selection `xmlrpc:"position,omptempty"`
-	Rate                 *Float     `xmlrpc:"rate,omptempty"`
-	RateIds              *Relation  `xmlrpc:"rate_ids,omptempty"`
-	Rounding             *Float     `xmlrpc:"rounding,omptempty"`
-	Symbol               *String    `xmlrpc:"symbol,omptempty"`
-	WriteDate            *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid             *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate           *Time      `xmlrpc:"__last_update,omitempty"`
+	Active               *Bool      `xmlrpc:"active,omitempty"`
+	CreateDate           *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid            *Many2One  `xmlrpc:"create_uid,omitempty"`
+	CurrencySubunitLabel *String    `xmlrpc:"currency_subunit_label,omitempty"`
+	CurrencyUnitLabel    *String    `xmlrpc:"currency_unit_label,omitempty"`
+	Date                 *Time      `xmlrpc:"date,omitempty"`
+	DecimalPlaces        *Int       `xmlrpc:"decimal_places,omitempty"`
+	DisplayName          *String    `xmlrpc:"display_name,omitempty"`
+	Id                   *Int       `xmlrpc:"id,omitempty"`
+	Name                 *String    `xmlrpc:"name,omitempty"`
+	Position             *Selection `xmlrpc:"position,omitempty"`
+	Rate                 *Float     `xmlrpc:"rate,omitempty"`
+	RateIds              *Relation  `xmlrpc:"rate_ids,omitempty"`
+	Rounding             *Float     `xmlrpc:"rounding,omitempty"`
+	Symbol               *String    `xmlrpc:"symbol,omitempty"`
+	WriteDate            *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid             *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // ResCurrencys represents array of res.currency model.
@@ -49,13 +45,13 @@ func (c *Client) CreateResCurrency(rc *ResCurrency) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateResCurrency creates a new res.currency model and returns its id.
+// CreateResCurrencys creates a new res.currency model and returns its id.
 func (c *Client) CreateResCurrencys(rcs []*ResCurrency) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rcs {
 		vv = append(vv, v)
 	}
-	return c.Create(ResCurrencyModel, vv)
+	return c.Create(ResCurrencyModel, vv, nil)
 }
 
 // UpdateResCurrency updates an existing res.currency record.
@@ -66,7 +62,7 @@ func (c *Client) UpdateResCurrency(rc *ResCurrency) error {
 // UpdateResCurrencys updates existing res.currency records.
 // All records (represented by ids) will be updated by rc values.
 func (c *Client) UpdateResCurrencys(ids []int64, rc *ResCurrency) error {
-	return c.Update(ResCurrencyModel, ids, rc)
+	return c.Update(ResCurrencyModel, ids, rc, nil)
 }
 
 // DeleteResCurrency deletes an existing res.currency record.
@@ -85,10 +81,7 @@ func (c *Client) GetResCurrency(id int64) (*ResCurrency, error) {
 	if err != nil {
 		return nil, err
 	}
-	if rcs != nil && len(*rcs) > 0 {
-		return &((*rcs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of res.currency not found", id)
+	return &((*rcs)[0]), nil
 }
 
 // GetResCurrencys gets res.currency existing records.
@@ -106,10 +99,7 @@ func (c *Client) FindResCurrency(criteria *Criteria) (*ResCurrency, error) {
 	if err := c.SearchRead(ResCurrencyModel, criteria, NewOptions().Limit(1), rcs); err != nil {
 		return nil, err
 	}
-	if rcs != nil && len(*rcs) > 0 {
-		return &((*rcs)[0]), nil
-	}
-	return nil, fmt.Errorf("res.currency was not found with criteria %v", criteria)
+	return &((*rcs)[0]), nil
 }
 
 // FindResCurrencys finds res.currency records by querying it
@@ -125,11 +115,7 @@ func (c *Client) FindResCurrencys(criteria *Criteria, options *Options) (*ResCur
 // FindResCurrencyIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindResCurrencyIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ResCurrencyModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ResCurrencyModel, criteria, options)
 }
 
 // FindResCurrencyId finds record id by querying it with criteria.
@@ -138,8 +124,5 @@ func (c *Client) FindResCurrencyId(criteria *Criteria, options *Options) (int64,
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("res.currency was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

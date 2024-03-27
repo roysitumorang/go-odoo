@@ -1,26 +1,22 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ResPartnerCategory represents res.partner.category model.
 type ResPartnerCategory struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Active      *Bool     `xmlrpc:"active,omptempty"`
-	ChildIds    *Relation `xmlrpc:"child_ids,omptempty"`
-	Color       *Int      `xmlrpc:"color,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	ParentId    *Many2One `xmlrpc:"parent_id,omptempty"`
-	ParentLeft  *Int      `xmlrpc:"parent_left,omptempty"`
-	ParentRight *Int      `xmlrpc:"parent_right,omptempty"`
-	PartnerIds  *Relation `xmlrpc:"partner_ids,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Active      *Bool     `xmlrpc:"active,omitempty"`
+	ChildIds    *Relation `xmlrpc:"child_ids,omitempty"`
+	Color       *Int      `xmlrpc:"color,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	ParentId    *Many2One `xmlrpc:"parent_id,omitempty"`
+	ParentLeft  *Int      `xmlrpc:"parent_left,omitempty"`
+	ParentRight *Int      `xmlrpc:"parent_right,omitempty"`
+	PartnerIds  *Relation `xmlrpc:"partner_ids,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // ResPartnerCategorys represents array of res.partner.category model.
@@ -46,13 +42,13 @@ func (c *Client) CreateResPartnerCategory(rpc *ResPartnerCategory) (int64, error
 	return ids[0], nil
 }
 
-// CreateResPartnerCategory creates a new res.partner.category model and returns its id.
+// CreateResPartnerCategorys creates a new res.partner.category model and returns its id.
 func (c *Client) CreateResPartnerCategorys(rpcs []*ResPartnerCategory) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rpcs {
 		vv = append(vv, v)
 	}
-	return c.Create(ResPartnerCategoryModel, vv)
+	return c.Create(ResPartnerCategoryModel, vv, nil)
 }
 
 // UpdateResPartnerCategory updates an existing res.partner.category record.
@@ -63,7 +59,7 @@ func (c *Client) UpdateResPartnerCategory(rpc *ResPartnerCategory) error {
 // UpdateResPartnerCategorys updates existing res.partner.category records.
 // All records (represented by ids) will be updated by rpc values.
 func (c *Client) UpdateResPartnerCategorys(ids []int64, rpc *ResPartnerCategory) error {
-	return c.Update(ResPartnerCategoryModel, ids, rpc)
+	return c.Update(ResPartnerCategoryModel, ids, rpc, nil)
 }
 
 // DeleteResPartnerCategory deletes an existing res.partner.category record.
@@ -82,10 +78,7 @@ func (c *Client) GetResPartnerCategory(id int64) (*ResPartnerCategory, error) {
 	if err != nil {
 		return nil, err
 	}
-	if rpcs != nil && len(*rpcs) > 0 {
-		return &((*rpcs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of res.partner.category not found", id)
+	return &((*rpcs)[0]), nil
 }
 
 // GetResPartnerCategorys gets res.partner.category existing records.
@@ -103,10 +96,7 @@ func (c *Client) FindResPartnerCategory(criteria *Criteria) (*ResPartnerCategory
 	if err := c.SearchRead(ResPartnerCategoryModel, criteria, NewOptions().Limit(1), rpcs); err != nil {
 		return nil, err
 	}
-	if rpcs != nil && len(*rpcs) > 0 {
-		return &((*rpcs)[0]), nil
-	}
-	return nil, fmt.Errorf("res.partner.category was not found with criteria %v", criteria)
+	return &((*rpcs)[0]), nil
 }
 
 // FindResPartnerCategorys finds res.partner.category records by querying it
@@ -122,11 +112,7 @@ func (c *Client) FindResPartnerCategorys(criteria *Criteria, options *Options) (
 // FindResPartnerCategoryIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindResPartnerCategoryIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ResPartnerCategoryModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ResPartnerCategoryModel, criteria, options)
 }
 
 // FindResPartnerCategoryId finds record id by querying it with criteria.
@@ -135,8 +121,5 @@ func (c *Client) FindResPartnerCategoryId(criteria *Criteria, options *Options) 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("res.partner.category was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

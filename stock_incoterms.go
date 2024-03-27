@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockIncoterms represents stock.incoterms model.
 type StockIncoterms struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Active      *Bool     `xmlrpc:"active,omptempty"`
-	Code        *String   `xmlrpc:"code,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Active      *Bool     `xmlrpc:"active,omitempty"`
+	Code        *String   `xmlrpc:"code,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockIncotermss represents array of stock.incoterms model.
@@ -41,13 +37,13 @@ func (c *Client) CreateStockIncoterms(si *StockIncoterms) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateStockIncoterms creates a new stock.incoterms model and returns its id.
+// CreateStockIncotermss creates a new stock.incoterms model and returns its id.
 func (c *Client) CreateStockIncotermss(sis []*StockIncoterms) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range sis {
 		vv = append(vv, v)
 	}
-	return c.Create(StockIncotermsModel, vv)
+	return c.Create(StockIncotermsModel, vv, nil)
 }
 
 // UpdateStockIncoterms updates an existing stock.incoterms record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateStockIncoterms(si *StockIncoterms) error {
 // UpdateStockIncotermss updates existing stock.incoterms records.
 // All records (represented by ids) will be updated by si values.
 func (c *Client) UpdateStockIncotermss(ids []int64, si *StockIncoterms) error {
-	return c.Update(StockIncotermsModel, ids, si)
+	return c.Update(StockIncotermsModel, ids, si, nil)
 }
 
 // DeleteStockIncoterms deletes an existing stock.incoterms record.
@@ -77,10 +73,7 @@ func (c *Client) GetStockIncoterms(id int64) (*StockIncoterms, error) {
 	if err != nil {
 		return nil, err
 	}
-	if sis != nil && len(*sis) > 0 {
-		return &((*sis)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.incoterms not found", id)
+	return &((*sis)[0]), nil
 }
 
 // GetStockIncotermss gets stock.incoterms existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindStockIncoterms(criteria *Criteria) (*StockIncoterms, error)
 	if err := c.SearchRead(StockIncotermsModel, criteria, NewOptions().Limit(1), sis); err != nil {
 		return nil, err
 	}
-	if sis != nil && len(*sis) > 0 {
-		return &((*sis)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.incoterms was not found with criteria %v", criteria)
+	return &((*sis)[0]), nil
 }
 
 // FindStockIncotermss finds stock.incoterms records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindStockIncotermss(criteria *Criteria, options *Options) (*Sto
 // FindStockIncotermsIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockIncotermsIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockIncotermsModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockIncotermsModel, criteria, options)
 }
 
 // FindStockIncotermsId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindStockIncotermsId(criteria *Criteria, options *Options) (int
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.incoterms was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,30 +1,26 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrActionsClient represents ir.actions.client model.
 type IrActionsClient struct {
-	LastUpdate     *Time      `xmlrpc:"__last_update,omptempty"`
-	BindingModelId *Many2One  `xmlrpc:"binding_model_id,omptempty"`
-	BindingType    *Selection `xmlrpc:"binding_type,omptempty"`
-	Context        *String    `xmlrpc:"context,omptempty"`
-	CreateDate     *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid      *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName    *String    `xmlrpc:"display_name,omptempty"`
-	Help           *String    `xmlrpc:"help,omptempty"`
-	Id             *Int       `xmlrpc:"id,omptempty"`
-	Name           *String    `xmlrpc:"name,omptempty"`
-	Params         *String    `xmlrpc:"params,omptempty"`
-	ParamsStore    *String    `xmlrpc:"params_store,omptempty"`
-	ResModel       *String    `xmlrpc:"res_model,omptempty"`
-	Tag            *String    `xmlrpc:"tag,omptempty"`
-	Target         *Selection `xmlrpc:"target,omptempty"`
-	Type           *String    `xmlrpc:"type,omptempty"`
-	WriteDate      *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid       *Many2One  `xmlrpc:"write_uid,omptempty"`
-	XmlId          *String    `xmlrpc:"xml_id,omptempty"`
+	LastUpdate     *Time      `xmlrpc:"__last_update,omitempty"`
+	BindingModelId *Many2One  `xmlrpc:"binding_model_id,omitempty"`
+	BindingType    *Selection `xmlrpc:"binding_type,omitempty"`
+	Context        *String    `xmlrpc:"context,omitempty"`
+	CreateDate     *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid      *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName    *String    `xmlrpc:"display_name,omitempty"`
+	Help           *String    `xmlrpc:"help,omitempty"`
+	Id             *Int       `xmlrpc:"id,omitempty"`
+	Name           *String    `xmlrpc:"name,omitempty"`
+	Params         *String    `xmlrpc:"params,omitempty"`
+	ParamsStore    *String    `xmlrpc:"params_store,omitempty"`
+	ResModel       *String    `xmlrpc:"res_model,omitempty"`
+	Tag            *String    `xmlrpc:"tag,omitempty"`
+	Target         *Selection `xmlrpc:"target,omitempty"`
+	Type           *String    `xmlrpc:"type,omitempty"`
+	WriteDate      *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid       *Many2One  `xmlrpc:"write_uid,omitempty"`
+	XmlId          *String    `xmlrpc:"xml_id,omitempty"`
 }
 
 // IrActionsClients represents array of ir.actions.client model.
@@ -50,13 +46,13 @@ func (c *Client) CreateIrActionsClient(iac *IrActionsClient) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrActionsClient creates a new ir.actions.client model and returns its id.
+// CreateIrActionsClients creates a new ir.actions.client model and returns its id.
 func (c *Client) CreateIrActionsClients(iacs []*IrActionsClient) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range iacs {
 		vv = append(vv, v)
 	}
-	return c.Create(IrActionsClientModel, vv)
+	return c.Create(IrActionsClientModel, vv, nil)
 }
 
 // UpdateIrActionsClient updates an existing ir.actions.client record.
@@ -67,7 +63,7 @@ func (c *Client) UpdateIrActionsClient(iac *IrActionsClient) error {
 // UpdateIrActionsClients updates existing ir.actions.client records.
 // All records (represented by ids) will be updated by iac values.
 func (c *Client) UpdateIrActionsClients(ids []int64, iac *IrActionsClient) error {
-	return c.Update(IrActionsClientModel, ids, iac)
+	return c.Update(IrActionsClientModel, ids, iac, nil)
 }
 
 // DeleteIrActionsClient deletes an existing ir.actions.client record.
@@ -86,10 +82,7 @@ func (c *Client) GetIrActionsClient(id int64) (*IrActionsClient, error) {
 	if err != nil {
 		return nil, err
 	}
-	if iacs != nil && len(*iacs) > 0 {
-		return &((*iacs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.actions.client not found", id)
+	return &((*iacs)[0]), nil
 }
 
 // GetIrActionsClients gets ir.actions.client existing records.
@@ -107,10 +100,7 @@ func (c *Client) FindIrActionsClient(criteria *Criteria) (*IrActionsClient, erro
 	if err := c.SearchRead(IrActionsClientModel, criteria, NewOptions().Limit(1), iacs); err != nil {
 		return nil, err
 	}
-	if iacs != nil && len(*iacs) > 0 {
-		return &((*iacs)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.actions.client was not found with criteria %v", criteria)
+	return &((*iacs)[0]), nil
 }
 
 // FindIrActionsClients finds ir.actions.client records by querying it
@@ -126,11 +116,7 @@ func (c *Client) FindIrActionsClients(criteria *Criteria, options *Options) (*Ir
 // FindIrActionsClientIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrActionsClientIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrActionsClientModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrActionsClientModel, criteria, options)
 }
 
 // FindIrActionsClientId finds record id by querying it with criteria.
@@ -139,8 +125,5 @@ func (c *Client) FindIrActionsClientId(criteria *Criteria, options *Options) (in
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.actions.client was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

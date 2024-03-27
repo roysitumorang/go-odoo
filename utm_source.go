@@ -1,19 +1,15 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // UtmSource represents utm.source model.
 type UtmSource struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // UtmSources represents array of utm.source model.
@@ -39,13 +35,13 @@ func (c *Client) CreateUtmSource(us *UtmSource) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateUtmSource creates a new utm.source model and returns its id.
+// CreateUtmSources creates a new utm.source model and returns its id.
 func (c *Client) CreateUtmSources(uss []*UtmSource) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range uss {
 		vv = append(vv, v)
 	}
-	return c.Create(UtmSourceModel, vv)
+	return c.Create(UtmSourceModel, vv, nil)
 }
 
 // UpdateUtmSource updates an existing utm.source record.
@@ -56,7 +52,7 @@ func (c *Client) UpdateUtmSource(us *UtmSource) error {
 // UpdateUtmSources updates existing utm.source records.
 // All records (represented by ids) will be updated by us values.
 func (c *Client) UpdateUtmSources(ids []int64, us *UtmSource) error {
-	return c.Update(UtmSourceModel, ids, us)
+	return c.Update(UtmSourceModel, ids, us, nil)
 }
 
 // DeleteUtmSource deletes an existing utm.source record.
@@ -75,10 +71,7 @@ func (c *Client) GetUtmSource(id int64) (*UtmSource, error) {
 	if err != nil {
 		return nil, err
 	}
-	if uss != nil && len(*uss) > 0 {
-		return &((*uss)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of utm.source not found", id)
+	return &((*uss)[0]), nil
 }
 
 // GetUtmSources gets utm.source existing records.
@@ -96,10 +89,7 @@ func (c *Client) FindUtmSource(criteria *Criteria) (*UtmSource, error) {
 	if err := c.SearchRead(UtmSourceModel, criteria, NewOptions().Limit(1), uss); err != nil {
 		return nil, err
 	}
-	if uss != nil && len(*uss) > 0 {
-		return &((*uss)[0]), nil
-	}
-	return nil, fmt.Errorf("utm.source was not found with criteria %v", criteria)
+	return &((*uss)[0]), nil
 }
 
 // FindUtmSources finds utm.source records by querying it
@@ -115,11 +105,7 @@ func (c *Client) FindUtmSources(criteria *Criteria, options *Options) (*UtmSourc
 // FindUtmSourceIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindUtmSourceIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(UtmSourceModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(UtmSourceModel, criteria, options)
 }
 
 // FindUtmSourceId finds record id by querying it with criteria.
@@ -128,8 +114,5 @@ func (c *Client) FindUtmSourceId(criteria *Criteria, options *Options) (int64, e
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("utm.source was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

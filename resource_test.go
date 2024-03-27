@@ -1,22 +1,18 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ResourceTest represents resource.test model.
 type ResourceTest struct {
-	LastUpdate         *Time     `xmlrpc:"__last_update,omptempty"`
-	CompanyId          *Many2One `xmlrpc:"company_id,omptempty"`
-	CreateDate         *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid          *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName        *String   `xmlrpc:"display_name,omptempty"`
-	Id                 *Int      `xmlrpc:"id,omptempty"`
-	Name               *String   `xmlrpc:"name,omptempty"`
-	ResourceCalendarId *Many2One `xmlrpc:"resource_calendar_id,omptempty"`
-	ResourceId         *Many2One `xmlrpc:"resource_id,omptempty"`
-	WriteDate          *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid           *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate         *Time     `xmlrpc:"__last_update,omitempty"`
+	CompanyId          *Many2One `xmlrpc:"company_id,omitempty"`
+	CreateDate         *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid          *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName        *String   `xmlrpc:"display_name,omitempty"`
+	Id                 *Int      `xmlrpc:"id,omitempty"`
+	Name               *String   `xmlrpc:"name,omitempty"`
+	ResourceCalendarId *Many2One `xmlrpc:"resource_calendar_id,omitempty"`
+	ResourceId         *Many2One `xmlrpc:"resource_id,omitempty"`
+	WriteDate          *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid           *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // ResourceTests represents array of resource.test model.
@@ -42,13 +38,13 @@ func (c *Client) CreateResourceTest(rt *ResourceTest) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateResourceTest creates a new resource.test model and returns its id.
+// CreateResourceTests creates a new resource.test model and returns its id.
 func (c *Client) CreateResourceTests(rts []*ResourceTest) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rts {
 		vv = append(vv, v)
 	}
-	return c.Create(ResourceTestModel, vv)
+	return c.Create(ResourceTestModel, vv, nil)
 }
 
 // UpdateResourceTest updates an existing resource.test record.
@@ -59,7 +55,7 @@ func (c *Client) UpdateResourceTest(rt *ResourceTest) error {
 // UpdateResourceTests updates existing resource.test records.
 // All records (represented by ids) will be updated by rt values.
 func (c *Client) UpdateResourceTests(ids []int64, rt *ResourceTest) error {
-	return c.Update(ResourceTestModel, ids, rt)
+	return c.Update(ResourceTestModel, ids, rt, nil)
 }
 
 // DeleteResourceTest deletes an existing resource.test record.
@@ -78,10 +74,7 @@ func (c *Client) GetResourceTest(id int64) (*ResourceTest, error) {
 	if err != nil {
 		return nil, err
 	}
-	if rts != nil && len(*rts) > 0 {
-		return &((*rts)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of resource.test not found", id)
+	return &((*rts)[0]), nil
 }
 
 // GetResourceTests gets resource.test existing records.
@@ -99,10 +92,7 @@ func (c *Client) FindResourceTest(criteria *Criteria) (*ResourceTest, error) {
 	if err := c.SearchRead(ResourceTestModel, criteria, NewOptions().Limit(1), rts); err != nil {
 		return nil, err
 	}
-	if rts != nil && len(*rts) > 0 {
-		return &((*rts)[0]), nil
-	}
-	return nil, fmt.Errorf("resource.test was not found with criteria %v", criteria)
+	return &((*rts)[0]), nil
 }
 
 // FindResourceTests finds resource.test records by querying it
@@ -118,11 +108,7 @@ func (c *Client) FindResourceTests(criteria *Criteria, options *Options) (*Resou
 // FindResourceTestIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindResourceTestIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ResourceTestModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ResourceTestModel, criteria, options)
 }
 
 // FindResourceTestId finds record id by querying it with criteria.
@@ -131,8 +117,5 @@ func (c *Client) FindResourceTestId(criteria *Criteria, options *Options) (int64
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("resource.test was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

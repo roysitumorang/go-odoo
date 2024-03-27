@@ -1,24 +1,20 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // CrmLead2OpportunityPartner represents crm.lead2opportunity.partner model.
 type CrmLead2OpportunityPartner struct {
-	LastUpdate     *Time      `xmlrpc:"__last_update,omptempty"`
-	Action         *Selection `xmlrpc:"action,omptempty"`
-	CreateDate     *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid      *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName    *String    `xmlrpc:"display_name,omptempty"`
-	Id             *Int       `xmlrpc:"id,omptempty"`
-	Name           *Selection `xmlrpc:"name,omptempty"`
-	OpportunityIds *Relation  `xmlrpc:"opportunity_ids,omptempty"`
-	PartnerId      *Many2One  `xmlrpc:"partner_id,omptempty"`
-	TeamId         *Many2One  `xmlrpc:"team_id,omptempty"`
-	UserId         *Many2One  `xmlrpc:"user_id,omptempty"`
-	WriteDate      *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid       *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate     *Time      `xmlrpc:"__last_update,omitempty"`
+	Action         *Selection `xmlrpc:"action,omitempty"`
+	CreateDate     *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid      *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName    *String    `xmlrpc:"display_name,omitempty"`
+	Id             *Int       `xmlrpc:"id,omitempty"`
+	Name           *Selection `xmlrpc:"name,omitempty"`
+	OpportunityIds *Relation  `xmlrpc:"opportunity_ids,omitempty"`
+	PartnerId      *Many2One  `xmlrpc:"partner_id,omitempty"`
+	TeamId         *Many2One  `xmlrpc:"team_id,omitempty"`
+	UserId         *Many2One  `xmlrpc:"user_id,omitempty"`
+	WriteDate      *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid       *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // CrmLead2OpportunityPartners represents array of crm.lead2opportunity.partner model.
@@ -44,13 +40,13 @@ func (c *Client) CreateCrmLead2OpportunityPartner(clp *CrmLead2OpportunityPartne
 	return ids[0], nil
 }
 
-// CreateCrmLead2OpportunityPartner creates a new crm.lead2opportunity.partner model and returns its id.
+// CreateCrmLead2OpportunityPartners creates a new crm.lead2opportunity.partner model and returns its id.
 func (c *Client) CreateCrmLead2OpportunityPartners(clps []*CrmLead2OpportunityPartner) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range clps {
 		vv = append(vv, v)
 	}
-	return c.Create(CrmLead2OpportunityPartnerModel, vv)
+	return c.Create(CrmLead2OpportunityPartnerModel, vv, nil)
 }
 
 // UpdateCrmLead2OpportunityPartner updates an existing crm.lead2opportunity.partner record.
@@ -61,7 +57,7 @@ func (c *Client) UpdateCrmLead2OpportunityPartner(clp *CrmLead2OpportunityPartne
 // UpdateCrmLead2OpportunityPartners updates existing crm.lead2opportunity.partner records.
 // All records (represented by ids) will be updated by clp values.
 func (c *Client) UpdateCrmLead2OpportunityPartners(ids []int64, clp *CrmLead2OpportunityPartner) error {
-	return c.Update(CrmLead2OpportunityPartnerModel, ids, clp)
+	return c.Update(CrmLead2OpportunityPartnerModel, ids, clp, nil)
 }
 
 // DeleteCrmLead2OpportunityPartner deletes an existing crm.lead2opportunity.partner record.
@@ -80,10 +76,7 @@ func (c *Client) GetCrmLead2OpportunityPartner(id int64) (*CrmLead2OpportunityPa
 	if err != nil {
 		return nil, err
 	}
-	if clps != nil && len(*clps) > 0 {
-		return &((*clps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of crm.lead2opportunity.partner not found", id)
+	return &((*clps)[0]), nil
 }
 
 // GetCrmLead2OpportunityPartners gets crm.lead2opportunity.partner existing records.
@@ -101,10 +94,7 @@ func (c *Client) FindCrmLead2OpportunityPartner(criteria *Criteria) (*CrmLead2Op
 	if err := c.SearchRead(CrmLead2OpportunityPartnerModel, criteria, NewOptions().Limit(1), clps); err != nil {
 		return nil, err
 	}
-	if clps != nil && len(*clps) > 0 {
-		return &((*clps)[0]), nil
-	}
-	return nil, fmt.Errorf("crm.lead2opportunity.partner was not found with criteria %v", criteria)
+	return &((*clps)[0]), nil
 }
 
 // FindCrmLead2OpportunityPartners finds crm.lead2opportunity.partner records by querying it
@@ -120,11 +110,7 @@ func (c *Client) FindCrmLead2OpportunityPartners(criteria *Criteria, options *Op
 // FindCrmLead2OpportunityPartnerIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindCrmLead2OpportunityPartnerIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(CrmLead2OpportunityPartnerModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(CrmLead2OpportunityPartnerModel, criteria, options)
 }
 
 // FindCrmLead2OpportunityPartnerId finds record id by querying it with criteria.
@@ -133,8 +119,5 @@ func (c *Client) FindCrmLead2OpportunityPartnerId(criteria *Criteria, options *O
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("crm.lead2opportunity.partner was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

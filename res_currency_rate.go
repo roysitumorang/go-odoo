@@ -1,22 +1,18 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ResCurrencyRate represents res.currency.rate model.
 type ResCurrencyRate struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CompanyId   *Many2One `xmlrpc:"company_id,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	CurrencyId  *Many2One `xmlrpc:"currency_id,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *Time     `xmlrpc:"name,omptempty"`
-	Rate        *Float    `xmlrpc:"rate,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CompanyId   *Many2One `xmlrpc:"company_id,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	CurrencyId  *Many2One `xmlrpc:"currency_id,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *Time     `xmlrpc:"name,omitempty"`
+	Rate        *Float    `xmlrpc:"rate,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // ResCurrencyRates represents array of res.currency.rate model.
@@ -42,13 +38,13 @@ func (c *Client) CreateResCurrencyRate(rcr *ResCurrencyRate) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateResCurrencyRate creates a new res.currency.rate model and returns its id.
+// CreateResCurrencyRates creates a new res.currency.rate model and returns its id.
 func (c *Client) CreateResCurrencyRates(rcrs []*ResCurrencyRate) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rcrs {
 		vv = append(vv, v)
 	}
-	return c.Create(ResCurrencyRateModel, vv)
+	return c.Create(ResCurrencyRateModel, vv, nil)
 }
 
 // UpdateResCurrencyRate updates an existing res.currency.rate record.
@@ -59,7 +55,7 @@ func (c *Client) UpdateResCurrencyRate(rcr *ResCurrencyRate) error {
 // UpdateResCurrencyRates updates existing res.currency.rate records.
 // All records (represented by ids) will be updated by rcr values.
 func (c *Client) UpdateResCurrencyRates(ids []int64, rcr *ResCurrencyRate) error {
-	return c.Update(ResCurrencyRateModel, ids, rcr)
+	return c.Update(ResCurrencyRateModel, ids, rcr, nil)
 }
 
 // DeleteResCurrencyRate deletes an existing res.currency.rate record.
@@ -78,10 +74,7 @@ func (c *Client) GetResCurrencyRate(id int64) (*ResCurrencyRate, error) {
 	if err != nil {
 		return nil, err
 	}
-	if rcrs != nil && len(*rcrs) > 0 {
-		return &((*rcrs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of res.currency.rate not found", id)
+	return &((*rcrs)[0]), nil
 }
 
 // GetResCurrencyRates gets res.currency.rate existing records.
@@ -99,10 +92,7 @@ func (c *Client) FindResCurrencyRate(criteria *Criteria) (*ResCurrencyRate, erro
 	if err := c.SearchRead(ResCurrencyRateModel, criteria, NewOptions().Limit(1), rcrs); err != nil {
 		return nil, err
 	}
-	if rcrs != nil && len(*rcrs) > 0 {
-		return &((*rcrs)[0]), nil
-	}
-	return nil, fmt.Errorf("res.currency.rate was not found with criteria %v", criteria)
+	return &((*rcrs)[0]), nil
 }
 
 // FindResCurrencyRates finds res.currency.rate records by querying it
@@ -118,11 +108,7 @@ func (c *Client) FindResCurrencyRates(criteria *Criteria, options *Options) (*Re
 // FindResCurrencyRateIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindResCurrencyRateIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ResCurrencyRateModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ResCurrencyRateModel, criteria, options)
 }
 
 // FindResCurrencyRateId finds record id by querying it with criteria.
@@ -131,8 +117,5 @@ func (c *Client) FindResCurrencyRateId(criteria *Criteria, options *Options) (in
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("res.currency.rate was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

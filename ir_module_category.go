@@ -1,28 +1,24 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrModuleCategory represents ir.module.category model.
 type IrModuleCategory struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	ChildIds    *Relation `xmlrpc:"child_ids,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	Description *String   `xmlrpc:"description,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Exclusive   *Bool     `xmlrpc:"exclusive,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	ModuleIds   *Relation `xmlrpc:"module_ids,omptempty"`
-	ModuleNr    *Int      `xmlrpc:"module_nr,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	ParentId    *Many2One `xmlrpc:"parent_id,omptempty"`
-	Sequence    *Int      `xmlrpc:"sequence,omptempty"`
-	Visible     *Bool     `xmlrpc:"visible,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
-	XmlId       *String   `xmlrpc:"xml_id,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	ChildIds    *Relation `xmlrpc:"child_ids,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	Description *String   `xmlrpc:"description,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Exclusive   *Bool     `xmlrpc:"exclusive,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	ModuleIds   *Relation `xmlrpc:"module_ids,omitempty"`
+	ModuleNr    *Int      `xmlrpc:"module_nr,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	ParentId    *Many2One `xmlrpc:"parent_id,omitempty"`
+	Sequence    *Int      `xmlrpc:"sequence,omitempty"`
+	Visible     *Bool     `xmlrpc:"visible,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
+	XmlId       *String   `xmlrpc:"xml_id,omitempty"`
 }
 
 // IrModuleCategorys represents array of ir.module.category model.
@@ -48,13 +44,13 @@ func (c *Client) CreateIrModuleCategory(imc *IrModuleCategory) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrModuleCategory creates a new ir.module.category model and returns its id.
+// CreateIrModuleCategorys creates a new ir.module.category model and returns its id.
 func (c *Client) CreateIrModuleCategorys(imcs []*IrModuleCategory) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range imcs {
 		vv = append(vv, v)
 	}
-	return c.Create(IrModuleCategoryModel, vv)
+	return c.Create(IrModuleCategoryModel, vv, nil)
 }
 
 // UpdateIrModuleCategory updates an existing ir.module.category record.
@@ -65,7 +61,7 @@ func (c *Client) UpdateIrModuleCategory(imc *IrModuleCategory) error {
 // UpdateIrModuleCategorys updates existing ir.module.category records.
 // All records (represented by ids) will be updated by imc values.
 func (c *Client) UpdateIrModuleCategorys(ids []int64, imc *IrModuleCategory) error {
-	return c.Update(IrModuleCategoryModel, ids, imc)
+	return c.Update(IrModuleCategoryModel, ids, imc, nil)
 }
 
 // DeleteIrModuleCategory deletes an existing ir.module.category record.
@@ -84,10 +80,7 @@ func (c *Client) GetIrModuleCategory(id int64) (*IrModuleCategory, error) {
 	if err != nil {
 		return nil, err
 	}
-	if imcs != nil && len(*imcs) > 0 {
-		return &((*imcs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.module.category not found", id)
+	return &((*imcs)[0]), nil
 }
 
 // GetIrModuleCategorys gets ir.module.category existing records.
@@ -105,10 +98,7 @@ func (c *Client) FindIrModuleCategory(criteria *Criteria) (*IrModuleCategory, er
 	if err := c.SearchRead(IrModuleCategoryModel, criteria, NewOptions().Limit(1), imcs); err != nil {
 		return nil, err
 	}
-	if imcs != nil && len(*imcs) > 0 {
-		return &((*imcs)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.module.category was not found with criteria %v", criteria)
+	return &((*imcs)[0]), nil
 }
 
 // FindIrModuleCategorys finds ir.module.category records by querying it
@@ -124,11 +114,7 @@ func (c *Client) FindIrModuleCategorys(criteria *Criteria, options *Options) (*I
 // FindIrModuleCategoryIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrModuleCategoryIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrModuleCategoryModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrModuleCategoryModel, criteria, options)
 }
 
 // FindIrModuleCategoryId finds record id by querying it with criteria.
@@ -137,8 +123,5 @@ func (c *Client) FindIrModuleCategoryId(criteria *Criteria, options *Options) (i
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.module.category was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

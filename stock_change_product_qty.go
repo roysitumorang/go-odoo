@@ -1,24 +1,20 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockChangeProductQty represents stock.change.product.qty model.
 type StockChangeProductQty struct {
-	LastUpdate          *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate          *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid           *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName         *String   `xmlrpc:"display_name,omptempty"`
-	Id                  *Int      `xmlrpc:"id,omptempty"`
-	LocationId          *Many2One `xmlrpc:"location_id,omptempty"`
-	LotId               *Many2One `xmlrpc:"lot_id,omptempty"`
-	NewQuantity         *Float    `xmlrpc:"new_quantity,omptempty"`
-	ProductId           *Many2One `xmlrpc:"product_id,omptempty"`
-	ProductTmplId       *Many2One `xmlrpc:"product_tmpl_id,omptempty"`
-	ProductVariantCount *Int      `xmlrpc:"product_variant_count,omptempty"`
-	WriteDate           *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid            *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate          *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate          *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid           *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName         *String   `xmlrpc:"display_name,omitempty"`
+	Id                  *Int      `xmlrpc:"id,omitempty"`
+	LocationId          *Many2One `xmlrpc:"location_id,omitempty"`
+	LotId               *Many2One `xmlrpc:"lot_id,omitempty"`
+	NewQuantity         *Float    `xmlrpc:"new_quantity,omitempty"`
+	ProductId           *Many2One `xmlrpc:"product_id,omitempty"`
+	ProductTmplId       *Many2One `xmlrpc:"product_tmpl_id,omitempty"`
+	ProductVariantCount *Int      `xmlrpc:"product_variant_count,omitempty"`
+	WriteDate           *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid            *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockChangeProductQtys represents array of stock.change.product.qty model.
@@ -44,13 +40,13 @@ func (c *Client) CreateStockChangeProductQty(scpq *StockChangeProductQty) (int64
 	return ids[0], nil
 }
 
-// CreateStockChangeProductQty creates a new stock.change.product.qty model and returns its id.
+// CreateStockChangeProductQtys creates a new stock.change.product.qty model and returns its id.
 func (c *Client) CreateStockChangeProductQtys(scpqs []*StockChangeProductQty) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range scpqs {
 		vv = append(vv, v)
 	}
-	return c.Create(StockChangeProductQtyModel, vv)
+	return c.Create(StockChangeProductQtyModel, vv, nil)
 }
 
 // UpdateStockChangeProductQty updates an existing stock.change.product.qty record.
@@ -61,7 +57,7 @@ func (c *Client) UpdateStockChangeProductQty(scpq *StockChangeProductQty) error 
 // UpdateStockChangeProductQtys updates existing stock.change.product.qty records.
 // All records (represented by ids) will be updated by scpq values.
 func (c *Client) UpdateStockChangeProductQtys(ids []int64, scpq *StockChangeProductQty) error {
-	return c.Update(StockChangeProductQtyModel, ids, scpq)
+	return c.Update(StockChangeProductQtyModel, ids, scpq, nil)
 }
 
 // DeleteStockChangeProductQty deletes an existing stock.change.product.qty record.
@@ -80,10 +76,7 @@ func (c *Client) GetStockChangeProductQty(id int64) (*StockChangeProductQty, err
 	if err != nil {
 		return nil, err
 	}
-	if scpqs != nil && len(*scpqs) > 0 {
-		return &((*scpqs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.change.product.qty not found", id)
+	return &((*scpqs)[0]), nil
 }
 
 // GetStockChangeProductQtys gets stock.change.product.qty existing records.
@@ -101,10 +94,7 @@ func (c *Client) FindStockChangeProductQty(criteria *Criteria) (*StockChangeProd
 	if err := c.SearchRead(StockChangeProductQtyModel, criteria, NewOptions().Limit(1), scpqs); err != nil {
 		return nil, err
 	}
-	if scpqs != nil && len(*scpqs) > 0 {
-		return &((*scpqs)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.change.product.qty was not found with criteria %v", criteria)
+	return &((*scpqs)[0]), nil
 }
 
 // FindStockChangeProductQtys finds stock.change.product.qty records by querying it
@@ -120,11 +110,7 @@ func (c *Client) FindStockChangeProductQtys(criteria *Criteria, options *Options
 // FindStockChangeProductQtyIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockChangeProductQtyIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockChangeProductQtyModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockChangeProductQtyModel, criteria, options)
 }
 
 // FindStockChangeProductQtyId finds record id by querying it with criteria.
@@ -133,8 +119,5 @@ func (c *Client) FindStockChangeProductQtyId(criteria *Criteria, options *Option
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.change.product.qty was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

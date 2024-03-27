@@ -1,33 +1,29 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ProductSupplierinfo represents product.supplierinfo model.
 type ProductSupplierinfo struct {
-	LastUpdate          *Time     `xmlrpc:"__last_update,omptempty"`
-	CompanyId           *Many2One `xmlrpc:"company_id,omptempty"`
-	CreateDate          *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid           *Many2One `xmlrpc:"create_uid,omptempty"`
-	CurrencyId          *Many2One `xmlrpc:"currency_id,omptempty"`
-	DateEnd             *Time     `xmlrpc:"date_end,omptempty"`
-	DateStart           *Time     `xmlrpc:"date_start,omptempty"`
-	Delay               *Int      `xmlrpc:"delay,omptempty"`
-	DisplayName         *String   `xmlrpc:"display_name,omptempty"`
-	Id                  *Int      `xmlrpc:"id,omptempty"`
-	MinQty              *Float    `xmlrpc:"min_qty,omptempty"`
-	Name                *Many2One `xmlrpc:"name,omptempty"`
-	Price               *Float    `xmlrpc:"price,omptempty"`
-	ProductCode         *String   `xmlrpc:"product_code,omptempty"`
-	ProductId           *Many2One `xmlrpc:"product_id,omptempty"`
-	ProductName         *String   `xmlrpc:"product_name,omptempty"`
-	ProductTmplId       *Many2One `xmlrpc:"product_tmpl_id,omptempty"`
-	ProductUom          *Many2One `xmlrpc:"product_uom,omptempty"`
-	ProductVariantCount *Int      `xmlrpc:"product_variant_count,omptempty"`
-	Sequence            *Int      `xmlrpc:"sequence,omptempty"`
-	WriteDate           *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid            *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate          *Time     `xmlrpc:"__last_update,omitempty"`
+	CompanyId           *Many2One `xmlrpc:"company_id,omitempty"`
+	CreateDate          *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid           *Many2One `xmlrpc:"create_uid,omitempty"`
+	CurrencyId          *Many2One `xmlrpc:"currency_id,omitempty"`
+	DateEnd             *Time     `xmlrpc:"date_end,omitempty"`
+	DateStart           *Time     `xmlrpc:"date_start,omitempty"`
+	Delay               *Int      `xmlrpc:"delay,omitempty"`
+	DisplayName         *String   `xmlrpc:"display_name,omitempty"`
+	Id                  *Int      `xmlrpc:"id,omitempty"`
+	MinQty              *Float    `xmlrpc:"min_qty,omitempty"`
+	Name                *Many2One `xmlrpc:"name,omitempty"`
+	Price               *Float    `xmlrpc:"price,omitempty"`
+	ProductCode         *String   `xmlrpc:"product_code,omitempty"`
+	ProductId           *Many2One `xmlrpc:"product_id,omitempty"`
+	ProductName         *String   `xmlrpc:"product_name,omitempty"`
+	ProductTmplId       *Many2One `xmlrpc:"product_tmpl_id,omitempty"`
+	ProductUom          *Many2One `xmlrpc:"product_uom,omitempty"`
+	ProductVariantCount *Int      `xmlrpc:"product_variant_count,omitempty"`
+	Sequence            *Int      `xmlrpc:"sequence,omitempty"`
+	WriteDate           *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid            *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // ProductSupplierinfos represents array of product.supplierinfo model.
@@ -53,13 +49,13 @@ func (c *Client) CreateProductSupplierinfo(ps *ProductSupplierinfo) (int64, erro
 	return ids[0], nil
 }
 
-// CreateProductSupplierinfo creates a new product.supplierinfo model and returns its id.
+// CreateProductSupplierinfos creates a new product.supplierinfo model and returns its id.
 func (c *Client) CreateProductSupplierinfos(pss []*ProductSupplierinfo) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range pss {
 		vv = append(vv, v)
 	}
-	return c.Create(ProductSupplierinfoModel, vv)
+	return c.Create(ProductSupplierinfoModel, vv, nil)
 }
 
 // UpdateProductSupplierinfo updates an existing product.supplierinfo record.
@@ -70,7 +66,7 @@ func (c *Client) UpdateProductSupplierinfo(ps *ProductSupplierinfo) error {
 // UpdateProductSupplierinfos updates existing product.supplierinfo records.
 // All records (represented by ids) will be updated by ps values.
 func (c *Client) UpdateProductSupplierinfos(ids []int64, ps *ProductSupplierinfo) error {
-	return c.Update(ProductSupplierinfoModel, ids, ps)
+	return c.Update(ProductSupplierinfoModel, ids, ps, nil)
 }
 
 // DeleteProductSupplierinfo deletes an existing product.supplierinfo record.
@@ -89,10 +85,7 @@ func (c *Client) GetProductSupplierinfo(id int64) (*ProductSupplierinfo, error) 
 	if err != nil {
 		return nil, err
 	}
-	if pss != nil && len(*pss) > 0 {
-		return &((*pss)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of product.supplierinfo not found", id)
+	return &((*pss)[0]), nil
 }
 
 // GetProductSupplierinfos gets product.supplierinfo existing records.
@@ -110,10 +103,7 @@ func (c *Client) FindProductSupplierinfo(criteria *Criteria) (*ProductSupplierin
 	if err := c.SearchRead(ProductSupplierinfoModel, criteria, NewOptions().Limit(1), pss); err != nil {
 		return nil, err
 	}
-	if pss != nil && len(*pss) > 0 {
-		return &((*pss)[0]), nil
-	}
-	return nil, fmt.Errorf("product.supplierinfo was not found with criteria %v", criteria)
+	return &((*pss)[0]), nil
 }
 
 // FindProductSupplierinfos finds product.supplierinfo records by querying it
@@ -129,11 +119,7 @@ func (c *Client) FindProductSupplierinfos(criteria *Criteria, options *Options) 
 // FindProductSupplierinfoIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindProductSupplierinfoIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ProductSupplierinfoModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ProductSupplierinfoModel, criteria, options)
 }
 
 // FindProductSupplierinfoId finds record id by querying it with criteria.
@@ -142,8 +128,5 @@ func (c *Client) FindProductSupplierinfoId(criteria *Criteria, options *Options)
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("product.supplierinfo was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,44 +1,42 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountAnalyticAccount represents account.analytic.account model.
 type AccountAnalyticAccount struct {
-	LastUpdate               *Time     `xmlrpc:"__last_update,omptempty"`
-	Active                   *Bool     `xmlrpc:"active,omptempty"`
-	Balance                  *Float    `xmlrpc:"balance,omptempty"`
-	Code                     *String   `xmlrpc:"code,omptempty"`
-	CompanyId                *Many2One `xmlrpc:"company_id,omptempty"`
-	CompanyUomId             *Many2One `xmlrpc:"company_uom_id,omptempty"`
-	CreateDate               *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid                *Many2One `xmlrpc:"create_uid,omptempty"`
-	Credit                   *Float    `xmlrpc:"credit,omptempty"`
-	CurrencyId               *Many2One `xmlrpc:"currency_id,omptempty"`
-	Debit                    *Float    `xmlrpc:"debit,omptempty"`
-	DisplayName              *String   `xmlrpc:"display_name,omptempty"`
-	Id                       *Int      `xmlrpc:"id,omptempty"`
-	LineIds                  *Relation `xmlrpc:"line_ids,omptempty"`
-	MachineInitiativeName    *String   `xmlrpc:"machine_initiative_name,omptempty"`
-	MessageChannelIds        *Relation `xmlrpc:"message_channel_ids,omptempty"`
-	MessageFollowerIds       *Relation `xmlrpc:"message_follower_ids,omptempty"`
-	MessageIds               *Relation `xmlrpc:"message_ids,omptempty"`
-	MessageIsFollower        *Bool     `xmlrpc:"message_is_follower,omptempty"`
-	MessageLastPost          *Time     `xmlrpc:"message_last_post,omptempty"`
-	MessageNeedaction        *Bool     `xmlrpc:"message_needaction,omptempty"`
-	MessageNeedactionCounter *Int      `xmlrpc:"message_needaction_counter,omptempty"`
-	MessagePartnerIds        *Relation `xmlrpc:"message_partner_ids,omptempty"`
-	MessageUnread            *Bool     `xmlrpc:"message_unread,omptempty"`
-	MessageUnreadCounter     *Int      `xmlrpc:"message_unread_counter,omptempty"`
-	Name                     *String   `xmlrpc:"name,omptempty"`
-	PartnerId                *Many2One `xmlrpc:"partner_id,omptempty"`
-	ProjectCount             *Int      `xmlrpc:"project_count,omptempty"`
-	ProjectIds               *Relation `xmlrpc:"project_ids,omptempty"`
-	TagIds                   *Relation `xmlrpc:"tag_ids,omptempty"`
-	WebsiteMessageIds        *Relation `xmlrpc:"website_message_ids,omptempty"`
-	WriteDate                *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid                 *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate               *Time     `xmlrpc:"__last_update,omitempty"`
+	Active                   *Bool     `xmlrpc:"active,omitempty"`
+	Balance                  *Float    `xmlrpc:"balance,omitempty"`
+	Code                     *String   `xmlrpc:"code,omitempty"`
+	CompanyId                *Many2One `xmlrpc:"company_id,omitempty"`
+	CompanyUomId             *Many2One `xmlrpc:"company_uom_id,omitempty"`
+	CreateDate               *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid                *Many2One `xmlrpc:"create_uid,omitempty"`
+	Credit                   *Float    `xmlrpc:"credit,omitempty"`
+	CurrencyId               *Many2One `xmlrpc:"currency_id,omitempty"`
+	Debit                    *Float    `xmlrpc:"debit,omitempty"`
+	DisplayName              *String   `xmlrpc:"display_name,omitempty"`
+	Id                       *Int      `xmlrpc:"id,omitempty"`
+	LineIds                  *Relation `xmlrpc:"line_ids,omitempty"`
+	MachineInitiativeName    *String   `xmlrpc:"machine_initiative_name,omitempty"`
+	MachineProjectName       *String   `xmlrpc:"machine_project_name,omitempty"`
+	MessageChannelIds        *Relation `xmlrpc:"message_channel_ids,omitempty"`
+	MessageFollowerIds       *Relation `xmlrpc:"message_follower_ids,omitempty"`
+	MessageIds               *Relation `xmlrpc:"message_ids,omitempty"`
+	MessageIsFollower        *Bool     `xmlrpc:"message_is_follower,omitempty"`
+	MessageLastPost          *Time     `xmlrpc:"message_last_post,omitempty"`
+	MessageNeedaction        *Bool     `xmlrpc:"message_needaction,omitempty"`
+	MessageNeedactionCounter *Int      `xmlrpc:"message_needaction_counter,omitempty"`
+	MessagePartnerIds        *Relation `xmlrpc:"message_partner_ids,omitempty"`
+	MessageUnread            *Bool     `xmlrpc:"message_unread,omitempty"`
+	MessageUnreadCounter     *Int      `xmlrpc:"message_unread_counter,omitempty"`
+	Name                     *String   `xmlrpc:"name,omitempty"`
+	PartnerId                *Many2One `xmlrpc:"partner_id,omitempty"`
+	ProjectCount             *Int      `xmlrpc:"project_count,omitempty"`
+	ProjectCreated           *Bool     `xmlrpc:"project_created,omitempty"`
+	ProjectIds               *Relation `xmlrpc:"project_ids,omitempty"`
+	TagIds                   *Relation `xmlrpc:"tag_ids,omitempty"`
+	WebsiteMessageIds        *Relation `xmlrpc:"website_message_ids,omitempty"`
+	WriteDate                *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid                 *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountAnalyticAccounts represents array of account.analytic.account model.
@@ -64,13 +62,13 @@ func (c *Client) CreateAccountAnalyticAccount(aaa *AccountAnalyticAccount) (int6
 	return ids[0], nil
 }
 
-// CreateAccountAnalyticAccount creates a new account.analytic.account model and returns its id.
+// CreateAccountAnalyticAccounts creates a new account.analytic.account model and returns its id.
 func (c *Client) CreateAccountAnalyticAccounts(aaas []*AccountAnalyticAccount) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range aaas {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountAnalyticAccountModel, vv)
+	return c.Create(AccountAnalyticAccountModel, vv, nil)
 }
 
 // UpdateAccountAnalyticAccount updates an existing account.analytic.account record.
@@ -81,7 +79,7 @@ func (c *Client) UpdateAccountAnalyticAccount(aaa *AccountAnalyticAccount) error
 // UpdateAccountAnalyticAccounts updates existing account.analytic.account records.
 // All records (represented by ids) will be updated by aaa values.
 func (c *Client) UpdateAccountAnalyticAccounts(ids []int64, aaa *AccountAnalyticAccount) error {
-	return c.Update(AccountAnalyticAccountModel, ids, aaa)
+	return c.Update(AccountAnalyticAccountModel, ids, aaa, nil)
 }
 
 // DeleteAccountAnalyticAccount deletes an existing account.analytic.account record.
@@ -100,10 +98,7 @@ func (c *Client) GetAccountAnalyticAccount(id int64) (*AccountAnalyticAccount, e
 	if err != nil {
 		return nil, err
 	}
-	if aaas != nil && len(*aaas) > 0 {
-		return &((*aaas)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.analytic.account not found", id)
+	return &((*aaas)[0]), nil
 }
 
 // GetAccountAnalyticAccounts gets account.analytic.account existing records.
@@ -121,10 +116,7 @@ func (c *Client) FindAccountAnalyticAccount(criteria *Criteria) (*AccountAnalyti
 	if err := c.SearchRead(AccountAnalyticAccountModel, criteria, NewOptions().Limit(1), aaas); err != nil {
 		return nil, err
 	}
-	if aaas != nil && len(*aaas) > 0 {
-		return &((*aaas)[0]), nil
-	}
-	return nil, fmt.Errorf("account.analytic.account was not found with criteria %v", criteria)
+	return &((*aaas)[0]), nil
 }
 
 // FindAccountAnalyticAccounts finds account.analytic.account records by querying it
@@ -140,11 +132,7 @@ func (c *Client) FindAccountAnalyticAccounts(criteria *Criteria, options *Option
 // FindAccountAnalyticAccountIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountAnalyticAccountIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountAnalyticAccountModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountAnalyticAccountModel, criteria, options)
 }
 
 // FindAccountAnalyticAccountId finds record id by querying it with criteria.
@@ -153,8 +141,5 @@ func (c *Client) FindAccountAnalyticAccountId(criteria *Criteria, options *Optio
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.analytic.account was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,19 +1,15 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // CalendarEventType represents calendar.event.type model.
 type CalendarEventType struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // CalendarEventTypes represents array of calendar.event.type model.
@@ -39,13 +35,13 @@ func (c *Client) CreateCalendarEventType(cet *CalendarEventType) (int64, error) 
 	return ids[0], nil
 }
 
-// CreateCalendarEventType creates a new calendar.event.type model and returns its id.
+// CreateCalendarEventTypes creates a new calendar.event.type model and returns its id.
 func (c *Client) CreateCalendarEventTypes(cets []*CalendarEventType) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range cets {
 		vv = append(vv, v)
 	}
-	return c.Create(CalendarEventTypeModel, vv)
+	return c.Create(CalendarEventTypeModel, vv, nil)
 }
 
 // UpdateCalendarEventType updates an existing calendar.event.type record.
@@ -56,7 +52,7 @@ func (c *Client) UpdateCalendarEventType(cet *CalendarEventType) error {
 // UpdateCalendarEventTypes updates existing calendar.event.type records.
 // All records (represented by ids) will be updated by cet values.
 func (c *Client) UpdateCalendarEventTypes(ids []int64, cet *CalendarEventType) error {
-	return c.Update(CalendarEventTypeModel, ids, cet)
+	return c.Update(CalendarEventTypeModel, ids, cet, nil)
 }
 
 // DeleteCalendarEventType deletes an existing calendar.event.type record.
@@ -75,10 +71,7 @@ func (c *Client) GetCalendarEventType(id int64) (*CalendarEventType, error) {
 	if err != nil {
 		return nil, err
 	}
-	if cets != nil && len(*cets) > 0 {
-		return &((*cets)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of calendar.event.type not found", id)
+	return &((*cets)[0]), nil
 }
 
 // GetCalendarEventTypes gets calendar.event.type existing records.
@@ -96,10 +89,7 @@ func (c *Client) FindCalendarEventType(criteria *Criteria) (*CalendarEventType, 
 	if err := c.SearchRead(CalendarEventTypeModel, criteria, NewOptions().Limit(1), cets); err != nil {
 		return nil, err
 	}
-	if cets != nil && len(*cets) > 0 {
-		return &((*cets)[0]), nil
-	}
-	return nil, fmt.Errorf("calendar.event.type was not found with criteria %v", criteria)
+	return &((*cets)[0]), nil
 }
 
 // FindCalendarEventTypes finds calendar.event.type records by querying it
@@ -115,11 +105,7 @@ func (c *Client) FindCalendarEventTypes(criteria *Criteria, options *Options) (*
 // FindCalendarEventTypeIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindCalendarEventTypeIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(CalendarEventTypeModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(CalendarEventTypeModel, criteria, options)
 }
 
 // FindCalendarEventTypeId finds record id by querying it with criteria.
@@ -128,8 +114,5 @@ func (c *Client) FindCalendarEventTypeId(criteria *Criteria, options *Options) (
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("calendar.event.type was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

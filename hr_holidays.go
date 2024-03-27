@@ -1,54 +1,50 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // HrHolidays represents hr.holidays model.
 type HrHolidays struct {
-	LastUpdate               *Time      `xmlrpc:"__last_update,omptempty"`
-	CanReset                 *Bool      `xmlrpc:"can_reset,omptempty"`
-	CategoryId               *Many2One  `xmlrpc:"category_id,omptempty"`
-	CreateDate               *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid                *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DateFrom                 *Time      `xmlrpc:"date_from,omptempty"`
-	DateTo                   *Time      `xmlrpc:"date_to,omptempty"`
-	DepartmentId             *Many2One  `xmlrpc:"department_id,omptempty"`
-	DisplayName              *String    `xmlrpc:"display_name,omptempty"`
-	DoubleValidation         *Bool      `xmlrpc:"double_validation,omptempty"`
-	EmployeeId               *Many2One  `xmlrpc:"employee_id,omptempty"`
-	FirstApproverId          *Many2One  `xmlrpc:"first_approver_id,omptempty"`
-	HolidayStatusId          *Many2One  `xmlrpc:"holiday_status_id,omptempty"`
-	HolidayType              *Selection `xmlrpc:"holiday_type,omptempty"`
-	Id                       *Int       `xmlrpc:"id,omptempty"`
-	LinkedRequestIds         *Relation  `xmlrpc:"linked_request_ids,omptempty"`
-	ManagerId                *Many2One  `xmlrpc:"manager_id,omptempty"`
-	MeetingId                *Many2One  `xmlrpc:"meeting_id,omptempty"`
-	MessageChannelIds        *Relation  `xmlrpc:"message_channel_ids,omptempty"`
-	MessageFollowerIds       *Relation  `xmlrpc:"message_follower_ids,omptempty"`
-	MessageIds               *Relation  `xmlrpc:"message_ids,omptempty"`
-	MessageIsFollower        *Bool      `xmlrpc:"message_is_follower,omptempty"`
-	MessageLastPost          *Time      `xmlrpc:"message_last_post,omptempty"`
-	MessageNeedaction        *Bool      `xmlrpc:"message_needaction,omptempty"`
-	MessageNeedactionCounter *Int       `xmlrpc:"message_needaction_counter,omptempty"`
-	MessagePartnerIds        *Relation  `xmlrpc:"message_partner_ids,omptempty"`
-	MessageUnread            *Bool      `xmlrpc:"message_unread,omptempty"`
-	MessageUnreadCounter     *Int       `xmlrpc:"message_unread_counter,omptempty"`
-	Name                     *String    `xmlrpc:"name,omptempty"`
-	Notes                    *String    `xmlrpc:"notes,omptempty"`
-	NumberOfDays             *Float     `xmlrpc:"number_of_days,omptempty"`
-	NumberOfDaysTemp         *Float     `xmlrpc:"number_of_days_temp,omptempty"`
-	ParentId                 *Many2One  `xmlrpc:"parent_id,omptempty"`
-	PayslipStatus            *Bool      `xmlrpc:"payslip_status,omptempty"`
-	ReportNote               *String    `xmlrpc:"report_note,omptempty"`
-	SecondApproverId         *Many2One  `xmlrpc:"second_approver_id,omptempty"`
-	State                    *Selection `xmlrpc:"state,omptempty"`
-	TimesheetIds             *Relation  `xmlrpc:"timesheet_ids,omptempty"`
-	Type                     *Selection `xmlrpc:"type,omptempty"`
-	UserId                   *Many2One  `xmlrpc:"user_id,omptempty"`
-	WebsiteMessageIds        *Relation  `xmlrpc:"website_message_ids,omptempty"`
-	WriteDate                *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid                 *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate               *Time      `xmlrpc:"__last_update,omitempty"`
+	CanReset                 *Bool      `xmlrpc:"can_reset,omitempty"`
+	CategoryId               *Many2One  `xmlrpc:"category_id,omitempty"`
+	CreateDate               *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid                *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DateFrom                 *Time      `xmlrpc:"date_from,omitempty"`
+	DateTo                   *Time      `xmlrpc:"date_to,omitempty"`
+	DepartmentId             *Many2One  `xmlrpc:"department_id,omitempty"`
+	DisplayName              *String    `xmlrpc:"display_name,omitempty"`
+	DoubleValidation         *Bool      `xmlrpc:"double_validation,omitempty"`
+	EmployeeId               *Many2One  `xmlrpc:"employee_id,omitempty"`
+	FirstApproverId          *Many2One  `xmlrpc:"first_approver_id,omitempty"`
+	HolidayStatusId          *Many2One  `xmlrpc:"holiday_status_id,omitempty"`
+	HolidayType              *Selection `xmlrpc:"holiday_type,omitempty"`
+	Id                       *Int       `xmlrpc:"id,omitempty"`
+	LinkedRequestIds         *Relation  `xmlrpc:"linked_request_ids,omitempty"`
+	ManagerId                *Many2One  `xmlrpc:"manager_id,omitempty"`
+	MeetingId                *Many2One  `xmlrpc:"meeting_id,omitempty"`
+	MessageChannelIds        *Relation  `xmlrpc:"message_channel_ids,omitempty"`
+	MessageFollowerIds       *Relation  `xmlrpc:"message_follower_ids,omitempty"`
+	MessageIds               *Relation  `xmlrpc:"message_ids,omitempty"`
+	MessageIsFollower        *Bool      `xmlrpc:"message_is_follower,omitempty"`
+	MessageLastPost          *Time      `xmlrpc:"message_last_post,omitempty"`
+	MessageNeedaction        *Bool      `xmlrpc:"message_needaction,omitempty"`
+	MessageNeedactionCounter *Int       `xmlrpc:"message_needaction_counter,omitempty"`
+	MessagePartnerIds        *Relation  `xmlrpc:"message_partner_ids,omitempty"`
+	MessageUnread            *Bool      `xmlrpc:"message_unread,omitempty"`
+	MessageUnreadCounter     *Int       `xmlrpc:"message_unread_counter,omitempty"`
+	Name                     *String    `xmlrpc:"name,omitempty"`
+	Notes                    *String    `xmlrpc:"notes,omitempty"`
+	NumberOfDays             *Float     `xmlrpc:"number_of_days,omitempty"`
+	NumberOfDaysTemp         *Float     `xmlrpc:"number_of_days_temp,omitempty"`
+	ParentId                 *Many2One  `xmlrpc:"parent_id,omitempty"`
+	PayslipStatus            *Bool      `xmlrpc:"payslip_status,omitempty"`
+	ReportNote               *String    `xmlrpc:"report_note,omitempty"`
+	SecondApproverId         *Many2One  `xmlrpc:"second_approver_id,omitempty"`
+	State                    *Selection `xmlrpc:"state,omitempty"`
+	TimesheetIds             *Relation  `xmlrpc:"timesheet_ids,omitempty"`
+	Type                     *Selection `xmlrpc:"type,omitempty"`
+	UserId                   *Many2One  `xmlrpc:"user_id,omitempty"`
+	WebsiteMessageIds        *Relation  `xmlrpc:"website_message_ids,omitempty"`
+	WriteDate                *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid                 *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // HrHolidayss represents array of hr.holidays model.
@@ -74,13 +70,13 @@ func (c *Client) CreateHrHolidays(hh *HrHolidays) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateHrHolidays creates a new hr.holidays model and returns its id.
+// CreateHrHolidayss creates a new hr.holidays model and returns its id.
 func (c *Client) CreateHrHolidayss(hhs []*HrHolidays) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range hhs {
 		vv = append(vv, v)
 	}
-	return c.Create(HrHolidaysModel, vv)
+	return c.Create(HrHolidaysModel, vv, nil)
 }
 
 // UpdateHrHolidays updates an existing hr.holidays record.
@@ -91,7 +87,7 @@ func (c *Client) UpdateHrHolidays(hh *HrHolidays) error {
 // UpdateHrHolidayss updates existing hr.holidays records.
 // All records (represented by ids) will be updated by hh values.
 func (c *Client) UpdateHrHolidayss(ids []int64, hh *HrHolidays) error {
-	return c.Update(HrHolidaysModel, ids, hh)
+	return c.Update(HrHolidaysModel, ids, hh, nil)
 }
 
 // DeleteHrHolidays deletes an existing hr.holidays record.
@@ -110,10 +106,7 @@ func (c *Client) GetHrHolidays(id int64) (*HrHolidays, error) {
 	if err != nil {
 		return nil, err
 	}
-	if hhs != nil && len(*hhs) > 0 {
-		return &((*hhs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of hr.holidays not found", id)
+	return &((*hhs)[0]), nil
 }
 
 // GetHrHolidayss gets hr.holidays existing records.
@@ -131,10 +124,7 @@ func (c *Client) FindHrHolidays(criteria *Criteria) (*HrHolidays, error) {
 	if err := c.SearchRead(HrHolidaysModel, criteria, NewOptions().Limit(1), hhs); err != nil {
 		return nil, err
 	}
-	if hhs != nil && len(*hhs) > 0 {
-		return &((*hhs)[0]), nil
-	}
-	return nil, fmt.Errorf("hr.holidays was not found with criteria %v", criteria)
+	return &((*hhs)[0]), nil
 }
 
 // FindHrHolidayss finds hr.holidays records by querying it
@@ -150,11 +140,7 @@ func (c *Client) FindHrHolidayss(criteria *Criteria, options *Options) (*HrHolid
 // FindHrHolidaysIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindHrHolidaysIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(HrHolidaysModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(HrHolidaysModel, criteria, options)
 }
 
 // FindHrHolidaysId finds record id by querying it with criteria.
@@ -163,8 +149,5 @@ func (c *Client) FindHrHolidaysId(criteria *Criteria, options *Options) (int64, 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("hr.holidays was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

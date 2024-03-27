@@ -1,30 +1,26 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountFinancialReport represents account.financial.report model.
 type AccountFinancialReport struct {
-	LastUpdate      *Time      `xmlrpc:"__last_update,omptempty"`
-	AccountIds      *Relation  `xmlrpc:"account_ids,omptempty"`
-	AccountReportId *Many2One  `xmlrpc:"account_report_id,omptempty"`
-	AccountTypeIds  *Relation  `xmlrpc:"account_type_ids,omptempty"`
-	ChildrenIds     *Relation  `xmlrpc:"children_ids,omptempty"`
-	CreateDate      *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid       *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayDetail   *Selection `xmlrpc:"display_detail,omptempty"`
-	DisplayName     *String    `xmlrpc:"display_name,omptempty"`
-	Id              *Int       `xmlrpc:"id,omptempty"`
-	Level           *Int       `xmlrpc:"level,omptempty"`
-	Name            *String    `xmlrpc:"name,omptempty"`
-	ParentId        *Many2One  `xmlrpc:"parent_id,omptempty"`
-	Sequence        *Int       `xmlrpc:"sequence,omptempty"`
-	Sign            *Selection `xmlrpc:"sign,omptempty"`
-	StyleOverwrite  *Selection `xmlrpc:"style_overwrite,omptempty"`
-	Type            *Selection `xmlrpc:"type,omptempty"`
-	WriteDate       *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid        *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate      *Time      `xmlrpc:"__last_update,omitempty"`
+	AccountIds      *Relation  `xmlrpc:"account_ids,omitempty"`
+	AccountReportId *Many2One  `xmlrpc:"account_report_id,omitempty"`
+	AccountTypeIds  *Relation  `xmlrpc:"account_type_ids,omitempty"`
+	ChildrenIds     *Relation  `xmlrpc:"children_ids,omitempty"`
+	CreateDate      *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid       *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayDetail   *Selection `xmlrpc:"display_detail,omitempty"`
+	DisplayName     *String    `xmlrpc:"display_name,omitempty"`
+	Id              *Int       `xmlrpc:"id,omitempty"`
+	Level           *Int       `xmlrpc:"level,omitempty"`
+	Name            *String    `xmlrpc:"name,omitempty"`
+	ParentId        *Many2One  `xmlrpc:"parent_id,omitempty"`
+	Sequence        *Int       `xmlrpc:"sequence,omitempty"`
+	Sign            *Selection `xmlrpc:"sign,omitempty"`
+	StyleOverwrite  *Selection `xmlrpc:"style_overwrite,omitempty"`
+	Type            *Selection `xmlrpc:"type,omitempty"`
+	WriteDate       *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid        *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountFinancialReports represents array of account.financial.report model.
@@ -50,13 +46,13 @@ func (c *Client) CreateAccountFinancialReport(afr *AccountFinancialReport) (int6
 	return ids[0], nil
 }
 
-// CreateAccountFinancialReport creates a new account.financial.report model and returns its id.
+// CreateAccountFinancialReports creates a new account.financial.report model and returns its id.
 func (c *Client) CreateAccountFinancialReports(afrs []*AccountFinancialReport) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range afrs {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountFinancialReportModel, vv)
+	return c.Create(AccountFinancialReportModel, vv, nil)
 }
 
 // UpdateAccountFinancialReport updates an existing account.financial.report record.
@@ -67,7 +63,7 @@ func (c *Client) UpdateAccountFinancialReport(afr *AccountFinancialReport) error
 // UpdateAccountFinancialReports updates existing account.financial.report records.
 // All records (represented by ids) will be updated by afr values.
 func (c *Client) UpdateAccountFinancialReports(ids []int64, afr *AccountFinancialReport) error {
-	return c.Update(AccountFinancialReportModel, ids, afr)
+	return c.Update(AccountFinancialReportModel, ids, afr, nil)
 }
 
 // DeleteAccountFinancialReport deletes an existing account.financial.report record.
@@ -86,10 +82,7 @@ func (c *Client) GetAccountFinancialReport(id int64) (*AccountFinancialReport, e
 	if err != nil {
 		return nil, err
 	}
-	if afrs != nil && len(*afrs) > 0 {
-		return &((*afrs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.financial.report not found", id)
+	return &((*afrs)[0]), nil
 }
 
 // GetAccountFinancialReports gets account.financial.report existing records.
@@ -107,10 +100,7 @@ func (c *Client) FindAccountFinancialReport(criteria *Criteria) (*AccountFinanci
 	if err := c.SearchRead(AccountFinancialReportModel, criteria, NewOptions().Limit(1), afrs); err != nil {
 		return nil, err
 	}
-	if afrs != nil && len(*afrs) > 0 {
-		return &((*afrs)[0]), nil
-	}
-	return nil, fmt.Errorf("account.financial.report was not found with criteria %v", criteria)
+	return &((*afrs)[0]), nil
 }
 
 // FindAccountFinancialReports finds account.financial.report records by querying it
@@ -126,11 +116,7 @@ func (c *Client) FindAccountFinancialReports(criteria *Criteria, options *Option
 // FindAccountFinancialReportIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountFinancialReportIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountFinancialReportModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountFinancialReportModel, criteria, options)
 }
 
 // FindAccountFinancialReportId finds record id by querying it with criteria.
@@ -139,8 +125,5 @@ func (c *Client) FindAccountFinancialReportId(criteria *Criteria, options *Optio
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.financial.report was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,23 +1,19 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrActionsActWindowView represents ir.actions.act_window.view model.
 type IrActionsActWindowView struct {
-	LastUpdate  *Time      `xmlrpc:"__last_update,omptempty"`
-	ActWindowId *Many2One  `xmlrpc:"act_window_id,omptempty"`
-	CreateDate  *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String    `xmlrpc:"display_name,omptempty"`
-	Id          *Int       `xmlrpc:"id,omptempty"`
-	Multi       *Bool      `xmlrpc:"multi,omptempty"`
-	Sequence    *Int       `xmlrpc:"sequence,omptempty"`
-	ViewId      *Many2One  `xmlrpc:"view_id,omptempty"`
-	ViewMode    *Selection `xmlrpc:"view_mode,omptempty"`
-	WriteDate   *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time      `xmlrpc:"__last_update,omitempty"`
+	ActWindowId *Many2One  `xmlrpc:"act_window_id,omitempty"`
+	CreateDate  *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String    `xmlrpc:"display_name,omitempty"`
+	Id          *Int       `xmlrpc:"id,omitempty"`
+	Multi       *Bool      `xmlrpc:"multi,omitempty"`
+	Sequence    *Int       `xmlrpc:"sequence,omitempty"`
+	ViewId      *Many2One  `xmlrpc:"view_id,omitempty"`
+	ViewMode    *Selection `xmlrpc:"view_mode,omitempty"`
+	WriteDate   *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrActionsActWindowViews represents array of ir.actions.act_window.view model.
@@ -43,13 +39,13 @@ func (c *Client) CreateIrActionsActWindowView(iaav *IrActionsActWindowView) (int
 	return ids[0], nil
 }
 
-// CreateIrActionsActWindowView creates a new ir.actions.act_window.view model and returns its id.
+// CreateIrActionsActWindowViews creates a new ir.actions.act_window.view model and returns its id.
 func (c *Client) CreateIrActionsActWindowViews(iaavs []*IrActionsActWindowView) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range iaavs {
 		vv = append(vv, v)
 	}
-	return c.Create(IrActionsActWindowViewModel, vv)
+	return c.Create(IrActionsActWindowViewModel, vv, nil)
 }
 
 // UpdateIrActionsActWindowView updates an existing ir.actions.act_window.view record.
@@ -60,7 +56,7 @@ func (c *Client) UpdateIrActionsActWindowView(iaav *IrActionsActWindowView) erro
 // UpdateIrActionsActWindowViews updates existing ir.actions.act_window.view records.
 // All records (represented by ids) will be updated by iaav values.
 func (c *Client) UpdateIrActionsActWindowViews(ids []int64, iaav *IrActionsActWindowView) error {
-	return c.Update(IrActionsActWindowViewModel, ids, iaav)
+	return c.Update(IrActionsActWindowViewModel, ids, iaav, nil)
 }
 
 // DeleteIrActionsActWindowView deletes an existing ir.actions.act_window.view record.
@@ -79,10 +75,7 @@ func (c *Client) GetIrActionsActWindowView(id int64) (*IrActionsActWindowView, e
 	if err != nil {
 		return nil, err
 	}
-	if iaavs != nil && len(*iaavs) > 0 {
-		return &((*iaavs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.actions.act_window.view not found", id)
+	return &((*iaavs)[0]), nil
 }
 
 // GetIrActionsActWindowViews gets ir.actions.act_window.view existing records.
@@ -100,10 +93,7 @@ func (c *Client) FindIrActionsActWindowView(criteria *Criteria) (*IrActionsActWi
 	if err := c.SearchRead(IrActionsActWindowViewModel, criteria, NewOptions().Limit(1), iaavs); err != nil {
 		return nil, err
 	}
-	if iaavs != nil && len(*iaavs) > 0 {
-		return &((*iaavs)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.actions.act_window.view was not found with criteria %v", criteria)
+	return &((*iaavs)[0]), nil
 }
 
 // FindIrActionsActWindowViews finds ir.actions.act_window.view records by querying it
@@ -119,11 +109,7 @@ func (c *Client) FindIrActionsActWindowViews(criteria *Criteria, options *Option
 // FindIrActionsActWindowViewIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrActionsActWindowViewIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrActionsActWindowViewModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrActionsActWindowViewModel, criteria, options)
 }
 
 // FindIrActionsActWindowViewId finds record id by querying it with criteria.
@@ -132,8 +118,5 @@ func (c *Client) FindIrActionsActWindowViewId(criteria *Criteria, options *Optio
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.actions.act_window.view was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,22 +1,18 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockWarnInsufficientQtyScrap represents stock.warn.insufficient.qty.scrap model.
 type StockWarnInsufficientQtyScrap struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	LocationId  *Many2One `xmlrpc:"location_id,omptempty"`
-	ProductId   *Many2One `xmlrpc:"product_id,omptempty"`
-	QuantIds    *Relation `xmlrpc:"quant_ids,omptempty"`
-	ScrapId     *Many2One `xmlrpc:"scrap_id,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	LocationId  *Many2One `xmlrpc:"location_id,omitempty"`
+	ProductId   *Many2One `xmlrpc:"product_id,omitempty"`
+	QuantIds    *Relation `xmlrpc:"quant_ids,omitempty"`
+	ScrapId     *Many2One `xmlrpc:"scrap_id,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockWarnInsufficientQtyScraps represents array of stock.warn.insufficient.qty.scrap model.
@@ -42,13 +38,13 @@ func (c *Client) CreateStockWarnInsufficientQtyScrap(swiqs *StockWarnInsufficien
 	return ids[0], nil
 }
 
-// CreateStockWarnInsufficientQtyScrap creates a new stock.warn.insufficient.qty.scrap model and returns its id.
+// CreateStockWarnInsufficientQtyScraps creates a new stock.warn.insufficient.qty.scrap model and returns its id.
 func (c *Client) CreateStockWarnInsufficientQtyScraps(swiqss []*StockWarnInsufficientQtyScrap) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range swiqss {
 		vv = append(vv, v)
 	}
-	return c.Create(StockWarnInsufficientQtyScrapModel, vv)
+	return c.Create(StockWarnInsufficientQtyScrapModel, vv, nil)
 }
 
 // UpdateStockWarnInsufficientQtyScrap updates an existing stock.warn.insufficient.qty.scrap record.
@@ -59,7 +55,7 @@ func (c *Client) UpdateStockWarnInsufficientQtyScrap(swiqs *StockWarnInsufficien
 // UpdateStockWarnInsufficientQtyScraps updates existing stock.warn.insufficient.qty.scrap records.
 // All records (represented by ids) will be updated by swiqs values.
 func (c *Client) UpdateStockWarnInsufficientQtyScraps(ids []int64, swiqs *StockWarnInsufficientQtyScrap) error {
-	return c.Update(StockWarnInsufficientQtyScrapModel, ids, swiqs)
+	return c.Update(StockWarnInsufficientQtyScrapModel, ids, swiqs, nil)
 }
 
 // DeleteStockWarnInsufficientQtyScrap deletes an existing stock.warn.insufficient.qty.scrap record.
@@ -78,10 +74,7 @@ func (c *Client) GetStockWarnInsufficientQtyScrap(id int64) (*StockWarnInsuffici
 	if err != nil {
 		return nil, err
 	}
-	if swiqss != nil && len(*swiqss) > 0 {
-		return &((*swiqss)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.warn.insufficient.qty.scrap not found", id)
+	return &((*swiqss)[0]), nil
 }
 
 // GetStockWarnInsufficientQtyScraps gets stock.warn.insufficient.qty.scrap existing records.
@@ -99,10 +92,7 @@ func (c *Client) FindStockWarnInsufficientQtyScrap(criteria *Criteria) (*StockWa
 	if err := c.SearchRead(StockWarnInsufficientQtyScrapModel, criteria, NewOptions().Limit(1), swiqss); err != nil {
 		return nil, err
 	}
-	if swiqss != nil && len(*swiqss) > 0 {
-		return &((*swiqss)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.warn.insufficient.qty.scrap was not found with criteria %v", criteria)
+	return &((*swiqss)[0]), nil
 }
 
 // FindStockWarnInsufficientQtyScraps finds stock.warn.insufficient.qty.scrap records by querying it
@@ -118,11 +108,7 @@ func (c *Client) FindStockWarnInsufficientQtyScraps(criteria *Criteria, options 
 // FindStockWarnInsufficientQtyScrapIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockWarnInsufficientQtyScrapIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockWarnInsufficientQtyScrapModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockWarnInsufficientQtyScrapModel, criteria, options)
 }
 
 // FindStockWarnInsufficientQtyScrapId finds record id by querying it with criteria.
@@ -131,8 +117,5 @@ func (c *Client) FindStockWarnInsufficientQtyScrapId(criteria *Criteria, options
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.warn.insufficient.qty.scrap was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

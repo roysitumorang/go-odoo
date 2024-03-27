@@ -1,30 +1,26 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // WebEditorConverterTest represents web_editor.converter.test model.
 type WebEditorConverterTest struct {
-	LastUpdate   *Time      `xmlrpc:"__last_update,omptempty"`
-	Binary       *String    `xmlrpc:"binary,omptempty"`
-	Char         *String    `xmlrpc:"char,omptempty"`
-	CreateDate   *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid    *Many2One  `xmlrpc:"create_uid,omptempty"`
-	Date         *Time      `xmlrpc:"date,omptempty"`
-	Datetime     *Time      `xmlrpc:"datetime,omptempty"`
-	DisplayName  *String    `xmlrpc:"display_name,omptempty"`
-	Float        *Float     `xmlrpc:"float,omptempty"`
-	Html         *String    `xmlrpc:"html,omptempty"`
-	Id           *Int       `xmlrpc:"id,omptempty"`
-	Integer      *Int       `xmlrpc:"integer,omptempty"`
-	Many2One     *Many2One  `xmlrpc:"many2one,omptempty"`
-	Numeric      *Float     `xmlrpc:"numeric,omptempty"`
-	Selection    *Selection `xmlrpc:"selection,omptempty"`
-	SelectionStr *Selection `xmlrpc:"selection_str,omptempty"`
-	Text         *String    `xmlrpc:"text,omptempty"`
-	WriteDate    *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid     *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate   *Time      `xmlrpc:"__last_update,omitempty"`
+	Binary       *String    `xmlrpc:"binary,omitempty"`
+	Char         *String    `xmlrpc:"char,omitempty"`
+	CreateDate   *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid    *Many2One  `xmlrpc:"create_uid,omitempty"`
+	Date         *Time      `xmlrpc:"date,omitempty"`
+	Datetime     *Time      `xmlrpc:"datetime,omitempty"`
+	DisplayName  *String    `xmlrpc:"display_name,omitempty"`
+	Float        *Float     `xmlrpc:"float,omitempty"`
+	Html         *String    `xmlrpc:"html,omitempty"`
+	Id           *Int       `xmlrpc:"id,omitempty"`
+	Integer      *Int       `xmlrpc:"integer,omitempty"`
+	Many2One     *Many2One  `xmlrpc:"many2one,omitempty"`
+	Numeric      *Float     `xmlrpc:"numeric,omitempty"`
+	Selection    *Selection `xmlrpc:"selection,omitempty"`
+	SelectionStr *Selection `xmlrpc:"selection_str,omitempty"`
+	Text         *String    `xmlrpc:"text,omitempty"`
+	WriteDate    *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid     *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // WebEditorConverterTests represents array of web_editor.converter.test model.
@@ -50,13 +46,13 @@ func (c *Client) CreateWebEditorConverterTest(wct *WebEditorConverterTest) (int6
 	return ids[0], nil
 }
 
-// CreateWebEditorConverterTest creates a new web_editor.converter.test model and returns its id.
+// CreateWebEditorConverterTests creates a new web_editor.converter.test model and returns its id.
 func (c *Client) CreateWebEditorConverterTests(wcts []*WebEditorConverterTest) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range wcts {
 		vv = append(vv, v)
 	}
-	return c.Create(WebEditorConverterTestModel, vv)
+	return c.Create(WebEditorConverterTestModel, vv, nil)
 }
 
 // UpdateWebEditorConverterTest updates an existing web_editor.converter.test record.
@@ -67,7 +63,7 @@ func (c *Client) UpdateWebEditorConverterTest(wct *WebEditorConverterTest) error
 // UpdateWebEditorConverterTests updates existing web_editor.converter.test records.
 // All records (represented by ids) will be updated by wct values.
 func (c *Client) UpdateWebEditorConverterTests(ids []int64, wct *WebEditorConverterTest) error {
-	return c.Update(WebEditorConverterTestModel, ids, wct)
+	return c.Update(WebEditorConverterTestModel, ids, wct, nil)
 }
 
 // DeleteWebEditorConverterTest deletes an existing web_editor.converter.test record.
@@ -86,10 +82,7 @@ func (c *Client) GetWebEditorConverterTest(id int64) (*WebEditorConverterTest, e
 	if err != nil {
 		return nil, err
 	}
-	if wcts != nil && len(*wcts) > 0 {
-		return &((*wcts)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of web_editor.converter.test not found", id)
+	return &((*wcts)[0]), nil
 }
 
 // GetWebEditorConverterTests gets web_editor.converter.test existing records.
@@ -107,10 +100,7 @@ func (c *Client) FindWebEditorConverterTest(criteria *Criteria) (*WebEditorConve
 	if err := c.SearchRead(WebEditorConverterTestModel, criteria, NewOptions().Limit(1), wcts); err != nil {
 		return nil, err
 	}
-	if wcts != nil && len(*wcts) > 0 {
-		return &((*wcts)[0]), nil
-	}
-	return nil, fmt.Errorf("web_editor.converter.test was not found with criteria %v", criteria)
+	return &((*wcts)[0]), nil
 }
 
 // FindWebEditorConverterTests finds web_editor.converter.test records by querying it
@@ -126,11 +116,7 @@ func (c *Client) FindWebEditorConverterTests(criteria *Criteria, options *Option
 // FindWebEditorConverterTestIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindWebEditorConverterTestIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(WebEditorConverterTestModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(WebEditorConverterTestModel, criteria, options)
 }
 
 // FindWebEditorConverterTestId finds record id by querying it with criteria.
@@ -139,8 +125,5 @@ func (c *Client) FindWebEditorConverterTestId(criteria *Criteria, options *Optio
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("web_editor.converter.test was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

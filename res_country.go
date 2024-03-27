@@ -1,29 +1,25 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ResCountry represents res.country model.
 type ResCountry struct {
-	LastUpdate      *Time      `xmlrpc:"__last_update,omptempty"`
-	AddressFormat   *String    `xmlrpc:"address_format,omptempty"`
-	AddressViewId   *Many2One  `xmlrpc:"address_view_id,omptempty"`
-	Code            *String    `xmlrpc:"code,omptempty"`
-	CountryGroupIds *Relation  `xmlrpc:"country_group_ids,omptempty"`
-	CreateDate      *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid       *Many2One  `xmlrpc:"create_uid,omptempty"`
-	CurrencyId      *Many2One  `xmlrpc:"currency_id,omptempty"`
-	DisplayName     *String    `xmlrpc:"display_name,omptempty"`
-	Id              *Int       `xmlrpc:"id,omptempty"`
-	Image           *String    `xmlrpc:"image,omptempty"`
-	Name            *String    `xmlrpc:"name,omptempty"`
-	NamePosition    *Selection `xmlrpc:"name_position,omptempty"`
-	PhoneCode       *Int       `xmlrpc:"phone_code,omptempty"`
-	StateIds        *Relation  `xmlrpc:"state_ids,omptempty"`
-	VatLabel        *String    `xmlrpc:"vat_label,omptempty"`
-	WriteDate       *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid        *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate      *Time      `xmlrpc:"__last_update,omitempty"`
+	AddressFormat   *String    `xmlrpc:"address_format,omitempty"`
+	AddressViewId   *Many2One  `xmlrpc:"address_view_id,omitempty"`
+	Code            *String    `xmlrpc:"code,omitempty"`
+	CountryGroupIds *Relation  `xmlrpc:"country_group_ids,omitempty"`
+	CreateDate      *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid       *Many2One  `xmlrpc:"create_uid,omitempty"`
+	CurrencyId      *Many2One  `xmlrpc:"currency_id,omitempty"`
+	DisplayName     *String    `xmlrpc:"display_name,omitempty"`
+	Id              *Int       `xmlrpc:"id,omitempty"`
+	Image           *String    `xmlrpc:"image,omitempty"`
+	Name            *String    `xmlrpc:"name,omitempty"`
+	NamePosition    *Selection `xmlrpc:"name_position,omitempty"`
+	PhoneCode       *Int       `xmlrpc:"phone_code,omitempty"`
+	StateIds        *Relation  `xmlrpc:"state_ids,omitempty"`
+	VatLabel        *String    `xmlrpc:"vat_label,omitempty"`
+	WriteDate       *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid        *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // ResCountrys represents array of res.country model.
@@ -49,13 +45,13 @@ func (c *Client) CreateResCountry(rc *ResCountry) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateResCountry creates a new res.country model and returns its id.
+// CreateResCountrys creates a new res.country model and returns its id.
 func (c *Client) CreateResCountrys(rcs []*ResCountry) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rcs {
 		vv = append(vv, v)
 	}
-	return c.Create(ResCountryModel, vv)
+	return c.Create(ResCountryModel, vv, nil)
 }
 
 // UpdateResCountry updates an existing res.country record.
@@ -66,7 +62,7 @@ func (c *Client) UpdateResCountry(rc *ResCountry) error {
 // UpdateResCountrys updates existing res.country records.
 // All records (represented by ids) will be updated by rc values.
 func (c *Client) UpdateResCountrys(ids []int64, rc *ResCountry) error {
-	return c.Update(ResCountryModel, ids, rc)
+	return c.Update(ResCountryModel, ids, rc, nil)
 }
 
 // DeleteResCountry deletes an existing res.country record.
@@ -85,10 +81,7 @@ func (c *Client) GetResCountry(id int64) (*ResCountry, error) {
 	if err != nil {
 		return nil, err
 	}
-	if rcs != nil && len(*rcs) > 0 {
-		return &((*rcs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of res.country not found", id)
+	return &((*rcs)[0]), nil
 }
 
 // GetResCountrys gets res.country existing records.
@@ -106,10 +99,7 @@ func (c *Client) FindResCountry(criteria *Criteria) (*ResCountry, error) {
 	if err := c.SearchRead(ResCountryModel, criteria, NewOptions().Limit(1), rcs); err != nil {
 		return nil, err
 	}
-	if rcs != nil && len(*rcs) > 0 {
-		return &((*rcs)[0]), nil
-	}
-	return nil, fmt.Errorf("res.country was not found with criteria %v", criteria)
+	return &((*rcs)[0]), nil
 }
 
 // FindResCountrys finds res.country records by querying it
@@ -125,11 +115,7 @@ func (c *Client) FindResCountrys(criteria *Criteria, options *Options) (*ResCoun
 // FindResCountryIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindResCountryIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ResCountryModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ResCountryModel, criteria, options)
 }
 
 // FindResCountryId finds record id by querying it with criteria.
@@ -138,8 +124,5 @@ func (c *Client) FindResCountryId(criteria *Criteria, options *Options) (int64, 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("res.country was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

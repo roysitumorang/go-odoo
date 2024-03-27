@@ -1,33 +1,29 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockLocationRoute represents stock.location.route model.
 type StockLocationRoute struct {
-	LastUpdate             *Time     `xmlrpc:"__last_update,omptempty"`
-	Active                 *Bool     `xmlrpc:"active,omptempty"`
-	CategIds               *Relation `xmlrpc:"categ_ids,omptempty"`
-	CompanyId              *Many2One `xmlrpc:"company_id,omptempty"`
-	CreateDate             *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid              *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName            *String   `xmlrpc:"display_name,omptempty"`
-	Id                     *Int      `xmlrpc:"id,omptempty"`
-	Name                   *String   `xmlrpc:"name,omptempty"`
-	ProductCategSelectable *Bool     `xmlrpc:"product_categ_selectable,omptempty"`
-	ProductIds             *Relation `xmlrpc:"product_ids,omptempty"`
-	ProductSelectable      *Bool     `xmlrpc:"product_selectable,omptempty"`
-	PullIds                *Relation `xmlrpc:"pull_ids,omptempty"`
-	PushIds                *Relation `xmlrpc:"push_ids,omptempty"`
-	SaleSelectable         *Bool     `xmlrpc:"sale_selectable,omptempty"`
-	Sequence               *Int      `xmlrpc:"sequence,omptempty"`
-	SuppliedWhId           *Many2One `xmlrpc:"supplied_wh_id,omptempty"`
-	SupplierWhId           *Many2One `xmlrpc:"supplier_wh_id,omptempty"`
-	WarehouseIds           *Relation `xmlrpc:"warehouse_ids,omptempty"`
-	WarehouseSelectable    *Bool     `xmlrpc:"warehouse_selectable,omptempty"`
-	WriteDate              *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid               *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate             *Time     `xmlrpc:"__last_update,omitempty"`
+	Active                 *Bool     `xmlrpc:"active,omitempty"`
+	CategIds               *Relation `xmlrpc:"categ_ids,omitempty"`
+	CompanyId              *Many2One `xmlrpc:"company_id,omitempty"`
+	CreateDate             *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid              *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName            *String   `xmlrpc:"display_name,omitempty"`
+	Id                     *Int      `xmlrpc:"id,omitempty"`
+	Name                   *String   `xmlrpc:"name,omitempty"`
+	ProductCategSelectable *Bool     `xmlrpc:"product_categ_selectable,omitempty"`
+	ProductIds             *Relation `xmlrpc:"product_ids,omitempty"`
+	ProductSelectable      *Bool     `xmlrpc:"product_selectable,omitempty"`
+	PullIds                *Relation `xmlrpc:"pull_ids,omitempty"`
+	PushIds                *Relation `xmlrpc:"push_ids,omitempty"`
+	SaleSelectable         *Bool     `xmlrpc:"sale_selectable,omitempty"`
+	Sequence               *Int      `xmlrpc:"sequence,omitempty"`
+	SuppliedWhId           *Many2One `xmlrpc:"supplied_wh_id,omitempty"`
+	SupplierWhId           *Many2One `xmlrpc:"supplier_wh_id,omitempty"`
+	WarehouseIds           *Relation `xmlrpc:"warehouse_ids,omitempty"`
+	WarehouseSelectable    *Bool     `xmlrpc:"warehouse_selectable,omitempty"`
+	WriteDate              *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid               *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockLocationRoutes represents array of stock.location.route model.
@@ -53,13 +49,13 @@ func (c *Client) CreateStockLocationRoute(slr *StockLocationRoute) (int64, error
 	return ids[0], nil
 }
 
-// CreateStockLocationRoute creates a new stock.location.route model and returns its id.
+// CreateStockLocationRoutes creates a new stock.location.route model and returns its id.
 func (c *Client) CreateStockLocationRoutes(slrs []*StockLocationRoute) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range slrs {
 		vv = append(vv, v)
 	}
-	return c.Create(StockLocationRouteModel, vv)
+	return c.Create(StockLocationRouteModel, vv, nil)
 }
 
 // UpdateStockLocationRoute updates an existing stock.location.route record.
@@ -70,7 +66,7 @@ func (c *Client) UpdateStockLocationRoute(slr *StockLocationRoute) error {
 // UpdateStockLocationRoutes updates existing stock.location.route records.
 // All records (represented by ids) will be updated by slr values.
 func (c *Client) UpdateStockLocationRoutes(ids []int64, slr *StockLocationRoute) error {
-	return c.Update(StockLocationRouteModel, ids, slr)
+	return c.Update(StockLocationRouteModel, ids, slr, nil)
 }
 
 // DeleteStockLocationRoute deletes an existing stock.location.route record.
@@ -89,10 +85,7 @@ func (c *Client) GetStockLocationRoute(id int64) (*StockLocationRoute, error) {
 	if err != nil {
 		return nil, err
 	}
-	if slrs != nil && len(*slrs) > 0 {
-		return &((*slrs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.location.route not found", id)
+	return &((*slrs)[0]), nil
 }
 
 // GetStockLocationRoutes gets stock.location.route existing records.
@@ -110,10 +103,7 @@ func (c *Client) FindStockLocationRoute(criteria *Criteria) (*StockLocationRoute
 	if err := c.SearchRead(StockLocationRouteModel, criteria, NewOptions().Limit(1), slrs); err != nil {
 		return nil, err
 	}
-	if slrs != nil && len(*slrs) > 0 {
-		return &((*slrs)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.location.route was not found with criteria %v", criteria)
+	return &((*slrs)[0]), nil
 }
 
 // FindStockLocationRoutes finds stock.location.route records by querying it
@@ -129,11 +119,7 @@ func (c *Client) FindStockLocationRoutes(criteria *Criteria, options *Options) (
 // FindStockLocationRouteIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockLocationRouteIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockLocationRouteModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockLocationRouteModel, criteria, options)
 }
 
 // FindStockLocationRouteId finds record id by querying it with criteria.
@@ -142,8 +128,5 @@ func (c *Client) FindStockLocationRouteId(criteria *Criteria, options *Options) 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.location.route was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

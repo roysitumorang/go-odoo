@@ -1,22 +1,18 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrModuleModuleExclusion represents ir.module.module.exclusion model.
 type IrModuleModuleExclusion struct {
-	LastUpdate  *Time      `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String    `xmlrpc:"display_name,omptempty"`
-	ExclusionId *Many2One  `xmlrpc:"exclusion_id,omptempty"`
-	Id          *Int       `xmlrpc:"id,omptempty"`
-	ModuleId    *Many2One  `xmlrpc:"module_id,omptempty"`
-	Name        *String    `xmlrpc:"name,omptempty"`
-	State       *Selection `xmlrpc:"state,omptempty"`
-	WriteDate   *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time      `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String    `xmlrpc:"display_name,omitempty"`
+	ExclusionId *Many2One  `xmlrpc:"exclusion_id,omitempty"`
+	Id          *Int       `xmlrpc:"id,omitempty"`
+	ModuleId    *Many2One  `xmlrpc:"module_id,omitempty"`
+	Name        *String    `xmlrpc:"name,omitempty"`
+	State       *Selection `xmlrpc:"state,omitempty"`
+	WriteDate   *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrModuleModuleExclusions represents array of ir.module.module.exclusion model.
@@ -42,13 +38,13 @@ func (c *Client) CreateIrModuleModuleExclusion(imme *IrModuleModuleExclusion) (i
 	return ids[0], nil
 }
 
-// CreateIrModuleModuleExclusion creates a new ir.module.module.exclusion model and returns its id.
+// CreateIrModuleModuleExclusions creates a new ir.module.module.exclusion model and returns its id.
 func (c *Client) CreateIrModuleModuleExclusions(immes []*IrModuleModuleExclusion) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range immes {
 		vv = append(vv, v)
 	}
-	return c.Create(IrModuleModuleExclusionModel, vv)
+	return c.Create(IrModuleModuleExclusionModel, vv, nil)
 }
 
 // UpdateIrModuleModuleExclusion updates an existing ir.module.module.exclusion record.
@@ -59,7 +55,7 @@ func (c *Client) UpdateIrModuleModuleExclusion(imme *IrModuleModuleExclusion) er
 // UpdateIrModuleModuleExclusions updates existing ir.module.module.exclusion records.
 // All records (represented by ids) will be updated by imme values.
 func (c *Client) UpdateIrModuleModuleExclusions(ids []int64, imme *IrModuleModuleExclusion) error {
-	return c.Update(IrModuleModuleExclusionModel, ids, imme)
+	return c.Update(IrModuleModuleExclusionModel, ids, imme, nil)
 }
 
 // DeleteIrModuleModuleExclusion deletes an existing ir.module.module.exclusion record.
@@ -78,10 +74,7 @@ func (c *Client) GetIrModuleModuleExclusion(id int64) (*IrModuleModuleExclusion,
 	if err != nil {
 		return nil, err
 	}
-	if immes != nil && len(*immes) > 0 {
-		return &((*immes)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.module.module.exclusion not found", id)
+	return &((*immes)[0]), nil
 }
 
 // GetIrModuleModuleExclusions gets ir.module.module.exclusion existing records.
@@ -99,10 +92,7 @@ func (c *Client) FindIrModuleModuleExclusion(criteria *Criteria) (*IrModuleModul
 	if err := c.SearchRead(IrModuleModuleExclusionModel, criteria, NewOptions().Limit(1), immes); err != nil {
 		return nil, err
 	}
-	if immes != nil && len(*immes) > 0 {
-		return &((*immes)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.module.module.exclusion was not found with criteria %v", criteria)
+	return &((*immes)[0]), nil
 }
 
 // FindIrModuleModuleExclusions finds ir.module.module.exclusion records by querying it
@@ -118,11 +108,7 @@ func (c *Client) FindIrModuleModuleExclusions(criteria *Criteria, options *Optio
 // FindIrModuleModuleExclusionIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrModuleModuleExclusionIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrModuleModuleExclusionModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrModuleModuleExclusionModel, criteria, options)
 }
 
 // FindIrModuleModuleExclusionId finds record id by querying it with criteria.
@@ -131,8 +117,5 @@ func (c *Client) FindIrModuleModuleExclusionId(criteria *Criteria, options *Opti
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.module.module.exclusion was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

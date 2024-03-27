@@ -1,34 +1,30 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrActionsReport represents ir.actions.report model.
 type IrActionsReport struct {
-	LastUpdate      *Time      `xmlrpc:"__last_update,omptempty"`
-	Attachment      *String    `xmlrpc:"attachment,omptempty"`
-	AttachmentUse   *Bool      `xmlrpc:"attachment_use,omptempty"`
-	BindingModelId  *Many2One  `xmlrpc:"binding_model_id,omptempty"`
-	BindingType     *Selection `xmlrpc:"binding_type,omptempty"`
-	CreateDate      *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid       *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName     *String    `xmlrpc:"display_name,omptempty"`
-	GroupsId        *Relation  `xmlrpc:"groups_id,omptempty"`
-	Help            *String    `xmlrpc:"help,omptempty"`
-	Id              *Int       `xmlrpc:"id,omptempty"`
-	Model           *String    `xmlrpc:"model,omptempty"`
-	Multi           *Bool      `xmlrpc:"multi,omptempty"`
-	Name            *String    `xmlrpc:"name,omptempty"`
-	PaperformatId   *Many2One  `xmlrpc:"paperformat_id,omptempty"`
-	PrintReportName *String    `xmlrpc:"print_report_name,omptempty"`
-	ReportFile      *String    `xmlrpc:"report_file,omptempty"`
-	ReportName      *String    `xmlrpc:"report_name,omptempty"`
-	ReportType      *Selection `xmlrpc:"report_type,omptempty"`
-	Type            *String    `xmlrpc:"type,omptempty"`
-	WriteDate       *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid        *Many2One  `xmlrpc:"write_uid,omptempty"`
-	XmlId           *String    `xmlrpc:"xml_id,omptempty"`
+	LastUpdate      *Time      `xmlrpc:"__last_update,omitempty"`
+	Attachment      *String    `xmlrpc:"attachment,omitempty"`
+	AttachmentUse   *Bool      `xmlrpc:"attachment_use,omitempty"`
+	BindingModelId  *Many2One  `xmlrpc:"binding_model_id,omitempty"`
+	BindingType     *Selection `xmlrpc:"binding_type,omitempty"`
+	CreateDate      *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid       *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName     *String    `xmlrpc:"display_name,omitempty"`
+	GroupsId        *Relation  `xmlrpc:"groups_id,omitempty"`
+	Help            *String    `xmlrpc:"help,omitempty"`
+	Id              *Int       `xmlrpc:"id,omitempty"`
+	Model           *String    `xmlrpc:"model,omitempty"`
+	Multi           *Bool      `xmlrpc:"multi,omitempty"`
+	Name            *String    `xmlrpc:"name,omitempty"`
+	PaperformatId   *Many2One  `xmlrpc:"paperformat_id,omitempty"`
+	PrintReportName *String    `xmlrpc:"print_report_name,omitempty"`
+	ReportFile      *String    `xmlrpc:"report_file,omitempty"`
+	ReportName      *String    `xmlrpc:"report_name,omitempty"`
+	ReportType      *Selection `xmlrpc:"report_type,omitempty"`
+	Type            *String    `xmlrpc:"type,omitempty"`
+	WriteDate       *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid        *Many2One  `xmlrpc:"write_uid,omitempty"`
+	XmlId           *String    `xmlrpc:"xml_id,omitempty"`
 }
 
 // IrActionsReports represents array of ir.actions.report model.
@@ -54,13 +50,13 @@ func (c *Client) CreateIrActionsReport(iar *IrActionsReport) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrActionsReport creates a new ir.actions.report model and returns its id.
+// CreateIrActionsReports creates a new ir.actions.report model and returns its id.
 func (c *Client) CreateIrActionsReports(iars []*IrActionsReport) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range iars {
 		vv = append(vv, v)
 	}
-	return c.Create(IrActionsReportModel, vv)
+	return c.Create(IrActionsReportModel, vv, nil)
 }
 
 // UpdateIrActionsReport updates an existing ir.actions.report record.
@@ -71,7 +67,7 @@ func (c *Client) UpdateIrActionsReport(iar *IrActionsReport) error {
 // UpdateIrActionsReports updates existing ir.actions.report records.
 // All records (represented by ids) will be updated by iar values.
 func (c *Client) UpdateIrActionsReports(ids []int64, iar *IrActionsReport) error {
-	return c.Update(IrActionsReportModel, ids, iar)
+	return c.Update(IrActionsReportModel, ids, iar, nil)
 }
 
 // DeleteIrActionsReport deletes an existing ir.actions.report record.
@@ -90,10 +86,7 @@ func (c *Client) GetIrActionsReport(id int64) (*IrActionsReport, error) {
 	if err != nil {
 		return nil, err
 	}
-	if iars != nil && len(*iars) > 0 {
-		return &((*iars)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.actions.report not found", id)
+	return &((*iars)[0]), nil
 }
 
 // GetIrActionsReports gets ir.actions.report existing records.
@@ -111,10 +104,7 @@ func (c *Client) FindIrActionsReport(criteria *Criteria) (*IrActionsReport, erro
 	if err := c.SearchRead(IrActionsReportModel, criteria, NewOptions().Limit(1), iars); err != nil {
 		return nil, err
 	}
-	if iars != nil && len(*iars) > 0 {
-		return &((*iars)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.actions.report was not found with criteria %v", criteria)
+	return &((*iars)[0]), nil
 }
 
 // FindIrActionsReports finds ir.actions.report records by querying it
@@ -130,11 +120,7 @@ func (c *Client) FindIrActionsReports(criteria *Criteria, options *Options) (*Ir
 // FindIrActionsReportIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrActionsReportIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrActionsReportModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrActionsReportModel, criteria, options)
 }
 
 // FindIrActionsReportId finds record id by querying it with criteria.
@@ -143,8 +129,5 @@ func (c *Client) FindIrActionsReportId(criteria *Criteria, options *Options) (in
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.actions.report was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

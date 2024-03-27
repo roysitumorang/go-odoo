@@ -1,25 +1,21 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ImLivechatReportChannel represents im_livechat.report.channel model.
 type ImLivechatReportChannel struct {
-	LastUpdate        *Time     `xmlrpc:"__last_update,omptempty"`
-	ChannelId         *Many2One `xmlrpc:"channel_id,omptempty"`
-	ChannelName       *String   `xmlrpc:"channel_name,omptempty"`
-	DisplayName       *String   `xmlrpc:"display_name,omptempty"`
-	Duration          *Float    `xmlrpc:"duration,omptempty"`
-	Id                *Int      `xmlrpc:"id,omptempty"`
-	LivechatChannelId *Many2One `xmlrpc:"livechat_channel_id,omptempty"`
-	NbrMessage        *Int      `xmlrpc:"nbr_message,omptempty"`
-	NbrSpeaker        *Int      `xmlrpc:"nbr_speaker,omptempty"`
-	PartnerId         *Many2One `xmlrpc:"partner_id,omptempty"`
-	StartDate         *Time     `xmlrpc:"start_date,omptempty"`
-	StartDateHour     *String   `xmlrpc:"start_date_hour,omptempty"`
-	TechnicalName     *String   `xmlrpc:"technical_name,omptempty"`
-	Uuid              *String   `xmlrpc:"uuid,omptempty"`
+	LastUpdate        *Time     `xmlrpc:"__last_update,omitempty"`
+	ChannelId         *Many2One `xmlrpc:"channel_id,omitempty"`
+	ChannelName       *String   `xmlrpc:"channel_name,omitempty"`
+	DisplayName       *String   `xmlrpc:"display_name,omitempty"`
+	Duration          *Float    `xmlrpc:"duration,omitempty"`
+	Id                *Int      `xmlrpc:"id,omitempty"`
+	LivechatChannelId *Many2One `xmlrpc:"livechat_channel_id,omitempty"`
+	NbrMessage        *Int      `xmlrpc:"nbr_message,omitempty"`
+	NbrSpeaker        *Int      `xmlrpc:"nbr_speaker,omitempty"`
+	PartnerId         *Many2One `xmlrpc:"partner_id,omitempty"`
+	StartDate         *Time     `xmlrpc:"start_date,omitempty"`
+	StartDateHour     *String   `xmlrpc:"start_date_hour,omitempty"`
+	TechnicalName     *String   `xmlrpc:"technical_name,omitempty"`
+	Uuid              *String   `xmlrpc:"uuid,omitempty"`
 }
 
 // ImLivechatReportChannels represents array of im_livechat.report.channel model.
@@ -45,13 +41,13 @@ func (c *Client) CreateImLivechatReportChannel(irc *ImLivechatReportChannel) (in
 	return ids[0], nil
 }
 
-// CreateImLivechatReportChannel creates a new im_livechat.report.channel model and returns its id.
+// CreateImLivechatReportChannels creates a new im_livechat.report.channel model and returns its id.
 func (c *Client) CreateImLivechatReportChannels(ircs []*ImLivechatReportChannel) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range ircs {
 		vv = append(vv, v)
 	}
-	return c.Create(ImLivechatReportChannelModel, vv)
+	return c.Create(ImLivechatReportChannelModel, vv, nil)
 }
 
 // UpdateImLivechatReportChannel updates an existing im_livechat.report.channel record.
@@ -62,7 +58,7 @@ func (c *Client) UpdateImLivechatReportChannel(irc *ImLivechatReportChannel) err
 // UpdateImLivechatReportChannels updates existing im_livechat.report.channel records.
 // All records (represented by ids) will be updated by irc values.
 func (c *Client) UpdateImLivechatReportChannels(ids []int64, irc *ImLivechatReportChannel) error {
-	return c.Update(ImLivechatReportChannelModel, ids, irc)
+	return c.Update(ImLivechatReportChannelModel, ids, irc, nil)
 }
 
 // DeleteImLivechatReportChannel deletes an existing im_livechat.report.channel record.
@@ -81,10 +77,7 @@ func (c *Client) GetImLivechatReportChannel(id int64) (*ImLivechatReportChannel,
 	if err != nil {
 		return nil, err
 	}
-	if ircs != nil && len(*ircs) > 0 {
-		return &((*ircs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of im_livechat.report.channel not found", id)
+	return &((*ircs)[0]), nil
 }
 
 // GetImLivechatReportChannels gets im_livechat.report.channel existing records.
@@ -102,10 +95,7 @@ func (c *Client) FindImLivechatReportChannel(criteria *Criteria) (*ImLivechatRep
 	if err := c.SearchRead(ImLivechatReportChannelModel, criteria, NewOptions().Limit(1), ircs); err != nil {
 		return nil, err
 	}
-	if ircs != nil && len(*ircs) > 0 {
-		return &((*ircs)[0]), nil
-	}
-	return nil, fmt.Errorf("im_livechat.report.channel was not found with criteria %v", criteria)
+	return &((*ircs)[0]), nil
 }
 
 // FindImLivechatReportChannels finds im_livechat.report.channel records by querying it
@@ -121,11 +111,7 @@ func (c *Client) FindImLivechatReportChannels(criteria *Criteria, options *Optio
 // FindImLivechatReportChannelIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindImLivechatReportChannelIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ImLivechatReportChannelModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ImLivechatReportChannelModel, criteria, options)
 }
 
 // FindImLivechatReportChannelId finds record id by querying it with criteria.
@@ -134,8 +120,5 @@ func (c *Client) FindImLivechatReportChannelId(criteria *Criteria, options *Opti
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("im_livechat.report.channel was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

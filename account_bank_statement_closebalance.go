@@ -1,18 +1,14 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountBankStatementClosebalance represents account.bank.statement.closebalance model.
 type AccountBankStatementClosebalance struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountBankStatementClosebalances represents array of account.bank.statement.closebalance model.
@@ -38,13 +34,13 @@ func (c *Client) CreateAccountBankStatementClosebalance(absc *AccountBankStateme
 	return ids[0], nil
 }
 
-// CreateAccountBankStatementClosebalance creates a new account.bank.statement.closebalance model and returns its id.
+// CreateAccountBankStatementClosebalances creates a new account.bank.statement.closebalance model and returns its id.
 func (c *Client) CreateAccountBankStatementClosebalances(abscs []*AccountBankStatementClosebalance) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range abscs {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountBankStatementClosebalanceModel, vv)
+	return c.Create(AccountBankStatementClosebalanceModel, vv, nil)
 }
 
 // UpdateAccountBankStatementClosebalance updates an existing account.bank.statement.closebalance record.
@@ -55,7 +51,7 @@ func (c *Client) UpdateAccountBankStatementClosebalance(absc *AccountBankStateme
 // UpdateAccountBankStatementClosebalances updates existing account.bank.statement.closebalance records.
 // All records (represented by ids) will be updated by absc values.
 func (c *Client) UpdateAccountBankStatementClosebalances(ids []int64, absc *AccountBankStatementClosebalance) error {
-	return c.Update(AccountBankStatementClosebalanceModel, ids, absc)
+	return c.Update(AccountBankStatementClosebalanceModel, ids, absc, nil)
 }
 
 // DeleteAccountBankStatementClosebalance deletes an existing account.bank.statement.closebalance record.
@@ -74,10 +70,7 @@ func (c *Client) GetAccountBankStatementClosebalance(id int64) (*AccountBankStat
 	if err != nil {
 		return nil, err
 	}
-	if abscs != nil && len(*abscs) > 0 {
-		return &((*abscs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.bank.statement.closebalance not found", id)
+	return &((*abscs)[0]), nil
 }
 
 // GetAccountBankStatementClosebalances gets account.bank.statement.closebalance existing records.
@@ -95,10 +88,7 @@ func (c *Client) FindAccountBankStatementClosebalance(criteria *Criteria) (*Acco
 	if err := c.SearchRead(AccountBankStatementClosebalanceModel, criteria, NewOptions().Limit(1), abscs); err != nil {
 		return nil, err
 	}
-	if abscs != nil && len(*abscs) > 0 {
-		return &((*abscs)[0]), nil
-	}
-	return nil, fmt.Errorf("account.bank.statement.closebalance was not found with criteria %v", criteria)
+	return &((*abscs)[0]), nil
 }
 
 // FindAccountBankStatementClosebalances finds account.bank.statement.closebalance records by querying it
@@ -114,11 +104,7 @@ func (c *Client) FindAccountBankStatementClosebalances(criteria *Criteria, optio
 // FindAccountBankStatementClosebalanceIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountBankStatementClosebalanceIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountBankStatementClosebalanceModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountBankStatementClosebalanceModel, criteria, options)
 }
 
 // FindAccountBankStatementClosebalanceId finds record id by querying it with criteria.
@@ -127,8 +113,5 @@ func (c *Client) FindAccountBankStatementClosebalanceId(criteria *Criteria, opti
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.bank.statement.closebalance was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

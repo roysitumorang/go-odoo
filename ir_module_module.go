@@ -1,45 +1,41 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrModuleModule represents ir.module.module model.
 type IrModuleModule struct {
-	LastUpdate       *Time      `xmlrpc:"__last_update,omptempty"`
-	Application      *Bool      `xmlrpc:"application,omptempty"`
-	Author           *String    `xmlrpc:"author,omptempty"`
-	AutoInstall      *Bool      `xmlrpc:"auto_install,omptempty"`
-	CategoryId       *Many2One  `xmlrpc:"category_id,omptempty"`
-	Contributors     *String    `xmlrpc:"contributors,omptempty"`
-	CreateDate       *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid        *Many2One  `xmlrpc:"create_uid,omptempty"`
-	Demo             *Bool      `xmlrpc:"demo,omptempty"`
-	DependenciesId   *Relation  `xmlrpc:"dependencies_id,omptempty"`
-	Description      *String    `xmlrpc:"description,omptempty"`
-	DescriptionHtml  *String    `xmlrpc:"description_html,omptempty"`
-	DisplayName      *String    `xmlrpc:"display_name,omptempty"`
-	ExclusionIds     *Relation  `xmlrpc:"exclusion_ids,omptempty"`
-	Icon             *String    `xmlrpc:"icon,omptempty"`
-	IconImage        *String    `xmlrpc:"icon_image,omptempty"`
-	Id               *Int       `xmlrpc:"id,omptempty"`
-	InstalledVersion *String    `xmlrpc:"installed_version,omptempty"`
-	LatestVersion    *String    `xmlrpc:"latest_version,omptempty"`
-	License          *Selection `xmlrpc:"license,omptempty"`
-	Maintainer       *String    `xmlrpc:"maintainer,omptempty"`
-	MenusByModule    *String    `xmlrpc:"menus_by_module,omptempty"`
-	Name             *String    `xmlrpc:"name,omptempty"`
-	PublishedVersion *String    `xmlrpc:"published_version,omptempty"`
-	ReportsByModule  *String    `xmlrpc:"reports_by_module,omptempty"`
-	Sequence         *Int       `xmlrpc:"sequence,omptempty"`
-	Shortdesc        *String    `xmlrpc:"shortdesc,omptempty"`
-	State            *Selection `xmlrpc:"state,omptempty"`
-	Summary          *String    `xmlrpc:"summary,omptempty"`
-	Url              *String    `xmlrpc:"url,omptempty"`
-	ViewsByModule    *String    `xmlrpc:"views_by_module,omptempty"`
-	Website          *String    `xmlrpc:"website,omptempty"`
-	WriteDate        *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid         *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate       *Time      `xmlrpc:"__last_update,omitempty"`
+	Application      *Bool      `xmlrpc:"application,omitempty"`
+	Author           *String    `xmlrpc:"author,omitempty"`
+	AutoInstall      *Bool      `xmlrpc:"auto_install,omitempty"`
+	CategoryId       *Many2One  `xmlrpc:"category_id,omitempty"`
+	Contributors     *String    `xmlrpc:"contributors,omitempty"`
+	CreateDate       *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid        *Many2One  `xmlrpc:"create_uid,omitempty"`
+	Demo             *Bool      `xmlrpc:"demo,omitempty"`
+	DependenciesId   *Relation  `xmlrpc:"dependencies_id,omitempty"`
+	Description      *String    `xmlrpc:"description,omitempty"`
+	DescriptionHtml  *String    `xmlrpc:"description_html,omitempty"`
+	DisplayName      *String    `xmlrpc:"display_name,omitempty"`
+	ExclusionIds     *Relation  `xmlrpc:"exclusion_ids,omitempty"`
+	Icon             *String    `xmlrpc:"icon,omitempty"`
+	IconImage        *String    `xmlrpc:"icon_image,omitempty"`
+	Id               *Int       `xmlrpc:"id,omitempty"`
+	InstalledVersion *String    `xmlrpc:"installed_version,omitempty"`
+	LatestVersion    *String    `xmlrpc:"latest_version,omitempty"`
+	License          *Selection `xmlrpc:"license,omitempty"`
+	Maintainer       *String    `xmlrpc:"maintainer,omitempty"`
+	MenusByModule    *String    `xmlrpc:"menus_by_module,omitempty"`
+	Name             *String    `xmlrpc:"name,omitempty"`
+	PublishedVersion *String    `xmlrpc:"published_version,omitempty"`
+	ReportsByModule  *String    `xmlrpc:"reports_by_module,omitempty"`
+	Sequence         *Int       `xmlrpc:"sequence,omitempty"`
+	Shortdesc        *String    `xmlrpc:"shortdesc,omitempty"`
+	State            *Selection `xmlrpc:"state,omitempty"`
+	Summary          *String    `xmlrpc:"summary,omitempty"`
+	Url              *String    `xmlrpc:"url,omitempty"`
+	ViewsByModule    *String    `xmlrpc:"views_by_module,omitempty"`
+	Website          *String    `xmlrpc:"website,omitempty"`
+	WriteDate        *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid         *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrModuleModules represents array of ir.module.module model.
@@ -65,13 +61,13 @@ func (c *Client) CreateIrModuleModule(imm *IrModuleModule) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrModuleModule creates a new ir.module.module model and returns its id.
+// CreateIrModuleModules creates a new ir.module.module model and returns its id.
 func (c *Client) CreateIrModuleModules(imms []*IrModuleModule) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range imms {
 		vv = append(vv, v)
 	}
-	return c.Create(IrModuleModuleModel, vv)
+	return c.Create(IrModuleModuleModel, vv, nil)
 }
 
 // UpdateIrModuleModule updates an existing ir.module.module record.
@@ -82,7 +78,7 @@ func (c *Client) UpdateIrModuleModule(imm *IrModuleModule) error {
 // UpdateIrModuleModules updates existing ir.module.module records.
 // All records (represented by ids) will be updated by imm values.
 func (c *Client) UpdateIrModuleModules(ids []int64, imm *IrModuleModule) error {
-	return c.Update(IrModuleModuleModel, ids, imm)
+	return c.Update(IrModuleModuleModel, ids, imm, nil)
 }
 
 // DeleteIrModuleModule deletes an existing ir.module.module record.
@@ -101,10 +97,7 @@ func (c *Client) GetIrModuleModule(id int64) (*IrModuleModule, error) {
 	if err != nil {
 		return nil, err
 	}
-	if imms != nil && len(*imms) > 0 {
-		return &((*imms)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.module.module not found", id)
+	return &((*imms)[0]), nil
 }
 
 // GetIrModuleModules gets ir.module.module existing records.
@@ -122,10 +115,7 @@ func (c *Client) FindIrModuleModule(criteria *Criteria) (*IrModuleModule, error)
 	if err := c.SearchRead(IrModuleModuleModel, criteria, NewOptions().Limit(1), imms); err != nil {
 		return nil, err
 	}
-	if imms != nil && len(*imms) > 0 {
-		return &((*imms)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.module.module was not found with criteria %v", criteria)
+	return &((*imms)[0]), nil
 }
 
 // FindIrModuleModules finds ir.module.module records by querying it
@@ -141,11 +131,7 @@ func (c *Client) FindIrModuleModules(criteria *Criteria, options *Options) (*IrM
 // FindIrModuleModuleIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrModuleModuleIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrModuleModuleModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrModuleModuleModel, criteria, options)
 }
 
 // FindIrModuleModuleId finds record id by querying it with criteria.
@@ -154,8 +140,5 @@ func (c *Client) FindIrModuleModuleId(criteria *Criteria, options *Options) (int
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.module.module was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

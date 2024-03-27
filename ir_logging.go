@@ -1,26 +1,22 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrLogging represents ir.logging model.
 type IrLogging struct {
-	LastUpdate  *Time      `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Int       `xmlrpc:"create_uid,omptempty"`
-	Dbname      *String    `xmlrpc:"dbname,omptempty"`
-	DisplayName *String    `xmlrpc:"display_name,omptempty"`
-	Func        *String    `xmlrpc:"func,omptempty"`
-	Id          *Int       `xmlrpc:"id,omptempty"`
-	Level       *String    `xmlrpc:"level,omptempty"`
-	Line        *String    `xmlrpc:"line,omptempty"`
-	Message     *String    `xmlrpc:"message,omptempty"`
-	Name        *String    `xmlrpc:"name,omptempty"`
-	Path        *String    `xmlrpc:"path,omptempty"`
-	Type        *Selection `xmlrpc:"type,omptempty"`
-	WriteDate   *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Int       `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time      `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Int       `xmlrpc:"create_uid,omitempty"`
+	Dbname      *String    `xmlrpc:"dbname,omitempty"`
+	DisplayName *String    `xmlrpc:"display_name,omitempty"`
+	Func        *String    `xmlrpc:"func,omitempty"`
+	Id          *Int       `xmlrpc:"id,omitempty"`
+	Level       *String    `xmlrpc:"level,omitempty"`
+	Line        *String    `xmlrpc:"line,omitempty"`
+	Message     *String    `xmlrpc:"message,omitempty"`
+	Name        *String    `xmlrpc:"name,omitempty"`
+	Path        *String    `xmlrpc:"path,omitempty"`
+	Type        *Selection `xmlrpc:"type,omitempty"`
+	WriteDate   *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrLoggings represents array of ir.logging model.
@@ -46,13 +42,13 @@ func (c *Client) CreateIrLogging(il *IrLogging) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrLogging creates a new ir.logging model and returns its id.
+// CreateIrLoggings creates a new ir.logging model and returns its id.
 func (c *Client) CreateIrLoggings(ils []*IrLogging) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range ils {
 		vv = append(vv, v)
 	}
-	return c.Create(IrLoggingModel, vv)
+	return c.Create(IrLoggingModel, vv, nil)
 }
 
 // UpdateIrLogging updates an existing ir.logging record.
@@ -63,7 +59,7 @@ func (c *Client) UpdateIrLogging(il *IrLogging) error {
 // UpdateIrLoggings updates existing ir.logging records.
 // All records (represented by ids) will be updated by il values.
 func (c *Client) UpdateIrLoggings(ids []int64, il *IrLogging) error {
-	return c.Update(IrLoggingModel, ids, il)
+	return c.Update(IrLoggingModel, ids, il, nil)
 }
 
 // DeleteIrLogging deletes an existing ir.logging record.
@@ -82,10 +78,7 @@ func (c *Client) GetIrLogging(id int64) (*IrLogging, error) {
 	if err != nil {
 		return nil, err
 	}
-	if ils != nil && len(*ils) > 0 {
-		return &((*ils)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.logging not found", id)
+	return &((*ils)[0]), nil
 }
 
 // GetIrLoggings gets ir.logging existing records.
@@ -103,10 +96,7 @@ func (c *Client) FindIrLogging(criteria *Criteria) (*IrLogging, error) {
 	if err := c.SearchRead(IrLoggingModel, criteria, NewOptions().Limit(1), ils); err != nil {
 		return nil, err
 	}
-	if ils != nil && len(*ils) > 0 {
-		return &((*ils)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.logging was not found with criteria %v", criteria)
+	return &((*ils)[0]), nil
 }
 
 // FindIrLoggings finds ir.logging records by querying it
@@ -122,11 +112,7 @@ func (c *Client) FindIrLoggings(criteria *Criteria, options *Options) (*IrLoggin
 // FindIrLoggingIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrLoggingIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrLoggingModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrLoggingModel, criteria, options)
 }
 
 // FindIrLoggingId finds record id by querying it with criteria.
@@ -135,8 +121,5 @@ func (c *Client) FindIrLoggingId(criteria *Criteria, options *Options) (int64, e
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.logging was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

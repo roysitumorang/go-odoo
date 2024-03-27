@@ -1,23 +1,19 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountInvoiceRefund represents account.invoice.refund model.
 type AccountInvoiceRefund struct {
-	LastUpdate   *Time      `xmlrpc:"__last_update,omptempty"`
-	CreateDate   *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid    *Many2One  `xmlrpc:"create_uid,omptempty"`
-	Date         *Time      `xmlrpc:"date,omptempty"`
-	DateInvoice  *Time      `xmlrpc:"date_invoice,omptempty"`
-	Description  *String    `xmlrpc:"description,omptempty"`
-	DisplayName  *String    `xmlrpc:"display_name,omptempty"`
-	FilterRefund *Selection `xmlrpc:"filter_refund,omptempty"`
-	Id           *Int       `xmlrpc:"id,omptempty"`
-	RefundOnly   *Bool      `xmlrpc:"refund_only,omptempty"`
-	WriteDate    *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid     *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate   *Time      `xmlrpc:"__last_update,omitempty"`
+	CreateDate   *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid    *Many2One  `xmlrpc:"create_uid,omitempty"`
+	Date         *Time      `xmlrpc:"date,omitempty"`
+	DateInvoice  *Time      `xmlrpc:"date_invoice,omitempty"`
+	Description  *String    `xmlrpc:"description,omitempty"`
+	DisplayName  *String    `xmlrpc:"display_name,omitempty"`
+	FilterRefund *Selection `xmlrpc:"filter_refund,omitempty"`
+	Id           *Int       `xmlrpc:"id,omitempty"`
+	RefundOnly   *Bool      `xmlrpc:"refund_only,omitempty"`
+	WriteDate    *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid     *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountInvoiceRefunds represents array of account.invoice.refund model.
@@ -43,13 +39,13 @@ func (c *Client) CreateAccountInvoiceRefund(air *AccountInvoiceRefund) (int64, e
 	return ids[0], nil
 }
 
-// CreateAccountInvoiceRefund creates a new account.invoice.refund model and returns its id.
+// CreateAccountInvoiceRefunds creates a new account.invoice.refund model and returns its id.
 func (c *Client) CreateAccountInvoiceRefunds(airs []*AccountInvoiceRefund) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range airs {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountInvoiceRefundModel, vv)
+	return c.Create(AccountInvoiceRefundModel, vv, nil)
 }
 
 // UpdateAccountInvoiceRefund updates an existing account.invoice.refund record.
@@ -60,7 +56,7 @@ func (c *Client) UpdateAccountInvoiceRefund(air *AccountInvoiceRefund) error {
 // UpdateAccountInvoiceRefunds updates existing account.invoice.refund records.
 // All records (represented by ids) will be updated by air values.
 func (c *Client) UpdateAccountInvoiceRefunds(ids []int64, air *AccountInvoiceRefund) error {
-	return c.Update(AccountInvoiceRefundModel, ids, air)
+	return c.Update(AccountInvoiceRefundModel, ids, air, nil)
 }
 
 // DeleteAccountInvoiceRefund deletes an existing account.invoice.refund record.
@@ -79,10 +75,7 @@ func (c *Client) GetAccountInvoiceRefund(id int64) (*AccountInvoiceRefund, error
 	if err != nil {
 		return nil, err
 	}
-	if airs != nil && len(*airs) > 0 {
-		return &((*airs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.invoice.refund not found", id)
+	return &((*airs)[0]), nil
 }
 
 // GetAccountInvoiceRefunds gets account.invoice.refund existing records.
@@ -100,10 +93,7 @@ func (c *Client) FindAccountInvoiceRefund(criteria *Criteria) (*AccountInvoiceRe
 	if err := c.SearchRead(AccountInvoiceRefundModel, criteria, NewOptions().Limit(1), airs); err != nil {
 		return nil, err
 	}
-	if airs != nil && len(*airs) > 0 {
-		return &((*airs)[0]), nil
-	}
-	return nil, fmt.Errorf("account.invoice.refund was not found with criteria %v", criteria)
+	return &((*airs)[0]), nil
 }
 
 // FindAccountInvoiceRefunds finds account.invoice.refund records by querying it
@@ -119,11 +109,7 @@ func (c *Client) FindAccountInvoiceRefunds(criteria *Criteria, options *Options)
 // FindAccountInvoiceRefundIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountInvoiceRefundIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountInvoiceRefundModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountInvoiceRefundModel, criteria, options)
 }
 
 // FindAccountInvoiceRefundId finds record id by querying it with criteria.
@@ -132,8 +118,5 @@ func (c *Client) FindAccountInvoiceRefundId(criteria *Criteria, options *Options
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.invoice.refund was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

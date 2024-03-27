@@ -1,34 +1,30 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // MailTrackingValue represents mail.tracking.value model.
 type MailTrackingValue struct {
-	LastUpdate       *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate       *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid        *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName      *String   `xmlrpc:"display_name,omptempty"`
-	Field            *String   `xmlrpc:"field,omptempty"`
-	FieldDesc        *String   `xmlrpc:"field_desc,omptempty"`
-	FieldType        *String   `xmlrpc:"field_type,omptempty"`
-	Id               *Int      `xmlrpc:"id,omptempty"`
-	MailMessageId    *Many2One `xmlrpc:"mail_message_id,omptempty"`
-	NewValueChar     *String   `xmlrpc:"new_value_char,omptempty"`
-	NewValueDatetime *Time     `xmlrpc:"new_value_datetime,omptempty"`
-	NewValueFloat    *Float    `xmlrpc:"new_value_float,omptempty"`
-	NewValueInteger  *Int      `xmlrpc:"new_value_integer,omptempty"`
-	NewValueMonetary *Float    `xmlrpc:"new_value_monetary,omptempty"`
-	NewValueText     *String   `xmlrpc:"new_value_text,omptempty"`
-	OldValueChar     *String   `xmlrpc:"old_value_char,omptempty"`
-	OldValueDatetime *Time     `xmlrpc:"old_value_datetime,omptempty"`
-	OldValueFloat    *Float    `xmlrpc:"old_value_float,omptempty"`
-	OldValueInteger  *Int      `xmlrpc:"old_value_integer,omptempty"`
-	OldValueMonetary *Float    `xmlrpc:"old_value_monetary,omptempty"`
-	OldValueText     *String   `xmlrpc:"old_value_text,omptempty"`
-	WriteDate        *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid         *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate       *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate       *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid        *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName      *String   `xmlrpc:"display_name,omitempty"`
+	Field            *String   `xmlrpc:"field,omitempty"`
+	FieldDesc        *String   `xmlrpc:"field_desc,omitempty"`
+	FieldType        *String   `xmlrpc:"field_type,omitempty"`
+	Id               *Int      `xmlrpc:"id,omitempty"`
+	MailMessageId    *Many2One `xmlrpc:"mail_message_id,omitempty"`
+	NewValueChar     *String   `xmlrpc:"new_value_char,omitempty"`
+	NewValueDatetime *Time     `xmlrpc:"new_value_datetime,omitempty"`
+	NewValueFloat    *Float    `xmlrpc:"new_value_float,omitempty"`
+	NewValueInteger  *Int      `xmlrpc:"new_value_integer,omitempty"`
+	NewValueMonetary *Float    `xmlrpc:"new_value_monetary,omitempty"`
+	NewValueText     *String   `xmlrpc:"new_value_text,omitempty"`
+	OldValueChar     *String   `xmlrpc:"old_value_char,omitempty"`
+	OldValueDatetime *Time     `xmlrpc:"old_value_datetime,omitempty"`
+	OldValueFloat    *Float    `xmlrpc:"old_value_float,omitempty"`
+	OldValueInteger  *Int      `xmlrpc:"old_value_integer,omitempty"`
+	OldValueMonetary *Float    `xmlrpc:"old_value_monetary,omitempty"`
+	OldValueText     *String   `xmlrpc:"old_value_text,omitempty"`
+	WriteDate        *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid         *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // MailTrackingValues represents array of mail.tracking.value model.
@@ -54,13 +50,13 @@ func (c *Client) CreateMailTrackingValue(mtv *MailTrackingValue) (int64, error) 
 	return ids[0], nil
 }
 
-// CreateMailTrackingValue creates a new mail.tracking.value model and returns its id.
+// CreateMailTrackingValues creates a new mail.tracking.value model and returns its id.
 func (c *Client) CreateMailTrackingValues(mtvs []*MailTrackingValue) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range mtvs {
 		vv = append(vv, v)
 	}
-	return c.Create(MailTrackingValueModel, vv)
+	return c.Create(MailTrackingValueModel, vv, nil)
 }
 
 // UpdateMailTrackingValue updates an existing mail.tracking.value record.
@@ -71,7 +67,7 @@ func (c *Client) UpdateMailTrackingValue(mtv *MailTrackingValue) error {
 // UpdateMailTrackingValues updates existing mail.tracking.value records.
 // All records (represented by ids) will be updated by mtv values.
 func (c *Client) UpdateMailTrackingValues(ids []int64, mtv *MailTrackingValue) error {
-	return c.Update(MailTrackingValueModel, ids, mtv)
+	return c.Update(MailTrackingValueModel, ids, mtv, nil)
 }
 
 // DeleteMailTrackingValue deletes an existing mail.tracking.value record.
@@ -90,10 +86,7 @@ func (c *Client) GetMailTrackingValue(id int64) (*MailTrackingValue, error) {
 	if err != nil {
 		return nil, err
 	}
-	if mtvs != nil && len(*mtvs) > 0 {
-		return &((*mtvs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of mail.tracking.value not found", id)
+	return &((*mtvs)[0]), nil
 }
 
 // GetMailTrackingValues gets mail.tracking.value existing records.
@@ -111,10 +104,7 @@ func (c *Client) FindMailTrackingValue(criteria *Criteria) (*MailTrackingValue, 
 	if err := c.SearchRead(MailTrackingValueModel, criteria, NewOptions().Limit(1), mtvs); err != nil {
 		return nil, err
 	}
-	if mtvs != nil && len(*mtvs) > 0 {
-		return &((*mtvs)[0]), nil
-	}
-	return nil, fmt.Errorf("mail.tracking.value was not found with criteria %v", criteria)
+	return &((*mtvs)[0]), nil
 }
 
 // FindMailTrackingValues finds mail.tracking.value records by querying it
@@ -130,11 +120,7 @@ func (c *Client) FindMailTrackingValues(criteria *Criteria, options *Options) (*
 // FindMailTrackingValueIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindMailTrackingValueIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(MailTrackingValueModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(MailTrackingValueModel, criteria, options)
 }
 
 // FindMailTrackingValueId finds record id by querying it with criteria.
@@ -143,8 +129,5 @@ func (c *Client) FindMailTrackingValueId(criteria *Criteria, options *Options) (
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("mail.tracking.value was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

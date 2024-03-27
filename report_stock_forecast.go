@@ -1,19 +1,15 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ReportStockForecast represents report.stock.forecast model.
 type ReportStockForecast struct {
-	LastUpdate         *Time     `xmlrpc:"__last_update,omptempty"`
-	CumulativeQuantity *Float    `xmlrpc:"cumulative_quantity,omptempty"`
-	Date               *Time     `xmlrpc:"date,omptempty"`
-	DisplayName        *String   `xmlrpc:"display_name,omptempty"`
-	Id                 *Int      `xmlrpc:"id,omptempty"`
-	ProductId          *Many2One `xmlrpc:"product_id,omptempty"`
-	ProductTmplId      *Many2One `xmlrpc:"product_tmpl_id,omptempty"`
-	Quantity           *Float    `xmlrpc:"quantity,omptempty"`
+	LastUpdate         *Time     `xmlrpc:"__last_update,omitempty"`
+	CumulativeQuantity *Float    `xmlrpc:"cumulative_quantity,omitempty"`
+	Date               *Time     `xmlrpc:"date,omitempty"`
+	DisplayName        *String   `xmlrpc:"display_name,omitempty"`
+	Id                 *Int      `xmlrpc:"id,omitempty"`
+	ProductId          *Many2One `xmlrpc:"product_id,omitempty"`
+	ProductTmplId      *Many2One `xmlrpc:"product_tmpl_id,omitempty"`
+	Quantity           *Float    `xmlrpc:"quantity,omitempty"`
 }
 
 // ReportStockForecasts represents array of report.stock.forecast model.
@@ -39,13 +35,13 @@ func (c *Client) CreateReportStockForecast(rsf *ReportStockForecast) (int64, err
 	return ids[0], nil
 }
 
-// CreateReportStockForecast creates a new report.stock.forecast model and returns its id.
+// CreateReportStockForecasts creates a new report.stock.forecast model and returns its id.
 func (c *Client) CreateReportStockForecasts(rsfs []*ReportStockForecast) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rsfs {
 		vv = append(vv, v)
 	}
-	return c.Create(ReportStockForecastModel, vv)
+	return c.Create(ReportStockForecastModel, vv, nil)
 }
 
 // UpdateReportStockForecast updates an existing report.stock.forecast record.
@@ -56,7 +52,7 @@ func (c *Client) UpdateReportStockForecast(rsf *ReportStockForecast) error {
 // UpdateReportStockForecasts updates existing report.stock.forecast records.
 // All records (represented by ids) will be updated by rsf values.
 func (c *Client) UpdateReportStockForecasts(ids []int64, rsf *ReportStockForecast) error {
-	return c.Update(ReportStockForecastModel, ids, rsf)
+	return c.Update(ReportStockForecastModel, ids, rsf, nil)
 }
 
 // DeleteReportStockForecast deletes an existing report.stock.forecast record.
@@ -75,10 +71,7 @@ func (c *Client) GetReportStockForecast(id int64) (*ReportStockForecast, error) 
 	if err != nil {
 		return nil, err
 	}
-	if rsfs != nil && len(*rsfs) > 0 {
-		return &((*rsfs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of report.stock.forecast not found", id)
+	return &((*rsfs)[0]), nil
 }
 
 // GetReportStockForecasts gets report.stock.forecast existing records.
@@ -96,10 +89,7 @@ func (c *Client) FindReportStockForecast(criteria *Criteria) (*ReportStockForeca
 	if err := c.SearchRead(ReportStockForecastModel, criteria, NewOptions().Limit(1), rsfs); err != nil {
 		return nil, err
 	}
-	if rsfs != nil && len(*rsfs) > 0 {
-		return &((*rsfs)[0]), nil
-	}
-	return nil, fmt.Errorf("report.stock.forecast was not found with criteria %v", criteria)
+	return &((*rsfs)[0]), nil
 }
 
 // FindReportStockForecasts finds report.stock.forecast records by querying it
@@ -115,11 +105,7 @@ func (c *Client) FindReportStockForecasts(criteria *Criteria, options *Options) 
 // FindReportStockForecastIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindReportStockForecastIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ReportStockForecastModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ReportStockForecastModel, criteria, options)
 }
 
 // FindReportStockForecastId finds record id by querying it with criteria.
@@ -128,8 +114,5 @@ func (c *Client) FindReportStockForecastId(criteria *Criteria, options *Options)
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("report.stock.forecast was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

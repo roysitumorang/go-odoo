@@ -1,45 +1,41 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // EmailTemplatePreview represents email_template.preview model.
 type EmailTemplatePreview struct {
-	LastUpdate          *Time      `xmlrpc:"__last_update,omptempty"`
-	AttachmentIds       *Relation  `xmlrpc:"attachment_ids,omptempty"`
-	AutoDelete          *Bool      `xmlrpc:"auto_delete,omptempty"`
-	BodyHtml            *String    `xmlrpc:"body_html,omptempty"`
-	Copyvalue           *String    `xmlrpc:"copyvalue,omptempty"`
-	CreateDate          *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid           *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DisplayName         *String    `xmlrpc:"display_name,omptempty"`
-	EmailCc             *String    `xmlrpc:"email_cc,omptempty"`
-	EmailFrom           *String    `xmlrpc:"email_from,omptempty"`
-	EmailTo             *String    `xmlrpc:"email_to,omptempty"`
-	Id                  *Int       `xmlrpc:"id,omptempty"`
-	Lang                *String    `xmlrpc:"lang,omptempty"`
-	MailServerId        *Many2One  `xmlrpc:"mail_server_id,omptempty"`
-	Model               *String    `xmlrpc:"model,omptempty"`
-	ModelId             *Many2One  `xmlrpc:"model_id,omptempty"`
-	ModelObjectField    *Many2One  `xmlrpc:"model_object_field,omptempty"`
-	Name                *String    `xmlrpc:"name,omptempty"`
-	NullValue           *String    `xmlrpc:"null_value,omptempty"`
-	PartnerIds          *Relation  `xmlrpc:"partner_ids,omptempty"`
-	PartnerTo           *String    `xmlrpc:"partner_to,omptempty"`
-	RefIrActWindow      *Many2One  `xmlrpc:"ref_ir_act_window,omptempty"`
-	ReplyTo             *String    `xmlrpc:"reply_to,omptempty"`
-	ReportName          *String    `xmlrpc:"report_name,omptempty"`
-	ReportTemplate      *Many2One  `xmlrpc:"report_template,omptempty"`
-	ResId               *Selection `xmlrpc:"res_id,omptempty"`
-	ScheduledDate       *String    `xmlrpc:"scheduled_date,omptempty"`
-	SubModelObjectField *Many2One  `xmlrpc:"sub_model_object_field,omptempty"`
-	SubObject           *Many2One  `xmlrpc:"sub_object,omptempty"`
-	Subject             *String    `xmlrpc:"subject,omptempty"`
-	UseDefaultTo        *Bool      `xmlrpc:"use_default_to,omptempty"`
-	UserSignature       *Bool      `xmlrpc:"user_signature,omptempty"`
-	WriteDate           *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid            *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate          *Time      `xmlrpc:"__last_update,omitempty"`
+	AttachmentIds       *Relation  `xmlrpc:"attachment_ids,omitempty"`
+	AutoDelete          *Bool      `xmlrpc:"auto_delete,omitempty"`
+	BodyHtml            *String    `xmlrpc:"body_html,omitempty"`
+	Copyvalue           *String    `xmlrpc:"copyvalue,omitempty"`
+	CreateDate          *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid           *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DisplayName         *String    `xmlrpc:"display_name,omitempty"`
+	EmailCc             *String    `xmlrpc:"email_cc,omitempty"`
+	EmailFrom           *String    `xmlrpc:"email_from,omitempty"`
+	EmailTo             *String    `xmlrpc:"email_to,omitempty"`
+	Id                  *Int       `xmlrpc:"id,omitempty"`
+	Lang                *String    `xmlrpc:"lang,omitempty"`
+	MailServerId        *Many2One  `xmlrpc:"mail_server_id,omitempty"`
+	Model               *String    `xmlrpc:"model,omitempty"`
+	ModelId             *Many2One  `xmlrpc:"model_id,omitempty"`
+	ModelObjectField    *Many2One  `xmlrpc:"model_object_field,omitempty"`
+	Name                *String    `xmlrpc:"name,omitempty"`
+	NullValue           *String    `xmlrpc:"null_value,omitempty"`
+	PartnerIds          *Relation  `xmlrpc:"partner_ids,omitempty"`
+	PartnerTo           *String    `xmlrpc:"partner_to,omitempty"`
+	RefIrActWindow      *Many2One  `xmlrpc:"ref_ir_act_window,omitempty"`
+	ReplyTo             *String    `xmlrpc:"reply_to,omitempty"`
+	ReportName          *String    `xmlrpc:"report_name,omitempty"`
+	ReportTemplate      *Many2One  `xmlrpc:"report_template,omitempty"`
+	ResId               *Selection `xmlrpc:"res_id,omitempty"`
+	ScheduledDate       *String    `xmlrpc:"scheduled_date,omitempty"`
+	SubModelObjectField *Many2One  `xmlrpc:"sub_model_object_field,omitempty"`
+	SubObject           *Many2One  `xmlrpc:"sub_object,omitempty"`
+	Subject             *String    `xmlrpc:"subject,omitempty"`
+	UseDefaultTo        *Bool      `xmlrpc:"use_default_to,omitempty"`
+	UserSignature       *Bool      `xmlrpc:"user_signature,omitempty"`
+	WriteDate           *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid            *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // EmailTemplatePreviews represents array of email_template.preview model.
@@ -65,13 +61,13 @@ func (c *Client) CreateEmailTemplatePreview(ep *EmailTemplatePreview) (int64, er
 	return ids[0], nil
 }
 
-// CreateEmailTemplatePreview creates a new email_template.preview model and returns its id.
+// CreateEmailTemplatePreviews creates a new email_template.preview model and returns its id.
 func (c *Client) CreateEmailTemplatePreviews(eps []*EmailTemplatePreview) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range eps {
 		vv = append(vv, v)
 	}
-	return c.Create(EmailTemplatePreviewModel, vv)
+	return c.Create(EmailTemplatePreviewModel, vv, nil)
 }
 
 // UpdateEmailTemplatePreview updates an existing email_template.preview record.
@@ -82,7 +78,7 @@ func (c *Client) UpdateEmailTemplatePreview(ep *EmailTemplatePreview) error {
 // UpdateEmailTemplatePreviews updates existing email_template.preview records.
 // All records (represented by ids) will be updated by ep values.
 func (c *Client) UpdateEmailTemplatePreviews(ids []int64, ep *EmailTemplatePreview) error {
-	return c.Update(EmailTemplatePreviewModel, ids, ep)
+	return c.Update(EmailTemplatePreviewModel, ids, ep, nil)
 }
 
 // DeleteEmailTemplatePreview deletes an existing email_template.preview record.
@@ -101,10 +97,7 @@ func (c *Client) GetEmailTemplatePreview(id int64) (*EmailTemplatePreview, error
 	if err != nil {
 		return nil, err
 	}
-	if eps != nil && len(*eps) > 0 {
-		return &((*eps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of email_template.preview not found", id)
+	return &((*eps)[0]), nil
 }
 
 // GetEmailTemplatePreviews gets email_template.preview existing records.
@@ -122,10 +115,7 @@ func (c *Client) FindEmailTemplatePreview(criteria *Criteria) (*EmailTemplatePre
 	if err := c.SearchRead(EmailTemplatePreviewModel, criteria, NewOptions().Limit(1), eps); err != nil {
 		return nil, err
 	}
-	if eps != nil && len(*eps) > 0 {
-		return &((*eps)[0]), nil
-	}
-	return nil, fmt.Errorf("email_template.preview was not found with criteria %v", criteria)
+	return &((*eps)[0]), nil
 }
 
 // FindEmailTemplatePreviews finds email_template.preview records by querying it
@@ -141,11 +131,7 @@ func (c *Client) FindEmailTemplatePreviews(criteria *Criteria, options *Options)
 // FindEmailTemplatePreviewIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindEmailTemplatePreviewIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(EmailTemplatePreviewModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(EmailTemplatePreviewModel, criteria, options)
 }
 
 // FindEmailTemplatePreviewId finds record id by querying it with criteria.
@@ -154,8 +140,5 @@ func (c *Client) FindEmailTemplatePreviewId(criteria *Criteria, options *Options
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("email_template.preview was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

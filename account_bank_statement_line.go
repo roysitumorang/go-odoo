@@ -1,38 +1,34 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountBankStatementLine represents account.bank.statement.line model.
 type AccountBankStatementLine struct {
-	LastUpdate        *Time      `xmlrpc:"__last_update,omptempty"`
-	AccountId         *Many2One  `xmlrpc:"account_id,omptempty"`
-	Amount            *Float     `xmlrpc:"amount,omptempty"`
-	AmountCurrency    *Float     `xmlrpc:"amount_currency,omptempty"`
-	BankAccountId     *Many2One  `xmlrpc:"bank_account_id,omptempty"`
-	CompanyId         *Many2One  `xmlrpc:"company_id,omptempty"`
-	CreateDate        *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid         *Many2One  `xmlrpc:"create_uid,omptempty"`
-	CurrencyId        *Many2One  `xmlrpc:"currency_id,omptempty"`
-	Date              *Time      `xmlrpc:"date,omptempty"`
-	DisplayName       *String    `xmlrpc:"display_name,omptempty"`
-	Id                *Int       `xmlrpc:"id,omptempty"`
-	JournalCurrencyId *Many2One  `xmlrpc:"journal_currency_id,omptempty"`
-	JournalEntryIds   *Relation  `xmlrpc:"journal_entry_ids,omptempty"`
-	JournalId         *Many2One  `xmlrpc:"journal_id,omptempty"`
-	MoveName          *String    `xmlrpc:"move_name,omptempty"`
-	Name              *String    `xmlrpc:"name,omptempty"`
-	Note              *String    `xmlrpc:"note,omptempty"`
-	PartnerId         *Many2One  `xmlrpc:"partner_id,omptempty"`
-	PartnerName       *String    `xmlrpc:"partner_name,omptempty"`
-	Ref               *String    `xmlrpc:"ref,omptempty"`
-	Sequence          *Int       `xmlrpc:"sequence,omptempty"`
-	State             *Selection `xmlrpc:"state,omptempty"`
-	StatementId       *Many2One  `xmlrpc:"statement_id,omptempty"`
-	UniqueImportId    *String    `xmlrpc:"unique_import_id,omptempty"`
-	WriteDate         *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid          *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate        *Time      `xmlrpc:"__last_update,omitempty"`
+	AccountId         *Many2One  `xmlrpc:"account_id,omitempty"`
+	Amount            *Float     `xmlrpc:"amount,omitempty"`
+	AmountCurrency    *Float     `xmlrpc:"amount_currency,omitempty"`
+	BankAccountId     *Many2One  `xmlrpc:"bank_account_id,omitempty"`
+	CompanyId         *Many2One  `xmlrpc:"company_id,omitempty"`
+	CreateDate        *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid         *Many2One  `xmlrpc:"create_uid,omitempty"`
+	CurrencyId        *Many2One  `xmlrpc:"currency_id,omitempty"`
+	Date              *Time      `xmlrpc:"date,omitempty"`
+	DisplayName       *String    `xmlrpc:"display_name,omitempty"`
+	Id                *Int       `xmlrpc:"id,omitempty"`
+	JournalCurrencyId *Many2One  `xmlrpc:"journal_currency_id,omitempty"`
+	JournalEntryIds   *Relation  `xmlrpc:"journal_entry_ids,omitempty"`
+	JournalId         *Many2One  `xmlrpc:"journal_id,omitempty"`
+	MoveName          *String    `xmlrpc:"move_name,omitempty"`
+	Name              *String    `xmlrpc:"name,omitempty"`
+	Note              *String    `xmlrpc:"note,omitempty"`
+	PartnerId         *Many2One  `xmlrpc:"partner_id,omitempty"`
+	PartnerName       *String    `xmlrpc:"partner_name,omitempty"`
+	Ref               *String    `xmlrpc:"ref,omitempty"`
+	Sequence          *Int       `xmlrpc:"sequence,omitempty"`
+	State             *Selection `xmlrpc:"state,omitempty"`
+	StatementId       *Many2One  `xmlrpc:"statement_id,omitempty"`
+	UniqueImportId    *String    `xmlrpc:"unique_import_id,omitempty"`
+	WriteDate         *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid          *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // AccountBankStatementLines represents array of account.bank.statement.line model.
@@ -58,13 +54,13 @@ func (c *Client) CreateAccountBankStatementLine(absl *AccountBankStatementLine) 
 	return ids[0], nil
 }
 
-// CreateAccountBankStatementLine creates a new account.bank.statement.line model and returns its id.
+// CreateAccountBankStatementLines creates a new account.bank.statement.line model and returns its id.
 func (c *Client) CreateAccountBankStatementLines(absls []*AccountBankStatementLine) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range absls {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountBankStatementLineModel, vv)
+	return c.Create(AccountBankStatementLineModel, vv, nil)
 }
 
 // UpdateAccountBankStatementLine updates an existing account.bank.statement.line record.
@@ -75,7 +71,7 @@ func (c *Client) UpdateAccountBankStatementLine(absl *AccountBankStatementLine) 
 // UpdateAccountBankStatementLines updates existing account.bank.statement.line records.
 // All records (represented by ids) will be updated by absl values.
 func (c *Client) UpdateAccountBankStatementLines(ids []int64, absl *AccountBankStatementLine) error {
-	return c.Update(AccountBankStatementLineModel, ids, absl)
+	return c.Update(AccountBankStatementLineModel, ids, absl, nil)
 }
 
 // DeleteAccountBankStatementLine deletes an existing account.bank.statement.line record.
@@ -94,10 +90,7 @@ func (c *Client) GetAccountBankStatementLine(id int64) (*AccountBankStatementLin
 	if err != nil {
 		return nil, err
 	}
-	if absls != nil && len(*absls) > 0 {
-		return &((*absls)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.bank.statement.line not found", id)
+	return &((*absls)[0]), nil
 }
 
 // GetAccountBankStatementLines gets account.bank.statement.line existing records.
@@ -115,10 +108,7 @@ func (c *Client) FindAccountBankStatementLine(criteria *Criteria) (*AccountBankS
 	if err := c.SearchRead(AccountBankStatementLineModel, criteria, NewOptions().Limit(1), absls); err != nil {
 		return nil, err
 	}
-	if absls != nil && len(*absls) > 0 {
-		return &((*absls)[0]), nil
-	}
-	return nil, fmt.Errorf("account.bank.statement.line was not found with criteria %v", criteria)
+	return &((*absls)[0]), nil
 }
 
 // FindAccountBankStatementLines finds account.bank.statement.line records by querying it
@@ -134,11 +124,7 @@ func (c *Client) FindAccountBankStatementLines(criteria *Criteria, options *Opti
 // FindAccountBankStatementLineIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountBankStatementLineIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountBankStatementLineModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountBankStatementLineModel, criteria, options)
 }
 
 // FindAccountBankStatementLineId finds record id by querying it with criteria.
@@ -147,8 +133,5 @@ func (c *Client) FindAccountBankStatementLineId(criteria *Criteria, options *Opt
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.bank.statement.line was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

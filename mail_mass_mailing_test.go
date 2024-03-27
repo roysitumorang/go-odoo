@@ -1,20 +1,16 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // MailMassMailingTest represents mail.mass_mailing.test model.
 type MailMassMailingTest struct {
-	LastUpdate    *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate    *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid     *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName   *String   `xmlrpc:"display_name,omptempty"`
-	EmailTo       *String   `xmlrpc:"email_to,omptempty"`
-	Id            *Int      `xmlrpc:"id,omptempty"`
-	MassMailingId *Many2One `xmlrpc:"mass_mailing_id,omptempty"`
-	WriteDate     *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid      *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate    *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate    *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid     *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName   *String   `xmlrpc:"display_name,omitempty"`
+	EmailTo       *String   `xmlrpc:"email_to,omitempty"`
+	Id            *Int      `xmlrpc:"id,omitempty"`
+	MassMailingId *Many2One `xmlrpc:"mass_mailing_id,omitempty"`
+	WriteDate     *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid      *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // MailMassMailingTests represents array of mail.mass_mailing.test model.
@@ -40,13 +36,13 @@ func (c *Client) CreateMailMassMailingTest(mmt *MailMassMailingTest) (int64, err
 	return ids[0], nil
 }
 
-// CreateMailMassMailingTest creates a new mail.mass_mailing.test model and returns its id.
+// CreateMailMassMailingTests creates a new mail.mass_mailing.test model and returns its id.
 func (c *Client) CreateMailMassMailingTests(mmts []*MailMassMailingTest) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range mmts {
 		vv = append(vv, v)
 	}
-	return c.Create(MailMassMailingTestModel, vv)
+	return c.Create(MailMassMailingTestModel, vv, nil)
 }
 
 // UpdateMailMassMailingTest updates an existing mail.mass_mailing.test record.
@@ -57,7 +53,7 @@ func (c *Client) UpdateMailMassMailingTest(mmt *MailMassMailingTest) error {
 // UpdateMailMassMailingTests updates existing mail.mass_mailing.test records.
 // All records (represented by ids) will be updated by mmt values.
 func (c *Client) UpdateMailMassMailingTests(ids []int64, mmt *MailMassMailingTest) error {
-	return c.Update(MailMassMailingTestModel, ids, mmt)
+	return c.Update(MailMassMailingTestModel, ids, mmt, nil)
 }
 
 // DeleteMailMassMailingTest deletes an existing mail.mass_mailing.test record.
@@ -76,10 +72,7 @@ func (c *Client) GetMailMassMailingTest(id int64) (*MailMassMailingTest, error) 
 	if err != nil {
 		return nil, err
 	}
-	if mmts != nil && len(*mmts) > 0 {
-		return &((*mmts)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of mail.mass_mailing.test not found", id)
+	return &((*mmts)[0]), nil
 }
 
 // GetMailMassMailingTests gets mail.mass_mailing.test existing records.
@@ -97,10 +90,7 @@ func (c *Client) FindMailMassMailingTest(criteria *Criteria) (*MailMassMailingTe
 	if err := c.SearchRead(MailMassMailingTestModel, criteria, NewOptions().Limit(1), mmts); err != nil {
 		return nil, err
 	}
-	if mmts != nil && len(*mmts) > 0 {
-		return &((*mmts)[0]), nil
-	}
-	return nil, fmt.Errorf("mail.mass_mailing.test was not found with criteria %v", criteria)
+	return &((*mmts)[0]), nil
 }
 
 // FindMailMassMailingTests finds mail.mass_mailing.test records by querying it
@@ -116,11 +106,7 @@ func (c *Client) FindMailMassMailingTests(criteria *Criteria, options *Options) 
 // FindMailMassMailingTestIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindMailMassMailingTestIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(MailMassMailingTestModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(MailMassMailingTestModel, criteria, options)
 }
 
 // FindMailMassMailingTestId finds record id by querying it with criteria.
@@ -129,8 +115,5 @@ func (c *Client) FindMailMassMailingTestId(criteria *Criteria, options *Options)
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("mail.mass_mailing.test was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

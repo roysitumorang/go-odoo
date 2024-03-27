@@ -1,24 +1,20 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ProductPriceList represents product.price_list model.
 type ProductPriceList struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	PriceList   *Many2One `xmlrpc:"price_list,omptempty"`
-	Qty1        *Int      `xmlrpc:"qty1,omptempty"`
-	Qty2        *Int      `xmlrpc:"qty2,omptempty"`
-	Qty3        *Int      `xmlrpc:"qty3,omptempty"`
-	Qty4        *Int      `xmlrpc:"qty4,omptempty"`
-	Qty5        *Int      `xmlrpc:"qty5,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	PriceList   *Many2One `xmlrpc:"price_list,omitempty"`
+	Qty1        *Int      `xmlrpc:"qty1,omitempty"`
+	Qty2        *Int      `xmlrpc:"qty2,omitempty"`
+	Qty3        *Int      `xmlrpc:"qty3,omitempty"`
+	Qty4        *Int      `xmlrpc:"qty4,omitempty"`
+	Qty5        *Int      `xmlrpc:"qty5,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // ProductPriceLists represents array of product.price_list model.
@@ -44,13 +40,13 @@ func (c *Client) CreateProductPriceList(pp *ProductPriceList) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateProductPriceList creates a new product.price_list model and returns its id.
+// CreateProductPriceLists creates a new product.price_list model and returns its id.
 func (c *Client) CreateProductPriceLists(pps []*ProductPriceList) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range pps {
 		vv = append(vv, v)
 	}
-	return c.Create(ProductPriceListModel, vv)
+	return c.Create(ProductPriceListModel, vv, nil)
 }
 
 // UpdateProductPriceList updates an existing product.price_list record.
@@ -61,7 +57,7 @@ func (c *Client) UpdateProductPriceList(pp *ProductPriceList) error {
 // UpdateProductPriceLists updates existing product.price_list records.
 // All records (represented by ids) will be updated by pp values.
 func (c *Client) UpdateProductPriceLists(ids []int64, pp *ProductPriceList) error {
-	return c.Update(ProductPriceListModel, ids, pp)
+	return c.Update(ProductPriceListModel, ids, pp, nil)
 }
 
 // DeleteProductPriceList deletes an existing product.price_list record.
@@ -80,10 +76,7 @@ func (c *Client) GetProductPriceList(id int64) (*ProductPriceList, error) {
 	if err != nil {
 		return nil, err
 	}
-	if pps != nil && len(*pps) > 0 {
-		return &((*pps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of product.price_list not found", id)
+	return &((*pps)[0]), nil
 }
 
 // GetProductPriceLists gets product.price_list existing records.
@@ -101,10 +94,7 @@ func (c *Client) FindProductPriceList(criteria *Criteria) (*ProductPriceList, er
 	if err := c.SearchRead(ProductPriceListModel, criteria, NewOptions().Limit(1), pps); err != nil {
 		return nil, err
 	}
-	if pps != nil && len(*pps) > 0 {
-		return &((*pps)[0]), nil
-	}
-	return nil, fmt.Errorf("product.price_list was not found with criteria %v", criteria)
+	return &((*pps)[0]), nil
 }
 
 // FindProductPriceLists finds product.price_list records by querying it
@@ -120,11 +110,7 @@ func (c *Client) FindProductPriceLists(criteria *Criteria, options *Options) (*P
 // FindProductPriceListIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindProductPriceListIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ProductPriceListModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ProductPriceListModel, criteria, options)
 }
 
 // FindProductPriceListId finds record id by querying it with criteria.
@@ -133,8 +119,5 @@ func (c *Client) FindProductPriceListId(criteria *Criteria, options *Options) (i
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("product.price_list was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

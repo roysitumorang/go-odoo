@@ -1,26 +1,22 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // AccountAbstractPayment represents account.abstract.payment model.
 type AccountAbstractPayment struct {
-	LastUpdate        *Time      `xmlrpc:"__last_update,omptempty"`
-	Amount            *Float     `xmlrpc:"amount,omptempty"`
-	Communication     *String    `xmlrpc:"communication,omptempty"`
-	CompanyId         *Many2One  `xmlrpc:"company_id,omptempty"`
-	CurrencyId        *Many2One  `xmlrpc:"currency_id,omptempty"`
-	DisplayName       *String    `xmlrpc:"display_name,omptempty"`
-	HidePaymentMethod *Bool      `xmlrpc:"hide_payment_method,omptempty"`
-	Id                *Int       `xmlrpc:"id,omptempty"`
-	JournalId         *Many2One  `xmlrpc:"journal_id,omptempty"`
-	PartnerId         *Many2One  `xmlrpc:"partner_id,omptempty"`
-	PartnerType       *Selection `xmlrpc:"partner_type,omptempty"`
-	PaymentDate       *Time      `xmlrpc:"payment_date,omptempty"`
-	PaymentMethodCode *String    `xmlrpc:"payment_method_code,omptempty"`
-	PaymentMethodId   *Many2One  `xmlrpc:"payment_method_id,omptempty"`
-	PaymentType       *Selection `xmlrpc:"payment_type,omptempty"`
+	LastUpdate        *Time      `xmlrpc:"__last_update,omitempty"`
+	Amount            *Float     `xmlrpc:"amount,omitempty"`
+	Communication     *String    `xmlrpc:"communication,omitempty"`
+	CompanyId         *Many2One  `xmlrpc:"company_id,omitempty"`
+	CurrencyId        *Many2One  `xmlrpc:"currency_id,omitempty"`
+	DisplayName       *String    `xmlrpc:"display_name,omitempty"`
+	HidePaymentMethod *Bool      `xmlrpc:"hide_payment_method,omitempty"`
+	Id                *Int       `xmlrpc:"id,omitempty"`
+	JournalId         *Many2One  `xmlrpc:"journal_id,omitempty"`
+	PartnerId         *Many2One  `xmlrpc:"partner_id,omitempty"`
+	PartnerType       *Selection `xmlrpc:"partner_type,omitempty"`
+	PaymentDate       *Time      `xmlrpc:"payment_date,omitempty"`
+	PaymentMethodCode *String    `xmlrpc:"payment_method_code,omitempty"`
+	PaymentMethodId   *Many2One  `xmlrpc:"payment_method_id,omitempty"`
+	PaymentType       *Selection `xmlrpc:"payment_type,omitempty"`
 }
 
 // AccountAbstractPayments represents array of account.abstract.payment model.
@@ -46,13 +42,13 @@ func (c *Client) CreateAccountAbstractPayment(aap *AccountAbstractPayment) (int6
 	return ids[0], nil
 }
 
-// CreateAccountAbstractPayment creates a new account.abstract.payment model and returns its id.
+// CreateAccountAbstractPayments creates a new account.abstract.payment model and returns its id.
 func (c *Client) CreateAccountAbstractPayments(aaps []*AccountAbstractPayment) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range aaps {
 		vv = append(vv, v)
 	}
-	return c.Create(AccountAbstractPaymentModel, vv)
+	return c.Create(AccountAbstractPaymentModel, vv, nil)
 }
 
 // UpdateAccountAbstractPayment updates an existing account.abstract.payment record.
@@ -63,7 +59,7 @@ func (c *Client) UpdateAccountAbstractPayment(aap *AccountAbstractPayment) error
 // UpdateAccountAbstractPayments updates existing account.abstract.payment records.
 // All records (represented by ids) will be updated by aap values.
 func (c *Client) UpdateAccountAbstractPayments(ids []int64, aap *AccountAbstractPayment) error {
-	return c.Update(AccountAbstractPaymentModel, ids, aap)
+	return c.Update(AccountAbstractPaymentModel, ids, aap, nil)
 }
 
 // DeleteAccountAbstractPayment deletes an existing account.abstract.payment record.
@@ -82,10 +78,7 @@ func (c *Client) GetAccountAbstractPayment(id int64) (*AccountAbstractPayment, e
 	if err != nil {
 		return nil, err
 	}
-	if aaps != nil && len(*aaps) > 0 {
-		return &((*aaps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of account.abstract.payment not found", id)
+	return &((*aaps)[0]), nil
 }
 
 // GetAccountAbstractPayments gets account.abstract.payment existing records.
@@ -103,10 +96,7 @@ func (c *Client) FindAccountAbstractPayment(criteria *Criteria) (*AccountAbstrac
 	if err := c.SearchRead(AccountAbstractPaymentModel, criteria, NewOptions().Limit(1), aaps); err != nil {
 		return nil, err
 	}
-	if aaps != nil && len(*aaps) > 0 {
-		return &((*aaps)[0]), nil
-	}
-	return nil, fmt.Errorf("account.abstract.payment was not found with criteria %v", criteria)
+	return &((*aaps)[0]), nil
 }
 
 // FindAccountAbstractPayments finds account.abstract.payment records by querying it
@@ -122,11 +112,7 @@ func (c *Client) FindAccountAbstractPayments(criteria *Criteria, options *Option
 // FindAccountAbstractPaymentIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindAccountAbstractPaymentIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(AccountAbstractPaymentModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(AccountAbstractPaymentModel, criteria, options)
 }
 
 // FindAccountAbstractPaymentId finds record id by querying it with criteria.
@@ -135,8 +121,5 @@ func (c *Client) FindAccountAbstractPaymentId(criteria *Criteria, options *Optio
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("account.abstract.payment was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

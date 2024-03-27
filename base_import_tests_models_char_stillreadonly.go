@@ -1,19 +1,15 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // BaseImportTestsModelsCharStillreadonly represents base_import.tests.models.char.stillreadonly model.
 type BaseImportTestsModelsCharStillreadonly struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Value       *String   `xmlrpc:"value,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Value       *String   `xmlrpc:"value,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // BaseImportTestsModelsCharStillreadonlys represents array of base_import.tests.models.char.stillreadonly model.
@@ -39,13 +35,13 @@ func (c *Client) CreateBaseImportTestsModelsCharStillreadonly(btmcs *BaseImportT
 	return ids[0], nil
 }
 
-// CreateBaseImportTestsModelsCharStillreadonly creates a new base_import.tests.models.char.stillreadonly model and returns its id.
+// CreateBaseImportTestsModelsCharStillreadonlys creates a new base_import.tests.models.char.stillreadonly model and returns its id.
 func (c *Client) CreateBaseImportTestsModelsCharStillreadonlys(btmcss []*BaseImportTestsModelsCharStillreadonly) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range btmcss {
 		vv = append(vv, v)
 	}
-	return c.Create(BaseImportTestsModelsCharStillreadonlyModel, vv)
+	return c.Create(BaseImportTestsModelsCharStillreadonlyModel, vv, nil)
 }
 
 // UpdateBaseImportTestsModelsCharStillreadonly updates an existing base_import.tests.models.char.stillreadonly record.
@@ -56,7 +52,7 @@ func (c *Client) UpdateBaseImportTestsModelsCharStillreadonly(btmcs *BaseImportT
 // UpdateBaseImportTestsModelsCharStillreadonlys updates existing base_import.tests.models.char.stillreadonly records.
 // All records (represented by ids) will be updated by btmcs values.
 func (c *Client) UpdateBaseImportTestsModelsCharStillreadonlys(ids []int64, btmcs *BaseImportTestsModelsCharStillreadonly) error {
-	return c.Update(BaseImportTestsModelsCharStillreadonlyModel, ids, btmcs)
+	return c.Update(BaseImportTestsModelsCharStillreadonlyModel, ids, btmcs, nil)
 }
 
 // DeleteBaseImportTestsModelsCharStillreadonly deletes an existing base_import.tests.models.char.stillreadonly record.
@@ -75,10 +71,7 @@ func (c *Client) GetBaseImportTestsModelsCharStillreadonly(id int64) (*BaseImpor
 	if err != nil {
 		return nil, err
 	}
-	if btmcss != nil && len(*btmcss) > 0 {
-		return &((*btmcss)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of base_import.tests.models.char.stillreadonly not found", id)
+	return &((*btmcss)[0]), nil
 }
 
 // GetBaseImportTestsModelsCharStillreadonlys gets base_import.tests.models.char.stillreadonly existing records.
@@ -96,10 +89,7 @@ func (c *Client) FindBaseImportTestsModelsCharStillreadonly(criteria *Criteria) 
 	if err := c.SearchRead(BaseImportTestsModelsCharStillreadonlyModel, criteria, NewOptions().Limit(1), btmcss); err != nil {
 		return nil, err
 	}
-	if btmcss != nil && len(*btmcss) > 0 {
-		return &((*btmcss)[0]), nil
-	}
-	return nil, fmt.Errorf("base_import.tests.models.char.stillreadonly was not found with criteria %v", criteria)
+	return &((*btmcss)[0]), nil
 }
 
 // FindBaseImportTestsModelsCharStillreadonlys finds base_import.tests.models.char.stillreadonly records by querying it
@@ -115,11 +105,7 @@ func (c *Client) FindBaseImportTestsModelsCharStillreadonlys(criteria *Criteria,
 // FindBaseImportTestsModelsCharStillreadonlyIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindBaseImportTestsModelsCharStillreadonlyIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(BaseImportTestsModelsCharStillreadonlyModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(BaseImportTestsModelsCharStillreadonlyModel, criteria, options)
 }
 
 // FindBaseImportTestsModelsCharStillreadonlyId finds record id by querying it with criteria.
@@ -128,8 +114,5 @@ func (c *Client) FindBaseImportTestsModelsCharStillreadonlyId(criteria *Criteria
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("base_import.tests.models.char.stillreadonly was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

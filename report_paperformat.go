@@ -1,32 +1,28 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // ReportPaperformat represents report.paperformat model.
 type ReportPaperformat struct {
-	LastUpdate    *Time      `xmlrpc:"__last_update,omptempty"`
-	CreateDate    *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid     *Many2One  `xmlrpc:"create_uid,omptempty"`
-	Default       *Bool      `xmlrpc:"default,omptempty"`
-	DisplayName   *String    `xmlrpc:"display_name,omptempty"`
-	Dpi           *Int       `xmlrpc:"dpi,omptempty"`
-	Format        *Selection `xmlrpc:"format,omptempty"`
-	HeaderLine    *Bool      `xmlrpc:"header_line,omptempty"`
-	HeaderSpacing *Int       `xmlrpc:"header_spacing,omptempty"`
-	Id            *Int       `xmlrpc:"id,omptempty"`
-	MarginBottom  *Float     `xmlrpc:"margin_bottom,omptempty"`
-	MarginLeft    *Float     `xmlrpc:"margin_left,omptempty"`
-	MarginRight   *Float     `xmlrpc:"margin_right,omptempty"`
-	MarginTop     *Float     `xmlrpc:"margin_top,omptempty"`
-	Name          *String    `xmlrpc:"name,omptempty"`
-	Orientation   *Selection `xmlrpc:"orientation,omptempty"`
-	PageHeight    *Int       `xmlrpc:"page_height,omptempty"`
-	PageWidth     *Int       `xmlrpc:"page_width,omptempty"`
-	ReportIds     *Relation  `xmlrpc:"report_ids,omptempty"`
-	WriteDate     *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid      *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate    *Time      `xmlrpc:"__last_update,omitempty"`
+	CreateDate    *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid     *Many2One  `xmlrpc:"create_uid,omitempty"`
+	Default       *Bool      `xmlrpc:"default,omitempty"`
+	DisplayName   *String    `xmlrpc:"display_name,omitempty"`
+	Dpi           *Int       `xmlrpc:"dpi,omitempty"`
+	Format        *Selection `xmlrpc:"format,omitempty"`
+	HeaderLine    *Bool      `xmlrpc:"header_line,omitempty"`
+	HeaderSpacing *Int       `xmlrpc:"header_spacing,omitempty"`
+	Id            *Int       `xmlrpc:"id,omitempty"`
+	MarginBottom  *Float     `xmlrpc:"margin_bottom,omitempty"`
+	MarginLeft    *Float     `xmlrpc:"margin_left,omitempty"`
+	MarginRight   *Float     `xmlrpc:"margin_right,omitempty"`
+	MarginTop     *Float     `xmlrpc:"margin_top,omitempty"`
+	Name          *String    `xmlrpc:"name,omitempty"`
+	Orientation   *Selection `xmlrpc:"orientation,omitempty"`
+	PageHeight    *Int       `xmlrpc:"page_height,omitempty"`
+	PageWidth     *Int       `xmlrpc:"page_width,omitempty"`
+	ReportIds     *Relation  `xmlrpc:"report_ids,omitempty"`
+	WriteDate     *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid      *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // ReportPaperformats represents array of report.paperformat model.
@@ -52,13 +48,13 @@ func (c *Client) CreateReportPaperformat(rp *ReportPaperformat) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateReportPaperformat creates a new report.paperformat model and returns its id.
+// CreateReportPaperformats creates a new report.paperformat model and returns its id.
 func (c *Client) CreateReportPaperformats(rps []*ReportPaperformat) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range rps {
 		vv = append(vv, v)
 	}
-	return c.Create(ReportPaperformatModel, vv)
+	return c.Create(ReportPaperformatModel, vv, nil)
 }
 
 // UpdateReportPaperformat updates an existing report.paperformat record.
@@ -69,7 +65,7 @@ func (c *Client) UpdateReportPaperformat(rp *ReportPaperformat) error {
 // UpdateReportPaperformats updates existing report.paperformat records.
 // All records (represented by ids) will be updated by rp values.
 func (c *Client) UpdateReportPaperformats(ids []int64, rp *ReportPaperformat) error {
-	return c.Update(ReportPaperformatModel, ids, rp)
+	return c.Update(ReportPaperformatModel, ids, rp, nil)
 }
 
 // DeleteReportPaperformat deletes an existing report.paperformat record.
@@ -88,10 +84,7 @@ func (c *Client) GetReportPaperformat(id int64) (*ReportPaperformat, error) {
 	if err != nil {
 		return nil, err
 	}
-	if rps != nil && len(*rps) > 0 {
-		return &((*rps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of report.paperformat not found", id)
+	return &((*rps)[0]), nil
 }
 
 // GetReportPaperformats gets report.paperformat existing records.
@@ -109,10 +102,7 @@ func (c *Client) FindReportPaperformat(criteria *Criteria) (*ReportPaperformat, 
 	if err := c.SearchRead(ReportPaperformatModel, criteria, NewOptions().Limit(1), rps); err != nil {
 		return nil, err
 	}
-	if rps != nil && len(*rps) > 0 {
-		return &((*rps)[0]), nil
-	}
-	return nil, fmt.Errorf("report.paperformat was not found with criteria %v", criteria)
+	return &((*rps)[0]), nil
 }
 
 // FindReportPaperformats finds report.paperformat records by querying it
@@ -128,11 +118,7 @@ func (c *Client) FindReportPaperformats(criteria *Criteria, options *Options) (*
 // FindReportPaperformatIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindReportPaperformatIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(ReportPaperformatModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(ReportPaperformatModel, criteria, options)
 }
 
 // FindReportPaperformatId finds record id by querying it with criteria.
@@ -141,8 +127,5 @@ func (c *Client) FindReportPaperformatId(criteria *Criteria, options *Options) (
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("report.paperformat was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,38 +1,34 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrActionsServer represents ir.actions.server model.
 type IrActionsServer struct {
-	LastUpdate     *Time      `xmlrpc:"__last_update,omptempty"`
-	BindingModelId *Many2One  `xmlrpc:"binding_model_id,omptempty"`
-	BindingType    *Selection `xmlrpc:"binding_type,omptempty"`
-	ChannelIds     *Relation  `xmlrpc:"channel_ids,omptempty"`
-	ChildIds       *Relation  `xmlrpc:"child_ids,omptempty"`
-	Code           *String    `xmlrpc:"code,omptempty"`
-	CreateDate     *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid      *Many2One  `xmlrpc:"create_uid,omptempty"`
-	CrudModelId    *Many2One  `xmlrpc:"crud_model_id,omptempty"`
-	CrudModelName  *String    `xmlrpc:"crud_model_name,omptempty"`
-	DisplayName    *String    `xmlrpc:"display_name,omptempty"`
-	FieldsLines    *Relation  `xmlrpc:"fields_lines,omptempty"`
-	Help           *String    `xmlrpc:"help,omptempty"`
-	Id             *Int       `xmlrpc:"id,omptempty"`
-	LinkFieldId    *Many2One  `xmlrpc:"link_field_id,omptempty"`
-	ModelId        *Many2One  `xmlrpc:"model_id,omptempty"`
-	ModelName      *String    `xmlrpc:"model_name,omptempty"`
-	Name           *String    `xmlrpc:"name,omptempty"`
-	PartnerIds     *Relation  `xmlrpc:"partner_ids,omptempty"`
-	Sequence       *Int       `xmlrpc:"sequence,omptempty"`
-	State          *Selection `xmlrpc:"state,omptempty"`
-	TemplateId     *Many2One  `xmlrpc:"template_id,omptempty"`
-	Type           *String    `xmlrpc:"type,omptempty"`
-	Usage          *Selection `xmlrpc:"usage,omptempty"`
-	WriteDate      *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid       *Many2One  `xmlrpc:"write_uid,omptempty"`
-	XmlId          *String    `xmlrpc:"xml_id,omptempty"`
+	LastUpdate     *Time      `xmlrpc:"__last_update,omitempty"`
+	BindingModelId *Many2One  `xmlrpc:"binding_model_id,omitempty"`
+	BindingType    *Selection `xmlrpc:"binding_type,omitempty"`
+	ChannelIds     *Relation  `xmlrpc:"channel_ids,omitempty"`
+	ChildIds       *Relation  `xmlrpc:"child_ids,omitempty"`
+	Code           *String    `xmlrpc:"code,omitempty"`
+	CreateDate     *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid      *Many2One  `xmlrpc:"create_uid,omitempty"`
+	CrudModelId    *Many2One  `xmlrpc:"crud_model_id,omitempty"`
+	CrudModelName  *String    `xmlrpc:"crud_model_name,omitempty"`
+	DisplayName    *String    `xmlrpc:"display_name,omitempty"`
+	FieldsLines    *Relation  `xmlrpc:"fields_lines,omitempty"`
+	Help           *String    `xmlrpc:"help,omitempty"`
+	Id             *Int       `xmlrpc:"id,omitempty"`
+	LinkFieldId    *Many2One  `xmlrpc:"link_field_id,omitempty"`
+	ModelId        *Many2One  `xmlrpc:"model_id,omitempty"`
+	ModelName      *String    `xmlrpc:"model_name,omitempty"`
+	Name           *String    `xmlrpc:"name,omitempty"`
+	PartnerIds     *Relation  `xmlrpc:"partner_ids,omitempty"`
+	Sequence       *Int       `xmlrpc:"sequence,omitempty"`
+	State          *Selection `xmlrpc:"state,omitempty"`
+	TemplateId     *Many2One  `xmlrpc:"template_id,omitempty"`
+	Type           *String    `xmlrpc:"type,omitempty"`
+	Usage          *Selection `xmlrpc:"usage,omitempty"`
+	WriteDate      *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid       *Many2One  `xmlrpc:"write_uid,omitempty"`
+	XmlId          *String    `xmlrpc:"xml_id,omitempty"`
 }
 
 // IrActionsServers represents array of ir.actions.server model.
@@ -58,13 +54,13 @@ func (c *Client) CreateIrActionsServer(ias *IrActionsServer) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrActionsServer creates a new ir.actions.server model and returns its id.
+// CreateIrActionsServers creates a new ir.actions.server model and returns its id.
 func (c *Client) CreateIrActionsServers(iass []*IrActionsServer) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range iass {
 		vv = append(vv, v)
 	}
-	return c.Create(IrActionsServerModel, vv)
+	return c.Create(IrActionsServerModel, vv, nil)
 }
 
 // UpdateIrActionsServer updates an existing ir.actions.server record.
@@ -75,7 +71,7 @@ func (c *Client) UpdateIrActionsServer(ias *IrActionsServer) error {
 // UpdateIrActionsServers updates existing ir.actions.server records.
 // All records (represented by ids) will be updated by ias values.
 func (c *Client) UpdateIrActionsServers(ids []int64, ias *IrActionsServer) error {
-	return c.Update(IrActionsServerModel, ids, ias)
+	return c.Update(IrActionsServerModel, ids, ias, nil)
 }
 
 // DeleteIrActionsServer deletes an existing ir.actions.server record.
@@ -94,10 +90,7 @@ func (c *Client) GetIrActionsServer(id int64) (*IrActionsServer, error) {
 	if err != nil {
 		return nil, err
 	}
-	if iass != nil && len(*iass) > 0 {
-		return &((*iass)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.actions.server not found", id)
+	return &((*iass)[0]), nil
 }
 
 // GetIrActionsServers gets ir.actions.server existing records.
@@ -115,10 +108,7 @@ func (c *Client) FindIrActionsServer(criteria *Criteria) (*IrActionsServer, erro
 	if err := c.SearchRead(IrActionsServerModel, criteria, NewOptions().Limit(1), iass); err != nil {
 		return nil, err
 	}
-	if iass != nil && len(*iass) > 0 {
-		return &((*iass)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.actions.server was not found with criteria %v", criteria)
+	return &((*iass)[0]), nil
 }
 
 // FindIrActionsServers finds ir.actions.server records by querying it
@@ -134,11 +124,7 @@ func (c *Client) FindIrActionsServers(criteria *Criteria, options *Options) (*Ir
 // FindIrActionsServerIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrActionsServerIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrActionsServerModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrActionsServerModel, criteria, options)
 }
 
 // FindIrActionsServerId finds record id by querying it with criteria.
@@ -147,8 +133,5 @@ func (c *Client) FindIrActionsServerId(criteria *Criteria, options *Options) (in
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.actions.server was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

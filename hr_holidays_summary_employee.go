@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // HrHolidaysSummaryEmployee represents hr.holidays.summary.employee model.
 type HrHolidaysSummaryEmployee struct {
-	LastUpdate  *Time      `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time      `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One  `xmlrpc:"create_uid,omptempty"`
-	DateFrom    *Time      `xmlrpc:"date_from,omptempty"`
-	DisplayName *String    `xmlrpc:"display_name,omptempty"`
-	Emp         *Relation  `xmlrpc:"emp,omptempty"`
-	HolidayType *Selection `xmlrpc:"holiday_type,omptempty"`
-	Id          *Int       `xmlrpc:"id,omptempty"`
-	WriteDate   *Time      `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One  `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time      `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time      `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One  `xmlrpc:"create_uid,omitempty"`
+	DateFrom    *Time      `xmlrpc:"date_from,omitempty"`
+	DisplayName *String    `xmlrpc:"display_name,omitempty"`
+	Emp         *Relation  `xmlrpc:"emp,omitempty"`
+	HolidayType *Selection `xmlrpc:"holiday_type,omitempty"`
+	Id          *Int       `xmlrpc:"id,omitempty"`
+	WriteDate   *Time      `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One  `xmlrpc:"write_uid,omitempty"`
 }
 
 // HrHolidaysSummaryEmployees represents array of hr.holidays.summary.employee model.
@@ -41,13 +37,13 @@ func (c *Client) CreateHrHolidaysSummaryEmployee(hhse *HrHolidaysSummaryEmployee
 	return ids[0], nil
 }
 
-// CreateHrHolidaysSummaryEmployee creates a new hr.holidays.summary.employee model and returns its id.
+// CreateHrHolidaysSummaryEmployees creates a new hr.holidays.summary.employee model and returns its id.
 func (c *Client) CreateHrHolidaysSummaryEmployees(hhses []*HrHolidaysSummaryEmployee) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range hhses {
 		vv = append(vv, v)
 	}
-	return c.Create(HrHolidaysSummaryEmployeeModel, vv)
+	return c.Create(HrHolidaysSummaryEmployeeModel, vv, nil)
 }
 
 // UpdateHrHolidaysSummaryEmployee updates an existing hr.holidays.summary.employee record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateHrHolidaysSummaryEmployee(hhse *HrHolidaysSummaryEmployee
 // UpdateHrHolidaysSummaryEmployees updates existing hr.holidays.summary.employee records.
 // All records (represented by ids) will be updated by hhse values.
 func (c *Client) UpdateHrHolidaysSummaryEmployees(ids []int64, hhse *HrHolidaysSummaryEmployee) error {
-	return c.Update(HrHolidaysSummaryEmployeeModel, ids, hhse)
+	return c.Update(HrHolidaysSummaryEmployeeModel, ids, hhse, nil)
 }
 
 // DeleteHrHolidaysSummaryEmployee deletes an existing hr.holidays.summary.employee record.
@@ -77,10 +73,7 @@ func (c *Client) GetHrHolidaysSummaryEmployee(id int64) (*HrHolidaysSummaryEmplo
 	if err != nil {
 		return nil, err
 	}
-	if hhses != nil && len(*hhses) > 0 {
-		return &((*hhses)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of hr.holidays.summary.employee not found", id)
+	return &((*hhses)[0]), nil
 }
 
 // GetHrHolidaysSummaryEmployees gets hr.holidays.summary.employee existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindHrHolidaysSummaryEmployee(criteria *Criteria) (*HrHolidaysS
 	if err := c.SearchRead(HrHolidaysSummaryEmployeeModel, criteria, NewOptions().Limit(1), hhses); err != nil {
 		return nil, err
 	}
-	if hhses != nil && len(*hhses) > 0 {
-		return &((*hhses)[0]), nil
-	}
-	return nil, fmt.Errorf("hr.holidays.summary.employee was not found with criteria %v", criteria)
+	return &((*hhses)[0]), nil
 }
 
 // FindHrHolidaysSummaryEmployees finds hr.holidays.summary.employee records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindHrHolidaysSummaryEmployees(criteria *Criteria, options *Opt
 // FindHrHolidaysSummaryEmployeeIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindHrHolidaysSummaryEmployeeIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(HrHolidaysSummaryEmployeeModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(HrHolidaysSummaryEmployeeModel, criteria, options)
 }
 
 // FindHrHolidaysSummaryEmployeeId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindHrHolidaysSummaryEmployeeId(criteria *Criteria, options *Op
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("hr.holidays.summary.employee was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

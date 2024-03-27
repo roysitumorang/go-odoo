@@ -1,19 +1,15 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // BaseImportTestsModelsCharRequired represents base_import.tests.models.char.required model.
 type BaseImportTestsModelsCharRequired struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Value       *String   `xmlrpc:"value,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Value       *String   `xmlrpc:"value,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // BaseImportTestsModelsCharRequireds represents array of base_import.tests.models.char.required model.
@@ -39,13 +35,13 @@ func (c *Client) CreateBaseImportTestsModelsCharRequired(btmcr *BaseImportTestsM
 	return ids[0], nil
 }
 
-// CreateBaseImportTestsModelsCharRequired creates a new base_import.tests.models.char.required model and returns its id.
+// CreateBaseImportTestsModelsCharRequireds creates a new base_import.tests.models.char.required model and returns its id.
 func (c *Client) CreateBaseImportTestsModelsCharRequireds(btmcrs []*BaseImportTestsModelsCharRequired) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range btmcrs {
 		vv = append(vv, v)
 	}
-	return c.Create(BaseImportTestsModelsCharRequiredModel, vv)
+	return c.Create(BaseImportTestsModelsCharRequiredModel, vv, nil)
 }
 
 // UpdateBaseImportTestsModelsCharRequired updates an existing base_import.tests.models.char.required record.
@@ -56,7 +52,7 @@ func (c *Client) UpdateBaseImportTestsModelsCharRequired(btmcr *BaseImportTestsM
 // UpdateBaseImportTestsModelsCharRequireds updates existing base_import.tests.models.char.required records.
 // All records (represented by ids) will be updated by btmcr values.
 func (c *Client) UpdateBaseImportTestsModelsCharRequireds(ids []int64, btmcr *BaseImportTestsModelsCharRequired) error {
-	return c.Update(BaseImportTestsModelsCharRequiredModel, ids, btmcr)
+	return c.Update(BaseImportTestsModelsCharRequiredModel, ids, btmcr, nil)
 }
 
 // DeleteBaseImportTestsModelsCharRequired deletes an existing base_import.tests.models.char.required record.
@@ -75,10 +71,7 @@ func (c *Client) GetBaseImportTestsModelsCharRequired(id int64) (*BaseImportTest
 	if err != nil {
 		return nil, err
 	}
-	if btmcrs != nil && len(*btmcrs) > 0 {
-		return &((*btmcrs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of base_import.tests.models.char.required not found", id)
+	return &((*btmcrs)[0]), nil
 }
 
 // GetBaseImportTestsModelsCharRequireds gets base_import.tests.models.char.required existing records.
@@ -96,10 +89,7 @@ func (c *Client) FindBaseImportTestsModelsCharRequired(criteria *Criteria) (*Bas
 	if err := c.SearchRead(BaseImportTestsModelsCharRequiredModel, criteria, NewOptions().Limit(1), btmcrs); err != nil {
 		return nil, err
 	}
-	if btmcrs != nil && len(*btmcrs) > 0 {
-		return &((*btmcrs)[0]), nil
-	}
-	return nil, fmt.Errorf("base_import.tests.models.char.required was not found with criteria %v", criteria)
+	return &((*btmcrs)[0]), nil
 }
 
 // FindBaseImportTestsModelsCharRequireds finds base_import.tests.models.char.required records by querying it
@@ -115,11 +105,7 @@ func (c *Client) FindBaseImportTestsModelsCharRequireds(criteria *Criteria, opti
 // FindBaseImportTestsModelsCharRequiredIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindBaseImportTestsModelsCharRequiredIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(BaseImportTestsModelsCharRequiredModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(BaseImportTestsModelsCharRequiredModel, criteria, options)
 }
 
 // FindBaseImportTestsModelsCharRequiredId finds record id by querying it with criteria.
@@ -128,8 +114,5 @@ func (c *Client) FindBaseImportTestsModelsCharRequiredId(criteria *Criteria, opt
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("base_import.tests.models.char.required was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

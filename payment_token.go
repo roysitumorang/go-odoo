@@ -1,26 +1,22 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // PaymentToken represents payment.token model.
 type PaymentToken struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	AcquirerId  *Many2One `xmlrpc:"acquirer_id,omptempty"`
-	AcquirerRef *String   `xmlrpc:"acquirer_ref,omptempty"`
-	Active      *Bool     `xmlrpc:"active,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	Name        *String   `xmlrpc:"name,omptempty"`
-	PartnerId   *Many2One `xmlrpc:"partner_id,omptempty"`
-	PaymentIds  *Relation `xmlrpc:"payment_ids,omptempty"`
-	ShortName   *String   `xmlrpc:"short_name,omptempty"`
-	Verified    *Bool     `xmlrpc:"verified,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	AcquirerId  *Many2One `xmlrpc:"acquirer_id,omitempty"`
+	AcquirerRef *String   `xmlrpc:"acquirer_ref,omitempty"`
+	Active      *Bool     `xmlrpc:"active,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	Name        *String   `xmlrpc:"name,omitempty"`
+	PartnerId   *Many2One `xmlrpc:"partner_id,omitempty"`
+	PaymentIds  *Relation `xmlrpc:"payment_ids,omitempty"`
+	ShortName   *String   `xmlrpc:"short_name,omitempty"`
+	Verified    *Bool     `xmlrpc:"verified,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // PaymentTokens represents array of payment.token model.
@@ -46,13 +42,13 @@ func (c *Client) CreatePaymentToken(pt *PaymentToken) (int64, error) {
 	return ids[0], nil
 }
 
-// CreatePaymentToken creates a new payment.token model and returns its id.
+// CreatePaymentTokens creates a new payment.token model and returns its id.
 func (c *Client) CreatePaymentTokens(pts []*PaymentToken) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range pts {
 		vv = append(vv, v)
 	}
-	return c.Create(PaymentTokenModel, vv)
+	return c.Create(PaymentTokenModel, vv, nil)
 }
 
 // UpdatePaymentToken updates an existing payment.token record.
@@ -63,7 +59,7 @@ func (c *Client) UpdatePaymentToken(pt *PaymentToken) error {
 // UpdatePaymentTokens updates existing payment.token records.
 // All records (represented by ids) will be updated by pt values.
 func (c *Client) UpdatePaymentTokens(ids []int64, pt *PaymentToken) error {
-	return c.Update(PaymentTokenModel, ids, pt)
+	return c.Update(PaymentTokenModel, ids, pt, nil)
 }
 
 // DeletePaymentToken deletes an existing payment.token record.
@@ -82,10 +78,7 @@ func (c *Client) GetPaymentToken(id int64) (*PaymentToken, error) {
 	if err != nil {
 		return nil, err
 	}
-	if pts != nil && len(*pts) > 0 {
-		return &((*pts)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of payment.token not found", id)
+	return &((*pts)[0]), nil
 }
 
 // GetPaymentTokens gets payment.token existing records.
@@ -103,10 +96,7 @@ func (c *Client) FindPaymentToken(criteria *Criteria) (*PaymentToken, error) {
 	if err := c.SearchRead(PaymentTokenModel, criteria, NewOptions().Limit(1), pts); err != nil {
 		return nil, err
 	}
-	if pts != nil && len(*pts) > 0 {
-		return &((*pts)[0]), nil
-	}
-	return nil, fmt.Errorf("payment.token was not found with criteria %v", criteria)
+	return &((*pts)[0]), nil
 }
 
 // FindPaymentTokens finds payment.token records by querying it
@@ -122,11 +112,7 @@ func (c *Client) FindPaymentTokens(criteria *Criteria, options *Options) (*Payme
 // FindPaymentTokenIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindPaymentTokenIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(PaymentTokenModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(PaymentTokenModel, criteria, options)
 }
 
 // FindPaymentTokenId finds record id by querying it with criteria.
@@ -135,8 +121,5 @@ func (c *Client) FindPaymentTokenId(criteria *Criteria, options *Options) (int64
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("payment.token was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

@@ -1,22 +1,18 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // PaymentIcon represents payment.icon model.
 type PaymentIcon struct {
-	LastUpdate       *Time     `xmlrpc:"__last_update,omptempty"`
-	AcquirerIds      *Relation `xmlrpc:"acquirer_ids,omptempty"`
-	CreateDate       *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid        *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName      *String   `xmlrpc:"display_name,omptempty"`
-	Id               *Int      `xmlrpc:"id,omptempty"`
-	Image            *String   `xmlrpc:"image,omptempty"`
-	ImagePaymentForm *String   `xmlrpc:"image_payment_form,omptempty"`
-	Name             *String   `xmlrpc:"name,omptempty"`
-	WriteDate        *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid         *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate       *Time     `xmlrpc:"__last_update,omitempty"`
+	AcquirerIds      *Relation `xmlrpc:"acquirer_ids,omitempty"`
+	CreateDate       *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid        *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName      *String   `xmlrpc:"display_name,omitempty"`
+	Id               *Int      `xmlrpc:"id,omitempty"`
+	Image            *String   `xmlrpc:"image,omitempty"`
+	ImagePaymentForm *String   `xmlrpc:"image_payment_form,omitempty"`
+	Name             *String   `xmlrpc:"name,omitempty"`
+	WriteDate        *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid         *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // PaymentIcons represents array of payment.icon model.
@@ -42,13 +38,13 @@ func (c *Client) CreatePaymentIcon(pi *PaymentIcon) (int64, error) {
 	return ids[0], nil
 }
 
-// CreatePaymentIcon creates a new payment.icon model and returns its id.
+// CreatePaymentIcons creates a new payment.icon model and returns its id.
 func (c *Client) CreatePaymentIcons(pis []*PaymentIcon) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range pis {
 		vv = append(vv, v)
 	}
-	return c.Create(PaymentIconModel, vv)
+	return c.Create(PaymentIconModel, vv, nil)
 }
 
 // UpdatePaymentIcon updates an existing payment.icon record.
@@ -59,7 +55,7 @@ func (c *Client) UpdatePaymentIcon(pi *PaymentIcon) error {
 // UpdatePaymentIcons updates existing payment.icon records.
 // All records (represented by ids) will be updated by pi values.
 func (c *Client) UpdatePaymentIcons(ids []int64, pi *PaymentIcon) error {
-	return c.Update(PaymentIconModel, ids, pi)
+	return c.Update(PaymentIconModel, ids, pi, nil)
 }
 
 // DeletePaymentIcon deletes an existing payment.icon record.
@@ -78,10 +74,7 @@ func (c *Client) GetPaymentIcon(id int64) (*PaymentIcon, error) {
 	if err != nil {
 		return nil, err
 	}
-	if pis != nil && len(*pis) > 0 {
-		return &((*pis)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of payment.icon not found", id)
+	return &((*pis)[0]), nil
 }
 
 // GetPaymentIcons gets payment.icon existing records.
@@ -99,10 +92,7 @@ func (c *Client) FindPaymentIcon(criteria *Criteria) (*PaymentIcon, error) {
 	if err := c.SearchRead(PaymentIconModel, criteria, NewOptions().Limit(1), pis); err != nil {
 		return nil, err
 	}
-	if pis != nil && len(*pis) > 0 {
-		return &((*pis)[0]), nil
-	}
-	return nil, fmt.Errorf("payment.icon was not found with criteria %v", criteria)
+	return &((*pis)[0]), nil
 }
 
 // FindPaymentIcons finds payment.icon records by querying it
@@ -118,11 +108,7 @@ func (c *Client) FindPaymentIcons(criteria *Criteria, options *Options) (*Paymen
 // FindPaymentIconIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindPaymentIconIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(PaymentIconModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(PaymentIconModel, criteria, options)
 }
 
 // FindPaymentIconId finds record id by querying it with criteria.
@@ -131,8 +117,5 @@ func (c *Client) FindPaymentIconId(criteria *Criteria, options *Options) (int64,
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("payment.icon was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

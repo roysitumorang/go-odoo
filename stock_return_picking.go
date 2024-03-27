@@ -1,24 +1,20 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // StockReturnPicking represents stock.return.picking model.
 type StockReturnPicking struct {
-	LastUpdate         *Time     `xmlrpc:"__last_update,omptempty"`
-	CreateDate         *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid          *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName        *String   `xmlrpc:"display_name,omptempty"`
-	Id                 *Int      `xmlrpc:"id,omptempty"`
-	LocationId         *Many2One `xmlrpc:"location_id,omptempty"`
-	MoveDestExists     *Bool     `xmlrpc:"move_dest_exists,omptempty"`
-	OriginalLocationId *Many2One `xmlrpc:"original_location_id,omptempty"`
-	ParentLocationId   *Many2One `xmlrpc:"parent_location_id,omptempty"`
-	PickingId          *Many2One `xmlrpc:"picking_id,omptempty"`
-	ProductReturnMoves *Relation `xmlrpc:"product_return_moves,omptempty"`
-	WriteDate          *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid           *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate         *Time     `xmlrpc:"__last_update,omitempty"`
+	CreateDate         *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid          *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName        *String   `xmlrpc:"display_name,omitempty"`
+	Id                 *Int      `xmlrpc:"id,omitempty"`
+	LocationId         *Many2One `xmlrpc:"location_id,omitempty"`
+	MoveDestExists     *Bool     `xmlrpc:"move_dest_exists,omitempty"`
+	OriginalLocationId *Many2One `xmlrpc:"original_location_id,omitempty"`
+	ParentLocationId   *Many2One `xmlrpc:"parent_location_id,omitempty"`
+	PickingId          *Many2One `xmlrpc:"picking_id,omitempty"`
+	ProductReturnMoves *Relation `xmlrpc:"product_return_moves,omitempty"`
+	WriteDate          *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid           *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // StockReturnPickings represents array of stock.return.picking model.
@@ -44,13 +40,13 @@ func (c *Client) CreateStockReturnPicking(srp *StockReturnPicking) (int64, error
 	return ids[0], nil
 }
 
-// CreateStockReturnPicking creates a new stock.return.picking model and returns its id.
+// CreateStockReturnPickings creates a new stock.return.picking model and returns its id.
 func (c *Client) CreateStockReturnPickings(srps []*StockReturnPicking) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range srps {
 		vv = append(vv, v)
 	}
-	return c.Create(StockReturnPickingModel, vv)
+	return c.Create(StockReturnPickingModel, vv, nil)
 }
 
 // UpdateStockReturnPicking updates an existing stock.return.picking record.
@@ -61,7 +57,7 @@ func (c *Client) UpdateStockReturnPicking(srp *StockReturnPicking) error {
 // UpdateStockReturnPickings updates existing stock.return.picking records.
 // All records (represented by ids) will be updated by srp values.
 func (c *Client) UpdateStockReturnPickings(ids []int64, srp *StockReturnPicking) error {
-	return c.Update(StockReturnPickingModel, ids, srp)
+	return c.Update(StockReturnPickingModel, ids, srp, nil)
 }
 
 // DeleteStockReturnPicking deletes an existing stock.return.picking record.
@@ -80,10 +76,7 @@ func (c *Client) GetStockReturnPicking(id int64) (*StockReturnPicking, error) {
 	if err != nil {
 		return nil, err
 	}
-	if srps != nil && len(*srps) > 0 {
-		return &((*srps)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of stock.return.picking not found", id)
+	return &((*srps)[0]), nil
 }
 
 // GetStockReturnPickings gets stock.return.picking existing records.
@@ -101,10 +94,7 @@ func (c *Client) FindStockReturnPicking(criteria *Criteria) (*StockReturnPicking
 	if err := c.SearchRead(StockReturnPickingModel, criteria, NewOptions().Limit(1), srps); err != nil {
 		return nil, err
 	}
-	if srps != nil && len(*srps) > 0 {
-		return &((*srps)[0]), nil
-	}
-	return nil, fmt.Errorf("stock.return.picking was not found with criteria %v", criteria)
+	return &((*srps)[0]), nil
 }
 
 // FindStockReturnPickings finds stock.return.picking records by querying it
@@ -120,11 +110,7 @@ func (c *Client) FindStockReturnPickings(criteria *Criteria, options *Options) (
 // FindStockReturnPickingIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindStockReturnPickingIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(StockReturnPickingModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(StockReturnPickingModel, criteria, options)
 }
 
 // FindStockReturnPickingId finds record id by querying it with criteria.
@@ -133,8 +119,5 @@ func (c *Client) FindStockReturnPickingId(criteria *Criteria, options *Options) 
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("stock.return.picking was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }

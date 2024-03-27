@@ -1,21 +1,17 @@
 package odoo
 
-import (
-	"fmt"
-)
-
 // IrUiViewCustom represents ir.ui.view.custom model.
 type IrUiViewCustom struct {
-	LastUpdate  *Time     `xmlrpc:"__last_update,omptempty"`
-	Arch        *String   `xmlrpc:"arch,omptempty"`
-	CreateDate  *Time     `xmlrpc:"create_date,omptempty"`
-	CreateUid   *Many2One `xmlrpc:"create_uid,omptempty"`
-	DisplayName *String   `xmlrpc:"display_name,omptempty"`
-	Id          *Int      `xmlrpc:"id,omptempty"`
-	RefId       *Many2One `xmlrpc:"ref_id,omptempty"`
-	UserId      *Many2One `xmlrpc:"user_id,omptempty"`
-	WriteDate   *Time     `xmlrpc:"write_date,omptempty"`
-	WriteUid    *Many2One `xmlrpc:"write_uid,omptempty"`
+	LastUpdate  *Time     `xmlrpc:"__last_update,omitempty"`
+	Arch        *String   `xmlrpc:"arch,omitempty"`
+	CreateDate  *Time     `xmlrpc:"create_date,omitempty"`
+	CreateUid   *Many2One `xmlrpc:"create_uid,omitempty"`
+	DisplayName *String   `xmlrpc:"display_name,omitempty"`
+	Id          *Int      `xmlrpc:"id,omitempty"`
+	RefId       *Many2One `xmlrpc:"ref_id,omitempty"`
+	UserId      *Many2One `xmlrpc:"user_id,omitempty"`
+	WriteDate   *Time     `xmlrpc:"write_date,omitempty"`
+	WriteUid    *Many2One `xmlrpc:"write_uid,omitempty"`
 }
 
 // IrUiViewCustoms represents array of ir.ui.view.custom model.
@@ -41,13 +37,13 @@ func (c *Client) CreateIrUiViewCustom(iuvc *IrUiViewCustom) (int64, error) {
 	return ids[0], nil
 }
 
-// CreateIrUiViewCustom creates a new ir.ui.view.custom model and returns its id.
+// CreateIrUiViewCustoms creates a new ir.ui.view.custom model and returns its id.
 func (c *Client) CreateIrUiViewCustoms(iuvcs []*IrUiViewCustom) ([]int64, error) {
 	var vv []interface{}
 	for _, v := range iuvcs {
 		vv = append(vv, v)
 	}
-	return c.Create(IrUiViewCustomModel, vv)
+	return c.Create(IrUiViewCustomModel, vv, nil)
 }
 
 // UpdateIrUiViewCustom updates an existing ir.ui.view.custom record.
@@ -58,7 +54,7 @@ func (c *Client) UpdateIrUiViewCustom(iuvc *IrUiViewCustom) error {
 // UpdateIrUiViewCustoms updates existing ir.ui.view.custom records.
 // All records (represented by ids) will be updated by iuvc values.
 func (c *Client) UpdateIrUiViewCustoms(ids []int64, iuvc *IrUiViewCustom) error {
-	return c.Update(IrUiViewCustomModel, ids, iuvc)
+	return c.Update(IrUiViewCustomModel, ids, iuvc, nil)
 }
 
 // DeleteIrUiViewCustom deletes an existing ir.ui.view.custom record.
@@ -77,10 +73,7 @@ func (c *Client) GetIrUiViewCustom(id int64) (*IrUiViewCustom, error) {
 	if err != nil {
 		return nil, err
 	}
-	if iuvcs != nil && len(*iuvcs) > 0 {
-		return &((*iuvcs)[0]), nil
-	}
-	return nil, fmt.Errorf("id %v of ir.ui.view.custom not found", id)
+	return &((*iuvcs)[0]), nil
 }
 
 // GetIrUiViewCustoms gets ir.ui.view.custom existing records.
@@ -98,10 +91,7 @@ func (c *Client) FindIrUiViewCustom(criteria *Criteria) (*IrUiViewCustom, error)
 	if err := c.SearchRead(IrUiViewCustomModel, criteria, NewOptions().Limit(1), iuvcs); err != nil {
 		return nil, err
 	}
-	if iuvcs != nil && len(*iuvcs) > 0 {
-		return &((*iuvcs)[0]), nil
-	}
-	return nil, fmt.Errorf("ir.ui.view.custom was not found with criteria %v", criteria)
+	return &((*iuvcs)[0]), nil
 }
 
 // FindIrUiViewCustoms finds ir.ui.view.custom records by querying it
@@ -117,11 +107,7 @@ func (c *Client) FindIrUiViewCustoms(criteria *Criteria, options *Options) (*IrU
 // FindIrUiViewCustomIds finds records ids by querying it
 // and filtering it with criteria and options.
 func (c *Client) FindIrUiViewCustomIds(criteria *Criteria, options *Options) ([]int64, error) {
-	ids, err := c.Search(IrUiViewCustomModel, criteria, options)
-	if err != nil {
-		return []int64{}, err
-	}
-	return ids, nil
+	return c.Search(IrUiViewCustomModel, criteria, options)
 }
 
 // FindIrUiViewCustomId finds record id by querying it with criteria.
@@ -130,8 +116,5 @@ func (c *Client) FindIrUiViewCustomId(criteria *Criteria, options *Options) (int
 	if err != nil {
 		return -1, err
 	}
-	if len(ids) > 0 {
-		return ids[0], nil
-	}
-	return -1, fmt.Errorf("ir.ui.view.custom was not found with criteria %v and options %v", criteria, options)
+	return ids[0], nil
 }
