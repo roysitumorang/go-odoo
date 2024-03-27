@@ -63,7 +63,7 @@ func NewClient(cfg *ClientConfig) (*Client, error) {
 // NewClientWithoutAuthentication creates a new *Client without authentication to get uid.
 func NewClientWithoutAuthentication(cfg *ClientConfig, uid int64) (*Client, error) {
 	if !cfg.valid() {
-		return nil, errClientConfigurationInvalid
+		return nil, ErrClientConfigurationInvalid
 	}
 	c := &Client{
 		cfg:    cfg,

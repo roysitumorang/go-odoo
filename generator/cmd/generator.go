@@ -61,14 +61,13 @@ func (g *generator) getModels(models []string) ([]*model, error) {
 			fmt.Printf("error: cannot find fields for model %s, cannot generate it.\n", model)
 			continue
 		}
-		idExists := false
+		var idExists bool
 		for _, mf := range mfs {
-			if mf.Name == "id" {
-				idExists = true
+			if idExists = mf.Name == "id"; idExists {
 				break
 			}
 		}
-		if idExists == false {
+		if !idExists {
 			fmt.Printf("error: cannot find ID field for model %s, cannot generate it.\n", model)
 			continue
 		}
