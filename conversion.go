@@ -114,7 +114,13 @@ func convertFromDynamicToStaticValue(staticType reflect.Type, dynamicValue inter
 	if !(dynamicValue == nil || (reflect.ValueOf(dynamicValue).Kind() == reflect.Bool && typeName != "Bool")) {
 		switch typeName {
 		case "String":
-			staticValue = NewString(dynamicValue.(string))
+			if strVal, ok := dynamicValue.(string); ok {
+				staticValue = NewString(strVal)
+			} else {
+				// We use "String" for Odoo Binary field type also, which is used to store binary data.
+				// However, in rare cases (compute fields), this field might return "[]interface{}" instead of "[]byte".
+				// @TODO: It's important to handle this scenario as well.
+			}
 		case "Int":
 			staticValue = NewInt(dynamicValue.(int64))
 		case "Selection":
@@ -129,8 +135,13 @@ func convertFromDynamicToStaticValue(staticType reflect.Type, dynamicValue inter
 			t, _ := time.Parse(format, dynamicValue.(string))
 			staticValue = NewTime(t)
 		case "Many2One":
-			name, _ := dynamicValue.([]interface{})[1].(string)
-			staticValue = NewMany2One(dynamicValue.([]interface{})[0].(int64), name)
+			if intVal, ok := dynamicValue.(int64); ok {
+				// for many2one_reference field type
+				staticValue = NewMany2One(intVal, "")
+			} else {
+				name, _ := dynamicValue.([]interface{})[1].(string)
+				staticValue = NewMany2One(dynamicValue.([]interface{})[0].(int64), name)
+			}
 		case "Relation":
 			staticValue = NewRelation()
 			staticValue.(*Relation).ids = sliceInterfaceToInt64Slice(dynamicValue.([]interface{}))
