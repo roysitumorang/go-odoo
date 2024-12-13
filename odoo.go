@@ -478,10 +478,7 @@ func argsFromCriteria(c *Criteria) []interface{} {
 }
 
 func isWriteMethod(method string) bool {
-	switch method {
-	case "create", "write", "unlink":
-		return true
-	default:
-		return false
-	}
+	return method == "create" ||
+		method == "write" ||
+		method == "unlink"
 }
